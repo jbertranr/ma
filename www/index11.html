@@ -1,0 +1,900 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>visorSIG</title>
+        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"> 
+        <!-- meta name="viewport" content="width=device-width, initial-scale=1" /-->
+        <!--meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi"-->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" /> 
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" href="css/font-awesome.min.css" /> 
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+        <link rel="stylesheet" href="js/locate/L.Control.Locate.min.css" /> 
+
+     
+        <style>  
+            
+            .leaflet-control-locate {display:none}
+            
+            
+            @font-face {
+                font-family: novaFont;
+                src: url(css/fonts/PrintClearly.otf);
+            }
+            
+            #map { 
+                margin:-15px;
+                height: 100%;
+                width:100%; 
+            }
+            
+            #mapDetail { 
+                margin:-15px;
+                height: 100%;
+                width:100%; 
+            }
+            
+            #POIDetail {
+                height: 10%;
+                width:100%; 
+            }
+            
+            
+            .cub{
+                font-weight:bold;
+                text-shadow:none;
+                background-color: transparent;
+                text-align:center; 
+                height:35px;
+                margin-top: 0em; 
+                margin-left:0em;
+                float: left; 
+                color: rgb(244, 244, 244); 
+                font-family:novaFont;
+                width: 80px;
+                    
+            }
+            
+            
+            .controlMapa{cursor:pointer;z-index:999999;background-color:#333333;opacity:0.67;width:50px;height:50px;color:#ffffff;font-family:verdana;font-weight:bold;font-size:35px;text-align:center}
+            
+            .controlMapa:hover {opacity:0.97}
+            .controlMapa-junt {margin-top:3px}
+            .controlMapa-separat {margin-top:10px}
+            
+            .caixaControl{ z-index:5000;position:fixed;right:15px;top:60px; }
+            .caixaControlInferior{ z-index:5000;position:fixed;right:15px;bottom:60px; }
+            .cubTitol { font-size: 0.8em;  height: 6px; width:100%;margin-top:5px;font-family:novaFont;  }
+            .cubValor { margin-top:0.2em;font-size: 1.8em;  height: 26px; ; color: #ffffff;width:100%;font-family:novaFont; }
+            .cubUnitat { margin-bottom:7px;font-size:0.8em;margin-top:0em;height:15px;font-family:novaFont; }
+            
+            .cubPetit{
+                font-weight:bold;
+                text-shadow:none;
+                background-color: #ffffff;
+                text-align:center; 
+                height:37px;                
+                float: left; 
+                color: rgb(244, 244, 244); 
+                font-family:novaFont; 
+                width: 80px;
+                margin:0;
+            }
+            
+            .cubGran{
+                font-weight:bold;
+                text-shadow:none;
+                background-color: #ffffff;
+                text-align:center; 
+                height:74px;                
+                float: left; 
+                color: rgb(244, 244, 244); 
+                font-family:Helvetica;
+                width: 80px;
+                margin:0;
+                font-family: novaFont;
+            }
+            .cubPetitTitol { font-size: 0.6em;  height: 6px; width:100%;margin-top:0px;font-family:novaFont  }
+            .cubPetitValor {margin-top:0 em;font-size: 1.2em;  height: 18px; ; color: #ffffff;width:100%;font-family:novaFont }
+            .cubPetitUnitat {margin-bottom:7px;font-size:0.6em;margin-top:0em;height:10px;font-family:novaFont }
+            .cubsContenidor { width:100%;height:125px;clear:both;border-bottom: 1px dotted #dddddd;overflow:hidden; padding-bottom:4px;}
+            .iconWrapper { float:right;margin-right:30px;margin-top:15px}
+            
+            
+        </style>
+        <script src="phonegap.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>       
+        <script src="js/locate/L.Control.Locate.min.js" ></script>
+        <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>         
+        <script src="js/leaflet-plugins-master/layer/tile/Google.js"></script>          
+        
+        <script type="text/javascript"> 
+
+            var visor = {
+                'markerGroupPosActual': null,
+                'markerGroupPosActualDetail': null,
+                'markerGroup': null,
+                'markerGroupDetail': null,
+                'llistaInicial': 0,
+                'map' : {}, //  Objecte Leaflet del mapa
+                'mapDetail' : {}, //    Objecte Leaflet del mapa Detall
+                'wpid' : 0,
+                'modeNavegacio' : null,
+                'modePunt' : null,
+                'nouPuntEdicio': null,
+                'popup' : null,
+                'greenIcon' : {},
+                'valoracio' : null,
+                'icon' : null,
+                'markerPosicioActual' : {},
+                'markerPosicioActualPresent' : '0',
+                'config' : { 'layers' : { 'base' : [], 'overlay' : [] }},
+                'posicioActual' : { 'trobat': 0, 'lat' : 0, 'lng' : 0, 'alt' : 0, 'acc' : 0 },
+                'posicioAnterior' : { 'trobat': 0, 'lat' : 0,   'lng' : 0, 'alt' : 0, 'acc' : 0 },
+                'POI' : [{  'nom' : null , 'descripcio': null , 'lat': null , 'lng':null, 'tema' : null, 'icona' : null , 'seleccionat' : 0, 'distancia' : null}],
+                'filtre' : {  'seleccionat' : 0 , 'valoracioMin':0, 'valoracioMax': 100, 'categoria': 'platja.png', 'distancia': 40000 },
+                'cerclePrecisio':null,
+                'capaPosicio':null,
+                'posicioActual':0,
+                'watchID':{},
+                'locate':{},
+                'totMarker': new L.FeatureGroup(),
+                'posicioCamera':{},
+                'markerCamera':{},
+                'data':{},
+                'adrecaOSM':null
+            };
+            
+            //document.addEventListener("deviceready", onDeviceReady, false);
+
+
+            //$( document ).on('pagebeforehide' ,'#pagetwo', function(){ 
+            //  carregaDades();
+            //});   
+            
+            //-- Paràmetres d'inicialització
+            
+            //-- Totes les pantalles
+            
+            $( window ).on( 'orientationchange', function( event ) {ajustaPortada();});                 
+            
+            
+            //-- Inicialització Portada
+            
+            $( document ).on('pageshow' ,'#portada', function(){ 
+                $(window).bind('resize', function () {  ajustaFinestres();
+                                                        ajustaPortada();  
+                                                        });
+                $.mobile.page.prototype.options.theme = "a";                    
+                $('#pageMap').trigger('pagecreate');
+                inicialitzaMapa(); // Es va incialitzant el mapa per millorar el rendiment
+                //onDeviceReady();  
+             });
+             
+             
+             //-- Inicia pageMap                    
+            $( document ).on('pageshow','#pageMap', function(){
+                //$(window).bind('resize', function () {ajustaFinestres();ajustaPortada();});           
+                ajustaFinestres();          
+            });
+            
+            
+            //-- Inicia llistaElements          
+            $( document ).on('pagebeforecreate','#llistaElements', function(){
+                //ajustaFinestres();
+                creaRelacioPunts();
+            });         
+            
+            //function onDeviceReady() {
+                //navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                 //alert('Activa GPS');
+                // treure navigator.geolocation.getCurrentPosition(successGeo, onErrorPlug, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+            //}
+            
+            //-- Intentar fer tots els ajustaments en aquesta funció
+            function ajustaFinestres(){         
+                var resizeTimer = null;         
+                if (resizeTimer) clearTimeout(resizeTimer);         
+                resizeTimer = setTimeout(function () {
+                    $('#map').width($(window).width());
+                    $('#map').height($(window).height() - $('#header').height() - $('#footer').height() - 3); //abans -3
+                //  $('#mapDetail').width($(window).width());
+                //  $('#mapDetail').height($(window).height() - 8 - 200);                   
+                    $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
+                    visor.map._onResize(); 
+                    //visor.mapDetail._onResize(); 
+                /*  
+                    if  ($(window).width() < 450) {
+                        $('.imatgeLlistaPOI').hide(); 
+                        $('#filtreDistancia').hide(); 
+                        $('.cub').addClass( 'cubPetit').removeClass('cub');
+                        $('.cubTitol').addClass( 'cubPetitTitol').removeClass('cubTitol');
+                        $('.cubValor').addClass( 'cubPetitValor').removeClass('cubValor');
+                        $('.cubUnitat').addClass( 'cubPetitUnitat').removeClass('cubUnitat');
+                        $('.cubWrapper').width(80); 
+                        $('.iconWrapper').css({'marginTop':'9px', 'float':'right', 'marginLeft':'15px'});
+                    }
+                    if  ($(window).width() >= 450) {
+                        $('.imatgeLlistaPOI').show(); 
+                        $('#filtreDistancia').show(); 
+                    }
+                */          
+                });
+            }
+            
+            //-- Ajusta la imatge de Portada al tamany dels dispositiu - Pendent no distorsionar la imatge
+            function ajustaPortada(){           
+                var resizeTimer = null;         
+                if (resizeTimer) clearTimeout(resizeTimer);         
+                resizeTimer = setTimeout(function () {
+                    $('#fotoPortada').height($(window).height());               
+                });
+            }
+            /* -- Funcionalitats per modificar les capes de base del visor
+            
+            function baseLayer(seleccionada){           
+                $.each(visor.config.layers.base, function(i,item){
+                     if (visor.map.hasLayer(item)){
+                          visor.map.removeLayer(item);                
+                     }           
+                });              
+                visor.map.addLayer(seleccionada);
+                //visor.map(seleccionada);
+            }
+            
+            
+            function baseLayerDetail(seleccionada){             // S'haurà d'incorporar a la funció anterior    
+                $.each(visor.config.layers.base, function(i,item){
+                     if (visor.mapDetail.hasLayer(item)){ visor.mapDetail.removeLayer(item);}            
+                });
+                 
+                visor.mapDetail.addLayer(seleccionada);
+                //visor.map(seleccionada);
+                }                
+        
+            function overlayLayer(seleccionada){            
+                visor.map.addLayer(seleccionada);
+                visor.map.fitBounds(seleccionada.getBounds());
+                // seleccionada.setOpacity(0.5);             
+            }
+            
+            function removeAllOverlay(){
+                 $.each(visor.config.layers.overlay, function(i,item){
+                     if (visor.map.hasLayer(item)){
+                          visor.map.removeLayer(item);
+                          return false;
+                     }           
+                 });            
+            }
+            
+            function nextOverlayLayer(count){            
+                var overlayLayersLength = visor.config.layers.overlay.length;
+                var mostra = null;          
+                
+                $.each(visor.config.layers.overlay, function(i,item){
+                    mostra = i + count;
+                    // Selecciona la capa overlay activa   
+                    if (visor.map.hasLayer(item)){
+                        // Si és el darrer i és demana el següent torna a començar
+                        if (i == overlayLayersLength - 1 && count > 0 ){
+                            mostra = 0;             
+                        }
+                        // Si és el primer i es demana l'anterior
+                        if (i == 0 && count < 0 ){
+                            mostra = overlayLayersLength - 1;
+                        }
+                        removeAllOverlay();
+                        overlayLayer(visor.config.layers.overlay[mostra]);
+                        $('#layerName').html(visor.config.layers.overlay[mostra].options.id);
+                        return false;
+                    }   
+                    // Si no hi ha cap capa activa selecciona la primera
+                    if (i == overlayLayersLength - 1) {
+                        overlayLayer(visor.config.layers.overlay[0]);
+                        $('#layerName').html(visor.config.layers.overlay[0].options.id);
+                    }               
+                });                 
+            }   
+        
+            */
+            
+            
+            function actualitzaFormulari(){ }
+            //-- Funcions del mapa
+            //-- Inicialització del mapa    
+            function inicialitzaMapa(){                 
+                visor.map = L.map('map', { zoomControl:false, detectRetina:true });
+                visor.popup = L.popup();
+                var opcionsBase= 'google';
+                visor.map.setView([41.54, 2.45], 17);   
+                
+                switch (opcionsBase){
+                    case 'mapbox':           
+                        var capa = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        });
+                        break;
+                    
+                    case 'googleSat':
+                        var capa = new L.Google('');
+                        break;
+                
+                    case 'google':
+                        var capa = new L.Google('map');
+                        break;   
+                    
+                    default :
+                        var capa = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+                                +
+                                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                            id: 'examples.map-i875mjb7'
+                        });
+                        break;
+                }   
+
+                visor.map.addLayer(capa);
+                // -- Event en fer click    
+                visor.map.on('click', function(e) {        
+                                        placeCamera(e);
+                                        recuperaAdreca(e.latlng);    
+                                    });     
+                // Activa la localització del plugin de leaflet 
+                visor.locate = L.control.locate( {
+                    position: 'topright',  // set the location of the control
+                    drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
+                    follow: false,  // follow the user's location
+                    setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
+                    keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+                    stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
+                    remainActive: false, // if true locate control remains active on click even if the user's location is in view.
+                    markerClass: L.marker, // L.circleMarker or L.marker
+                    circleStyle: {},  // change the style of the circle around the user's location
+                    markerStyle: {},
+                    followCircleStyle: {},  // set difference for the style of the circle around the user's location while following
+                    followMarkerStyle: {},
+                    icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
+                    iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon
+                    circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
+                    metric: true,  // use metric or imperial units
+                    onLocationError: function(err) {alert('Error en el posicionament');},  // define an error callback function
+                    onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries
+                    //alert(context.options.strings.outsideMapBoundsMsg);
+                    },
+                    showPopup: true, // display a popup when the user click on the inner marker
+                    strings: {
+                        title: "Troba la meva posició",  // title of the locate control
+                        metersUnit: "meters", // string for metric units
+                        feetUnit: "feet", // string for imperial units
+                        popup: "Posició Actual",  // text to appear if user clicks on circle
+                        outsideMapBoundsMsg: "Et trobes fora dels límits del mapa" // default message for onLocationOutsideMapBounds
+                    },
+                    locateOptions: {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
+                });
+                
+                //-- Incorpora el control al mapa
+                visor.locate.addTo(visor.map);
+                
+                //-- Funció quan troba la posició
+                visor.map.on('locationfound', posicioTrobada);  
+                
+                /*
+                var urlPrinc = '<%=urlKML%>';
+                
+                if (urlPrinc.split('/')[2] == document.domain.split(':')[0] ){
+                    var prefix = '';                
+                }
+                else {
+                    var prefix  =  '../servlet/proxyUrl?url=' ;
+                }
+                  
+                var track1URL = prefix 
+                            +   urlPrinc
+                            +   '<%=fitxerKML1%>';        
+
+                
+                var kmlLayer = new L.KML( track1URL, {id:'<%=fitxerKML1Desc%>', async: true});
+                visor.map.addLayer(kmlLayer);                                                    
+                kmlLayer.on("loaded", function(e) { 
+                    visor.map.fitBounds(kmlLayer.getBounds());
+                });
+                */  
+                
+            }
+
+            function mostraPosicioActual(){
+            
+                if (visor.posicioActual.trobat == 1) { 
+                    centraPosicio(visor.posicioActual,17);
+                }
+                else{
+                    //activaGeoposicionament();
+                }
+            }       
+                    
+            //-- Mostra la icona en el punt actual TODO: unificar funció anterior
+            function centraPosicio(punt,zoom){
+                visor.map.setView(punt, zoom);
+                if (visor.markerPosicioActualPresent == '0' ){
+                    visor.markerPosicioActualPresent = '1';
+                    var iconSizeX = 30;
+                    var iconSizeY = 45;             
+                    var iconMap = L.icon({
+                        iconUrl: 'images/mypos.png' ,
+                        shadowUrl: 'images/marker-shadow.png',
+                        iconSize:     [iconSizeX, iconSizeY], // size of the icon
+                        shadowSize:   [32, 32], // size of the shadow
+                        iconAnchor:   [15, 45], // point of the icon which will correspond to marker's location
+                        shadowAnchor: [10, 30],  // the same for the shadow
+                        popupAnchor:  [0, -45 ] // point from which the popup should open relative to the iconAnchor
+                    });       
+                            
+                    //L.marker().addTo(visor.map)
+                    visor.markerPosicioActual = L.marker(e.latlng,{icon:iconMap})
+                        .addTo(visor.map)
+                        .bindPopup(
+                            "<h2 style='font-family:Arial;font-size:1.5em;height:20px'>" 
+                            + ' La teva posició'  
+                            +  " <img width='30' src='images/troba.png' style='float:left;margin-right:2em'/ >" 
+                            + "</h2>" 
+                            + ' Posició actual aproximada'                  
+                            );
+                }
+                    
+            }
+
+            // -- Recupera la posició actual i la introdueix a les variables corresponents
+            function posicioTrobada(e) {
+                var latitude = e.latlng.lat;
+                var longitude = e.latlng.lng;
+                var estatAnterior = visor.posicioActual.trobat;
+                visor.posicioActual =   { 'trobat' : 1,
+                                        'lat' : latitude,
+                                        'lng' : longitude
+                                        };
+                                        
+                if (latitude == 0 ) {                   
+                    visor.posicioActual = { 'trobat' : 0,
+                                        'lat' : 41.5419 ,
+                                        'lng' : 2.447,
+                                    };      
+                }
+                else {
+                }
+                /*
+                if ( estatAnterior == 0 ){
+                    mostraPosicioActual();
+                }
+                */
+                //mostraPosicioActual();
+                //visor.posicioAnterior = visor.posicioActual;
+                
+                
+            }
+                
+            /* Deprecated
+            function errorGeo(error) {              
+                visor.posicioActual = { 'trobat' : 0,
+                    'lat' : 0,
+                    'lng' : 0,
+                    'alt' : 0,
+                    'acc' : 0 };
+                //alert('No estan activades les opcions de geolocalització');
+                visor.posicioActual = { 'trobat' : 1,
+                                        'lat' : 43.5419 ,
+                                        'lng' : 2.447,
+                                        'alt' : 1,
+                                        'acc' : 1 };
+                $("#endavant").trigger("click");
+            };
+            */
+            
+            // /* Recupera l'adreça propera segons OpenStreetMap
+            
+            function recuperaAdreca(punt){ 
+                $.getJSON("http://nominatim.openstreetmap.org/reverse?json_callback=?", 
+                    { format: "json", lat: punt.lat, lon: punt.lng, zoom: 18, addressdetails: 1 },
+                    function(data) { 
+                        visor.adrecaOSM = data.display_name;
+                });               
+            }
+            
+            
+            /* Deprecated
+            function onLocationFound(e) {
+                alert('Trobada');
+                if (visor.posicioActual == 0) {
+                    visor.map.setView(e.latlng, 10);            
+                }               
+                visor.posicioActual = e.latlng ;
+                
+            }
+            */
+            
+            //-- Retorna els errors de posicionament
+            function onLocationError(e) {
+                alert(e.message);
+            }
+
+            /*
+            function onSuccessPlug(position) {
+                //var element = document.getElementById('geolocation');
+                alert (             'Latitude: '  + position.coords.latitude      + '<br />' +
+                                    'Longitude: ' + position.coords.longitude     + '<br />' );
+                                    
+            }
+            
+            
+            // onError Callback receives a PositionError object
+            //
+            function onErrorPlug(error) {
+                alert('code: '    + error.code    + '\n' +
+                      'message: ' + error.message + '\n');
+            }
+            */
+            //-- Enviament de la imatge i actualització de la base de dades
+            
+            function uploadFromGallery_2() {
+                //Retrieve image file location from specified source
+                navigator.camera.getPicture(uploadPhoto,
+                                            function(message) { alert('get picture failed'); },
+                                            { quality: 50, 
+                                            destinationType: navigator.camera.DestinationType.FILE_URI,
+                                            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
+                                            );
+            }
+
+            function uploadFromGallery() {
+                // Retrieve image file location from specified source
+                navigator.camera.getPicture(uploadPhoto,
+                                            function(message) { alert('get picture failed'); },
+                                            { quality: 50, 
+                                            destinationType: navigator.camera.DestinationType.FILE_URI,
+                                            sourceType: navigator.camera.PictureSourceType.CAMERA }
+                                            );
+            }
+            
+            function uploadPhoto(imageURI) {
+                var options = new FileUploadOptions();
+                options.fileKey="file";
+                options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);//+'.png';
+                options.mimeType="image/jpeg";
+                var params = {};
+                params.nom = 'Joan Gomis';
+                params.cognom = visor.adrecaOSM;
+                params.codiUsuari = '12221';
+                params.imatge = options.fileName;//file.name;
+                params.locate_lng = parseFloat(visor.posicioActual.lng);
+                params.locate_lat = parseFloat(visor.posicioActual.lat);
+                params.center_lng = parseFloat(visor.posicioCamera.lng);
+                params.center_lat = parseFloat(visor.posicioCamera.lat);                
+                //alert(params.locate_lng + ' '
+                //  + params.locate_lat + ' '
+                //  + params.center_lng + ' '
+                //  + params.center_lat );
+                options.params = params;
+                var ft = new FileTransfer();
+                //alert('ww');
+                ft.upload(imageURI, encodeURI("http://issolutions.esy.es/avis/www/php/upload.php"), ftWin, ftFail, options,true);                        
+                $.ajax({
+                    url: "http://issolutions.esy.es/php/insert.php", 
+                    type: "POST",
+                    data: params,
+                    success: function(){
+                        recuperaElements();
+                        //alert(params.imatge);
+                        creaImatgePujada(params);
+                    },
+                    error: function(xhr, textStatus, errorThrown){
+                        alert("Error detectat: " + xhr.responseText 
+                            + "\nstatus: " + textStatus 
+                            + "\nerror: " + errorThrown);
+                    }                                       
+                });             
+            }
+
+            function ftWin(r) {
+                console.log("Code = " + r.responseCode);
+                console.log("Response = " + r.response);
+                console.log("Sent = " + r.bytesSent);
+            }
+
+            function ftFail(error) {
+                alert("An error has occurred: Code = " + error.code);
+                console.log("upload error source " + error.source);
+                console.log("upload error target " + error.target);
+            }       
+
+            //-- Ajax per recuperar punts 
+            function recuperaElements() {
+                visor.map.removeLayer(visor.totMarker);
+                $.getJSON( "http://issolutions.esy.es/php/select.php", function( data ) {                   
+                    visor.data = data;
+                    visor.totMarker = new L.FeatureGroup();
+                    var iconSizeX = 30;
+                    var iconSizeY = 45;             
+                    var iconMap = L.icon({
+                        iconUrl: 'images/marker-icon-red.png' ,
+                        shadowUrl: 'images/marker-shadow.png',
+                        iconSize:     [iconSizeX, iconSizeY], // size of the icon
+                        shadowSize:   [32, 32],  // size of the shadow
+                        iconAnchor:   [15, 45],  // point of the icon which will correspond to marker's location
+                        shadowAnchor: [ 10, 30], // the same for the shadow
+                        popupAnchor:  [ 0,-45]   // point from which the popup should open relative to the iconAnchor
+                    });       
+                    
+                    $.each(data.punts,function(i,punt){
+                        var marker = L.marker([punt.fl_center_coordY, punt.fl_center_coordX],{icon: iconMap})
+                            .bindPopup('<img width=200 src="' 
+                                        + punt.vc_imatge 
+                                        + '" />');
+                        visor.totMarker.addLayer(marker);
+                        visor.map.addLayer(visor.totMarker);
+                    });
+                });
+            }
+                    
+            function creaImatgePujada(params) {
+                $('#divImatgePujada').prepend( '     <div class="divContImatge" style="width=100%;height:auto"> '
+                                            + '         <div class="divContImatgeTitol" style="font-size:14px;height:30px;"> '
+                                            + '             Dades de la Imatge Pujada '
+                                            + '         </div> '
+                                            + '         <div class="divContImatgeDades" style="font-size:12px;height:auto;margin-left:20px;margin-bottom:10px;"> '
+                                            + '             <p><b> Nom: </b>' 
+                                            +                   params.nom
+                                            + '             </p> '      
+                                            + '         </div> '
+                                            + '         <div class="divContImatgeDades" style="font-size:12px;height:auto;margin-left:20px;margin-bottom:10px;"> '
+                                            + '             <p><b> Adreça: </b>' 
+                                            +                   params.cognom
+                                            + '             </p> '      
+                                            + '         </div> '
+                                            + '         <div class="divContImatgeDades" style="font-size:12px;height:auto;margin-left:20px;margin-bottom:10px;"> '
+                                            + '             <p><b> Codi Usuari: </b>' 
+                                            +                   params.codiUsuari
+                                            + '             </p> '      
+                                            + '         </div> '                                            
+                                            + '         <div class="divContImatgeCoords" style="font-size:12px;height:20px;margin-left:20px;margin-bottom:10px;"> '
+                                            + '             <p><b> Longitud: </b>' 
+                                            +               params.center_lng
+                                            + '             <b> Latitud: </b>'                                      
+                                            +               params.center_lat
+                                            + '             </p> '      
+                                            + '         </div> '
+                                            + '         <div class="divImatge" style="width:100%;height:auto;margin-left:20px; "> '
+                                            + '             <img width=300 src="http://issolutions.esy.es/php/image/'                                   
+                                            +                   params.imatge 
+                                            + '             "></img>'
+                                            + '          </div> '
+                                            + '     </div>');
+                                            
+                $.mobile.changePage($('#imatgePujada'),'pop');
+            }
+            
+            // Creació del llistat de punts  -- PD81RN
+            function creaRelacioPunts(){
+                $.each(visor.data.punts,function(i,punt){
+                    /*var puntMapa = $('<div/>')
+                        .addClass('llistaElementMapa')
+                        .html('<div>'
+                                + 'punt'   
+                                +'<img width=70 src="' 
+                                + punt.vc_imatge 
+                                + '"/>'
+                                + '</div>') 
+                        .appendTo($('#relacioPuntsMapa'));      
+                    */
+                    
+                    $('#relacioPuntsMapa').append(    '  <ol data-role="listview"> '
+                                                    + '     <li>'
+                                                    + '         <a href="#"> List Item '
+                                                    +               i
+                                                    + '             <img width=70 src="' 
+                                                    +                   punt.vc_imatge 
+                                                    + '             "/>'                                                
+                                                    + '         </a>'
+                                                    + '     </li>'
+                                                    + '  </ol>');
+                });
+                $('#relacioPuntsMapa').height($(window).height() - 250);    
+            }
+            
+            // Situar la icona de la càmera
+            function placeCamera(e){
+                /*
+                
+                var latitude = e.latlng.lat;
+                
+                var longitude = e.latlng.lng;
+                
+                var marker = L.marker([punt.fl_center_coordY, punt.fl_center_coordX])
+                            .bindPopup('<img width=200 src="' 
+                                        + punt.vc_imatge 
+                                        + '" />');
+                
+                visor.totMarker.addLayer(marker);               
+                
+                */
+                visor.map.removeLayer(visor.markerCamera);
+                var iconSizeX = 30;
+                var iconSizeY = 30;             
+                var iconMap = L.icon({
+                    iconUrl: 'images/camera-icon.png',
+                    //shadowUrl: 'images/marker-shadow.png',
+                    iconSize:     [iconSizeX, iconSizeY], // size of the icon
+                    shadowSize:   [32, 32], // size of the shadow
+                    iconAnchor:   [15, 15], // point of the icon which will correspond to marker's location
+                    shadowAnchor: [10, 30],  // the same for the shadow
+                    popupAnchor:  [-0 , -16 ] // point from which the popup should open relative to the iconAnchor
+                });       
+                        
+                //L.marker().addTo(visor.map)
+                visor.markerCamera = L.marker(e.latlng,{icon:iconMap})
+                    .addTo(visor.map)
+                    .bindPopup(
+                        "<h2 style='font-family:Arial;font-size:1.2em;height:auto;width:200px'>" 
+                        +  " <img width='30' src='images/camera-icon.png' style='float:left;margin-right:2em'/ >"   
+                        + ' Indret on es farà la fotografia'  
+                        + "</h2>" 
+                        + ''                    
+                        )
+                    .on('click', uploadFromGallery);
+                visor.posicioCamera = e.latlng;     
+                
+            }
+
+    
+
+    </script>
+    
+    </head>
+    
+    <body style="font-family:arial">
+        <!--------------------------------  Pàgina Portada ---------------------------------------->     
+        <div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;">  
+            <div data-role="content" style="width:100%;height:100%;padding:0em" id ="fotoPortada" >         
+                <a href="#pageMap">
+                    <div style='height:auto; text-align:center; color: rgb(255, 255, 255); background-color:#f0cd2a; font-size:50px; width: 100%; padding: 10px; position: absolute; bottom: 120px;'>
+                        Veure Mapa
+                    </div>
+                </a>                
+                <div style='text-align: center; color: rgb(255, 255, 255); background-color:#0589c7; height:auto; width: 100%; padding: 10px; position:absolute; bottom: 0px;'>
+                    Compartiu la vostra localització si voleu veure la vostra posició en el plànol
+                </div>
+
+            </div>
+        </div>
+        
+        <!--------------------------------  Pàgina Mapa ------------------------------------------->     
+        <div data-role="page" id="pageMap" > 
+            <!------------------ Header --------------->    
+            <div data-role="header"  role="banner" id = "header" style="z-index: 1; box-shadow:0px 2px 6px #444444;">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Home</a>
+                <h1 class="ui-title" role="heading" aria-level="1">Inventari sobre mapa</h1> 
+            </div>
+            
+            <!------------------ Content --------------->
+             <div data-role="content" id="contMapa"> 
+            
+                <div class="caixaControl" >             
+                    <div id="troba1" class="controlMapa" onclick="visor.map.zoomIn();">+</div>
+                    <div id="troba2" class="controlMapa controlMapa-junt" onclick="visor.map.zoomOut()">-</div>
+                    <div id="troba3" class="controlMapa controlMapa-separat" onclick="visor.locate.start();">
+                        <img width=48 src="images/locate.png">
+                    </div>
+                </div>
+                
+                <div class="caixaControlInferior">
+                    <div onclick="recuperaElements();" class="controlMapa controlMapa-separat" id="troba4">
+                        <img style="margin-top:5px" width="28" height=40 src="images/elements.png">
+                    </div>
+                    <div onclick="recuperaElements();$.mobile.changePage($('#llistaElements'),'pop');" class="controlMapa controlMapa-separat" id="troba5">
+                        <img style="margin-top:5px" width="24" height="40" src="images/llista.png">                 
+                    </div>
+                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" id="troba6">
+                        <img style="margin-top:5px" width="37" height="40" src="images/camera.png">
+                    </div>
+                </div>  
+                
+                <div id="map" style="height:100%;"></div>           
+                
+            </div>
+            
+            <!------------------ Footer --------------->
+
+            <div data-role="footer" > 
+                <!--div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="none" href="#" onclick="recuperaElements()" >Carregar punts</a>
+                        </li>
+                        <li>
+                            <a  data-transition="pop" href="#llistaElements" > Mostra llistat</a>
+                        </li>
+                        <li>
+                            <a data-role="none"href="#">Search</a>
+                        </li>
+                    </ul>
+                </div-->
+            </div>
+        </div>
+
+
+        
+        <!--------------------------------  Pàgina Detall Element --------------------------------->        
+        <div data-role="page" data-dialog="true" id="llistaElements"> 
+            <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
+                <!--div data-inline="true" value="on"  style="" checked="checked" type="radio" onclick=" visor.mapDetail.setView([visor.posicioActual.lat, visor.posicioActual.lng], 20);" href="#" class="ui-btn-right ui-btn ui-icon-navigation ui-btn-icon-left ui-shadow ui-corner-all "> Troba'm </div>    
+                <h1 class="ui-title" role="heading" aria-level="1">Elements visibles en el mapa</h1> 
+                <a href="#pageList"  class="ui-btn ui-icon-bullets ui-btn-icon-left ui-shadow ui-corner-all">Llista</a>
+                <div data-type="horizontal" data-role="controlgroup" style="position:absolute;top:47px;right:3px;">
+                    <a value="on"  checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[3])" href="#" class="ui-btn ">Map</a>
+                    <a value="off" checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[0])" href="#" class="ui-btn ">Sat</a>
+                </div-->
+                 <h1>Elements en el mapa</h1>           
+            </div>
+            
+
+            <div data-role="content" id="contMapDetail"> 
+                <div id="relacioPuntsMapa" style="height:300px"></div>              
+            </div>
+            <div data-role="footer">
+                <h1>Tots els elements trobats</h1>
+            </div>
+            
+
+            <!--div data-role="footer"  id = "footer" style="box-shadow: 0 0 8px 2px rgb(68, 68, 68);"> 
+                <div data-type="horizontal" data-role="controlgroup" style="text-align:center;">    
+                    <a onclick="nextOverlayLayer(-1)" href="#" style="width:30px;height:16px;"  class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-l"></a>
+                    <a style="margin-top: 0px;width:120px" id="layerName"   class="ui-btn ">Layers</a>
+                    <a onclick="nextOverlayLayer(1)" href="#" style="width:30px;height:16px;" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-r"></a>
+                </div>          
+            </div-->            
+        </div>
+        <!--  Pàgina Imatge Pujada -->      
+        <div data-role="page" data-dialog="true" id="imatgePujada"> 
+            <div data-role="header"  role="banner" id ="headerImatgePujada" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
+                <!--div data-inline="true" value="on"  style="" checked="checked" type="radio" onclick=" visor.mapDetail.setView([visor.posicioActual.lat, visor.posicioActual.lng], 20);" href="#" class="ui-btn-right ui-btn ui-icon-navigation ui-btn-icon-left ui-shadow ui-corner-all "> Troba'm </div>    
+                <h1 class="ui-title" role="heading" aria-level="1">Elements visibles en el mapa</h1> 
+                <a href="#pageList"  class="ui-btn ui-icon-bullets ui-btn-icon-left ui-shadow ui-corner-all">Llista</a>
+                <div data-type="horizontal" data-role="controlgroup" style="position:absolute;top:47px;right:3px;">
+                    <a value="on"  checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[3])" href="#" class="ui-btn ">Map</a>
+                    <a value="off" checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[0])" href="#" class="ui-btn ">Sat</a>
+                </div-->
+                 <h1>Dades de la Imatge pujada</h1>         
+            </div>
+            
+
+            <div data-role="content" id="contImatgePujada"> 
+                <div id="divImatgePujada" style="height:300px"></div>               
+            </div>
+            <div data-role="footer">
+                <h1>Dades enregistrades</h1>
+            </div>
+            
+
+            <!--div data-role="footer"  id = "footer" style="box-shadow: 0 0 8px 2px rgb(68, 68, 68);"> 
+                <div data-type="horizontal" data-role="controlgroup" style="text-align:center;">    
+                    <a onclick="nextOverlayLayer(-1)" href="#" style="width:30px;height:16px;"  class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-l"></a>
+                    <a style="margin-top: 0px;width:120px" id="layerName"   class="ui-btn ">Layers</a>
+                    <a onclick="nextOverlayLayer(1)" href="#" style="width:30px;height:16px;" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-r"></a>
+                </div>          
+            </div-->            
+        </div>  
+    
+
+
+
+
+
+        
+    </body>
+</html>   
+
+

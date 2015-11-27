@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Capture Photo</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
+    <script src="phonegap.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> 
+	<script type="text/javascript" charset="utf-8">
+    var sPicData; //store image data for image upload functionality
+
+    function capturePhoto(){
+        navigator.camera.getPicture(picOnSuccess, picOnFailure, { 
+            quality: 20,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            correctOrientation: true
+        });
+    }
+
+    function getPhoto(){
+        navigator.camera.getPicture(picOnSuccess, picOnFailure, { 
+            quality: 20,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+            correctOrientation: true
+        });
+    }
+
+    function picOnSuccess(imageData){
+
+            var image = document.getElementById('cameraPic');
+            image.src = imageData;
+            sPicData  = imageData; //store image data in a variable
+    }
+
+    function picOnFailure(message){
+        alert('Failed because: ' + message);
+    }
+
+    // ----- upload image ------------
+    function photoUpload() {
+        var options = new FileUploadOptions();
+        options.fileKey = "image";
+        options.fileName = sPicData.substr(sPicData.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.chunkedMode = false;
+		options.headers = { Connection: "close" };
+        var params = {};
+		params.fullpath =sPicData;
+		params.name = options.fileName;
+        ft = new FileTransfer();
+        ft.upload(sPicData, encodeURI("http://issolutions.esy.es/php/upload.php"), win, fail, params, true); 
+    }
+
+    function win(){
+        alert("image uploaded scuccesfuly");
+    }
+
+   
+	function fail(error) {
+		alert("An error has occurred: Code == " + error.code);
+		alert("upload error source " + error.source);
+		alert("upload error target " + error.target);
+	}
+
+  </script>
+  </head>
+  <body>
+	<div id="camera">
+		<button class="camera-control" onclick="capturePhoto();">Foto </button>
+		<button class="camera-control" onclick="getPhoto();">From Photo Library</button><br>
+
+		<div style="text-align:center;margin:20px;">
+			<img id="cameraPic" src="" style="width:auto;height:120px;"></img>
+		</div>
+
+		<button class="camera-control" onclick="photoUpload();">UPLOAD</button>
+	</div>
+  </body>
+</html>
