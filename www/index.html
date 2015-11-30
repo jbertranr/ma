@@ -114,6 +114,7 @@
         <script type="text/javascript"> 
 
             var visor = {
+                'actiu' : 0;
                 'markerGroupPosActual': null,
                 'markerGroupPosActualDetail': null,
                 'markerGroup': null,
@@ -176,7 +177,9 @@
                                                      });
                 $.mobile.page.prototype.options.theme = "a";                    
                 $('#pageMap').trigger('pagecreate');
-                inicialitzaMapa();  
+                if (visor.actiu == 0){
+                    inicialitzaMapa();  
+                }    
                 // Es va incialitzant el mapa per millorar el rendiment
                 //onDeviceReady();  
              });
