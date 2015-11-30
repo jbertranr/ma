@@ -641,7 +641,7 @@
                         
                         $.each(visor.data,function(i,punt){
                             var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
-                                .bindPopup('<img width=200 src="' 
+                                .bindPopup('<img width=200 src="./php/image/' 
                                             + punt.imatge 
                                             + '" />');
                             visor.totMarker.addLayer(marker);
