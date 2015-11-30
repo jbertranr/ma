@@ -500,7 +500,7 @@
                 $.getJSON("http://nominatim.openstreetmap.org/reverse?json_callback=?", 
                     { format: "json", lat: punt.lat, lon: punt.lng, zoom: 18, addressdetails: 1 },
                     function(data) { 
-                        visor.adrecaOSM = data.display_name;
+                        visor.adrecaOSM = 'test'; // data.display_name;
                 });               
             }
             
