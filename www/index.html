@@ -575,8 +575,8 @@
 				params.adreca = visor.adrecaOSM;
                 params.descripcio = 'Simulació de descripcio';
                 params.imatge = options.fileName;//file.name;
-                params.den_x = parseFloat(visor.posicioActual.lng);
-                params.den_y = parseFloat(visor.posicioActual.lat);
+                params.den_x = parseFloat(visor.posicioCamera.lng);
+                params.den_y = parseFloat(visor.posicioCamera.lat);
                 params.usu_x = parseFloat(visor.posicioCamera.lng);
                 params.usu_y = parseFloat(visor.posicioCamera.lat);                
                 //alert(params.locate_lng + ' '
@@ -757,8 +757,7 @@
                         + ''                    
                         )
                     .on('click', uploadFromGallery);
-                visor.posicioCamera = e.latlng;     
-                
+                visor.posicioCamera = e.latlng;    
             }
 
     
