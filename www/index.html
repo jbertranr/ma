@@ -587,9 +587,9 @@
                 options.params = params;
                 var ft = new FileTransfer();
                 //alert('ww');
-                ft.upload(imageURI, encodeURI("http://issolutions.esy.es/avis/www/php/upload.php"), ftWin, ftFail, options,true);                        
+                ft.upload(imageURI, encodeURI("http://issolutions.esy.es/ma/www/php/upload.php"), ftWin, ftFail, options,true);                        
                 $.ajax({
-                    url: "http://issolutions.esy.es/avis/www/php/insert.php", 
+                    url: "http://issolutions.esy.es/ma/www/php/insert.php", 
                     type: "POST",
                     data: params,
                     success: function(){
@@ -622,7 +622,7 @@
                 visor.map.removeLayer(visor.totMarker);
                 $.ajax({
                     type: "POST",
-                    url: "http://issolutions.esy.es/avis/www/php/select.php",
+                    url: "http://issolutions.esy.es/ma/www/php/select.php",
                     contentType: "application/json; charset=ISO-8859-1",
                     dataType: "json",
                     success: function( data ) {                   
