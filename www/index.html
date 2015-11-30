@@ -12,7 +12,6 @@
         <link rel="stylesheet" href="css/font-awesome.min.css" /> 
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
         <link rel="stylesheet" href="js/locate/L.Control.Locate.min.css" /> 
-
      
         <style>  
              
@@ -621,31 +620,37 @@
             //-- Ajax per recuperar punts 
             function recuperaElements() {
                 visor.map.removeLayer(visor.totMarker);
-                $.getJSON( "http://issolutions.esy.es/avis/www/php/select.php", function( data ) {                   
-                    visor.data = data;
-                    visor.totMarker = new L.FeatureGroup();
-                    var iconSizeX = 30;
-                    var iconSizeY = 45;             
-                    var iconMap = L.icon({
-                        iconUrl: 'images/marker-icon-red.png' ,
-                        shadowUrl: 'images/marker-shadow.png',
-                        iconSize:     [iconSizeX, iconSizeY], // size of the icon
-                        shadowSize:   [32, 32],  // size of the shadow
-                        iconAnchor:   [15, 45],  // point of the icon which will correspond to marker's location
-                        shadowAnchor: [ 10, 30], // the same for the shadow
-                        popupAnchor:  [ 0,-45]   // point from which the popup should open relative to the iconAnchor
-                    });       
-                    
-                    $.each(visor.data,function(i,punt){
-                        var marker = L.marker([punt.den_x, punt.den_y],{icon: iconMap})
-                            .bindPopup('<img width=200 src="' 
-                                        + punt.imatge 
-                                        + '" />');
-                        visor.totMarker.addLayer(marker);
-                        visor.map.addLayer(visor.totMarker);
+                $.ajax({
+                    type: "POST",
+                    url: "http://issolutions.esy.es/avis/www/php/select.php",
+                    contentType: "application/json; charset=ISO-8859-1",
+                    dataType: "json",
+                    success: function( data ) {                   
+                        visor.data = data;
+                        visor.totMarker = new L.FeatureGroup();
+                        var iconSizeX = 30;
+                        var iconSizeY = 45;             
+                        var iconMap = L.icon({
+                            iconUrl: 'images/marker-icon-red.png' ,
+                            shadowUrl: 'images/marker-shadow.png',
+                            iconSize:     [iconSizeX, iconSizeY], // size of the icon
+                            shadowSize:   [32, 32],  // size of the shadow
+                            iconAnchor:   [15, 45],  // point of the icon which will correspond to marker's location
+                            shadowAnchor: [ 10, 30], // the same for the shadow
+                            popupAnchor:  [ 0,-45]   // point from which the popup should open relative to the iconAnchor
+                        });       
+                        
+                        $.each(visor.data,function(i,punt){
+                            var marker = L.marker([punt.den_x, punt.den_y],{icon: iconMap})
+                                .bindPopup('<img width=200 src="' 
+                                            + punt.imatge 
+                                            + '" />');
+                            visor.totMarker.addLayer(marker);
+                            visor.map.addLayer(visor.totMarker);
+                        });
                     });
-                });
-            }
+                }
+            }    
                     
             function creaImatgePujada(params) {
                 $('#divImatgePujada').prepend( '     <div class="divContImatge" style="width=100%;height:auto"> '
