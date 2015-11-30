@@ -641,7 +641,7 @@
                         });       
                         
                         $.each(visor.data,function(i,punt){
-                            var marker = L.marker([punt.den_x, punt.den_y],{icon: iconMap})
+                            var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
                                 .bindPopup('<img width=200 src="' 
                                             + punt.imatge 
                                             + '" />');
