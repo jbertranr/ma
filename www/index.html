@@ -166,12 +166,9 @@
             
             //-- Inicialització Portada
             
-            $( document ).on( "mobileinit", function() {
-                inicialitzaMapa();             
-            });
+          
             
-            
-            $( document ).on('pageshow' ,'#portada', function(){ 
+     /*       $( document ).on('pageshow' ,'#portada', function(){ 
                 $(window).bind('resize', function (){   ajustaFinestres();
                                                         ajustaPortada();  
                                                      });
@@ -184,12 +181,20 @@
                 // Es va incialitzant el mapa per millorar el rendiment
                 //onDeviceReady();  
              });
-             
+     */       
              
              //-- Inicia pageMap                    
             $( document ).on('pageshow','#pageMap', function(){
                 //$(window).bind('resize', function () {ajustaFinestres();ajustaPortada();});           
-                ajustaFinestres();          
+                $(window).bind('resize', function (){   ajustaFinestres();
+                                                        ajustaPortada();  
+                                                     });
+                $.mobile.page.prototype.options.theme = "a";                    
+                $('#pageMap').trigger('pagecreate');
+                if (visor.actiu == 0){
+                    inicialitzaMapa(); 
+                    visor.actiu = 1;    
+                }           
             });
             
             
@@ -779,21 +784,15 @@
     
     <body style="font-family:arial">
         <!--------------------------------  Pàgina Portada ---------------------------------------->     
-        <div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;">  
+        <!-- div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;">  
             <div data-role="content" style="width:100%;height:100%;padding:0em" id ="fotoPortada" >         
                 <a href="#pageMap">
                     <div style='height:auto; text-align:center; color: rgb(255, 255, 255); background-color:#f0cd2a; font-size:50px; width: 100%; height 100%; padding: 10px; position: absolute; bottom: 120px;'>
                         Veure Mapa
                     </div>
                 </a>
-
-                
-                <!-- div style='text-align: center; color: rgb(255, 255, 255); background-color:#0589c7; height:auto; width: 100%; padding: 10px; position:absolute; bottom: 0px;'>
-                    Compartiu la vostra localització si voleu veure la vostra posició en el plànol
-                </div-->
-
             </div>
-        </div>
+        </div-->
         
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
