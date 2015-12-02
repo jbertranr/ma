@@ -677,7 +677,10 @@
                         
                         $.each(visor.data,function(i,punt){
                             var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
-                                .bindPopup('<img width=200 src="http://issolutions.esy.es/ma/www/php/image/' 
+                                .bindPopup('<div>'
+                                            + punt.data_imatge
+                                            + '</div>'
+                                            +  '<img width=150 src="http://issolutions.esy.es/ma/www/php/image/' 
                                             + punt.imatge 
                                             + '" />');
                             visor.totMarker.addLayer(marker);
@@ -835,7 +838,7 @@
             </div>
             
             <!------------------ Content --------------->
-             <div data-role="content" id="contMapa" style="padding-top:0px"> 
+             <div data-role="content" id="contMapa" style="padding-top:15px"> 
             
                 <div class="caixaControl" >             
                     <div id="troba1" class="controlMapa" onclick="visor.map.zoomIn();">+</div>
