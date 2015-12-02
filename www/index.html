@@ -18,10 +18,21 @@
              
             .leaflet-control-locate {display:none}
             
+            #portada{
+                width:100%;
+                height:100%;
+                margin:0px;
+                background-color:#f0cd2a;
+            }
+            #fotoPortada{
+                width:100%;
+                height:100%;
+                margin:0px;              
+            }              
             
             @font-face {
-                font-family: novaFont;
-                src: url(css/fonts/PrintClearly.otf);
+                font-family: "novaFont";
+                src: url("./fonts/OpenSans-Regular.ttf");
             }
             
             #map { 
@@ -473,6 +484,7 @@
 
             // -- Recupera la posició actual i la introdueix a les variables corresponents
             function posicioTrobada(e) {
+                //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
                 var latitude = e.latlng.lat;
                 var longitude = e.latlng.lng;
                 var estatAnterior = visor.posicioActual.trobat;
@@ -488,7 +500,8 @@
                                     };      
                 }
                 else {
-                }
+                }                
+                //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
                 /*
                 if ( estatAnterior == 0 ){
                     mostraPosicioActual();
@@ -791,31 +804,26 @@
     
     <body style="font-family:arial">
         <!--------------------------------  Pàgina Portada ---------------------------------------->     
-        <div data-role="page" id="portada" style="width:100%;height:1100px;margin:0px;background-color:#f0cd2a;">  
-            <div data-role="content" style="width:100%;height:100%;padding:0em;" id ="fotoPortada" >         
-                <a href="#pageMap">
-                    <div style='height:auto; text-align:center; color: rgb(255, 255, 255); font-size:50px; width: 100%; height 100%; padding: 10px; margin-top: 320px;'>
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-square-o fa-stack-2x"></i>
-                          <i class="fa fa-twitter fa-stack-1x"></i>
-                        </span>Notifica Avís
-                    </div>
-                </a>    
-                    
-           
-
-                
-                <!-- div style='text-align: center; color: rgb(255, 255, 255); background-color:#0589c7; height:auto; width: 100%; padding: 10px; position:absolute; bottom: 0px;'>
-                    Compartiu la vostra localització si voleu veure la vostra posició en el plànol
-                </div-->
-
+        <div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;background-color:#f0cd2a;overflow:hidden">  
+            <div style="width:100%;height:90%;font-family:novaFont;" id ="fotoPortada" >                
+                <div style="height:30%;width100%"></div>
+                <div style="color: rgb(255, 255, 255);font-size: 4em;height:40%;text-align: center;width: 100%;" >
+                    <a href="#pageMap" ><i style="color:#fff"  class="fa fa-paper-plane-o fa-2x"></i></a>
+                </div>
+                <div style="width: 100%; height: 20%;"> </div>                
+                <div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 10%;">
+                    Notifica Avís
+                </div>
+                <div style="text-align:center; color: rgb(255, 255, 255); font-size:1em; width: 100%; height: 10%;">
+                   Gestió dels avisos  de situacions de risc
+                </div>     
             </div>
         </div>
         
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
             <!------------------ Header --------------->    
-            <div data-role="header"  role="banner" id = "header" style="border-width:0;background-color: #f0cd2a;color: #fff;font-family: inherit;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
+            <div data-role="header"  role="banner" id = "header" style="border-width:0;background-color: #f0cd2a;color: #fff;font-family: font-family:novaFont;;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
                <h1 class="ui-title" role="heading" aria-level="1" >Inventari sobre mapa</h1> 
             </div>
             
