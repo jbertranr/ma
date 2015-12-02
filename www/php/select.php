@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM denuncia";
+$sql = "(SELECT * FROM denuncia ORDER BY codi DESC LIMIT 10) ORDER BY codi ASC ";
 $result = $conn->query($sql);
 $rows = array();
 if ($result->num_rows > 0) {

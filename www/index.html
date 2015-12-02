@@ -32,7 +32,7 @@
             
             @font-face {
                 font-family: "novaFont";
-                src: url("./fonts/OpenSans-Regular.ttf");
+                src: url("./fonts/PrintBold.otf");
             }
             
             #map { 
@@ -805,26 +805,33 @@
     <body style="font-family:arial">
         <!--------------------------------  Pàgina Portada ---------------------------------------->     
         <div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;background-color:#f0cd2a;overflow:hidden">  
-            <div style="width:100%;height:90%;font-family:novaFont;" id ="fotoPortada" >                
+            <div style="width:100%;height:90%;" id ="fotoPortada" >                
                 <div style="height:30%;width100%"></div>
-                <div style="color: rgb(255, 255, 255);font-size: 4em;height:40%;text-align: center;width: 100%;" >
-                    <a href="#pageMap" ><i style="color:#fff"  class="fa fa-paper-plane-o fa-2x"></i></a>
-                </div>
-                <div style="width: 100%; height: 20%;"> </div>                
-                <div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 10%;">
+                <a href="#pageMap">
+                    <div style="color: rgb(255, 255, 255);font-size: 2em;height:40%;text-align: center;width: 100%;">
+                        <i class="fa fa-paper-plane-o fa-4x" style="color:#fff;margin-top:20"></i>                  
+                        <i class="fa fa-paper-plane-o fa-3x" style="color:#fff"></i>
+                        <i class="fa fa-paper-plane-o fa-2x" style="color:#fff"></i>
+                    </div>
+                </a>
+                <div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 20%;"> </div>                
+                <div style="font-family:novaFont;text-align:center; color: rgb(255, 255, 255); font-size:4em; width: 100%; height: 10%;">
                     Notifica Avís
                 </div>
-                <div style="text-align:center; color: rgb(255, 255, 255); font-size:1em; width: 100%; height: 10%;">
-                   Gestió dels avisos  de situacions de risc
-                </div>     
+                <div style="font-family:novaFont;text-align:center; color: rgb(255, 255, 255); font-size:2.2em; width: 100%; height: 10%;">
+                   Gestió de les situacions de risc
+                </div>
             </div>
         </div>
         
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
             <!------------------ Header --------------->    
-            <div data-role="header"  role="banner" id = "header" style="border-width:0;background-color: #f0cd2a;color: #fff;font-family: font-family:novaFont;;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
-               <h1 class="ui-title" role="heading" aria-level="1" >Inventari sobre mapa</h1> 
+            <div data-role="header"  role="banner" id = "header" style="border-width:0;background-color: #f0cd2a;color: #fff;font-family: inherit;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
+                <div style="height: 2.0em;text-align:center;padding-top:0.5em">Gestió avisos</div>
+                <div onclick="recuperaElements();" style="width:40px;position:fixed;top:0.4em;left:2em;height:2em" id="troba4">                                 
+                    <i class="fa fa-list fa-2x" style=""></i>
+                </div>  
             </div>
             
             <!------------------ Content --------------->
@@ -839,14 +846,14 @@
                 </div>
                 
                 <div class="caixaControlInferior">
-                    <div onclick="recuperaElements();" class="controlMapa controlMapa-separat" id="troba4">
+                    <!--div onclick="recuperaElements();" class="controlMapa controlMapa-separat" id="troba4">
                         <img style="margin-top:5px" width="28" height=40 src="images/elements.png">
                     </div>
                     <div onclick="recuperaElements();$.mobile.changePage($('#llistaElements'),'pop');" class="controlMapa controlMapa-separat" id="troba5">
                         <img style="margin-top:5px" width="24" height="40" src="images/llista.png">                 
-                    </div>
-                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" id="troba6">
-                        <img style="margin-top:5px" width="37" height="40" src="images/camera.png">
+                    </div-->
+                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="background-color:#d55" id="troba6">
+                        <img style="margin-top:5px;" width="37" height="40" src="images/camera.png">
                     </div>
                 </div>  
                 
