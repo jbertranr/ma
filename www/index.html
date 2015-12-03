@@ -210,10 +210,11 @@
              //-- Inicia pageMap                    
             $( document ).on('pageshow','#pageMap', function(){
                 //$(window).bind('resize', function () {ajustaFinestres();ajustaPortada();});           
-                                   inicialitzaMapa(); 
+                inicialitzaMapa(); 
                 ajustaFinestres();          
             });
             
+            $(window).bind('resize', function () {ajustaFinestres();});
             
             //-- Inicia llistaElements          
             $( document ).on('pagebeforeshow','#llistaElements', function(){
