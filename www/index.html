@@ -682,9 +682,12 @@
 
                             
                             var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
-                                .bindPopup('<div>'
-                                            + punt.data_imatge
+                                .bindPopup('  <div>'
+                                            +     punt.data_imatge
                                             + '</div>'
+                                            + '<div><b>'
+                                            + punt.adreca
+                                            + '</b></div>'
                                             +    '<img width=150 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
                                             +       punt.imatge 
                                             +       '?d='
