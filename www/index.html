@@ -14,8 +14,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">    
         
      
-        <style>  
-             
+        <style>               
             .leaflet-control-locate {display:none}
             
             #portada{
@@ -32,7 +31,7 @@
             
             @font-face {
                 font-family: "novaFont";
-                src: url("./fonts/PrintBold.otf");
+                src: url("./fonts/OpenSans-Regular.ttf");
             }
             
             #map { 
@@ -219,7 +218,7 @@
             //-- Inicia llistaElements          
             $( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
-                creaRelacioPunts();
+                //creaRelacioPunts(); Bloquejat l'accés al detall
             });         
             
             //function onDeviceReady() {
@@ -676,12 +675,16 @@
                         });       
                         
                         $.each(visor.data,function(i,punt){
+
+                            
                             var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
                                 .bindPopup('<div>'
                                             + punt.data_imatge
                                             + '</div>'
-                                            +  '<img width=150 src="http://issolutions.esy.es/ma/www/php/image/' 
-                                            + punt.imatge 
+                                            +    '<img width=150 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
+                                            +       punt.imatge 
+                                            +       '#'
+                                            +       new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
                                             + '" />');
                             visor.totMarker.addLayer(marker);
                             visor.map.addLayer(visor.totMarker);
@@ -689,7 +692,13 @@
                     }
                 });
                 
-            }    
+            }  
+
+
+
+
+
+            
                     
             function creaImatgePujada(params) {
                 $('#divImatgePujada').prepend( '     <div class="divContImatge" style="width=100%;height:auto"> '
@@ -747,8 +756,10 @@
                                                     + '         <a href="#"> List Item '
                                                     +               i
                                                     + '             <img width=70 src="http://issolutions.esy.es/ma/www/php/image/' 
-                                                    +                   punt.imatge
-                                                    + '             "/>'                                                
+                                                    +                   punt.imatge 
+ //                                                   + '#'
+ //                                                   + new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb on error)
+                                                    + '             " />'                                                
                                                     + '         </a>'
                                                     + '     </li>'
                                                     + '  </ol>');
@@ -818,10 +829,10 @@
                     </div>
                 </a>
                 <div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 20%;"> </div>                
-                <div style="font-family:novaFont;text-align:center; color: rgb(255, 255, 255); font-size:4em; width: 100%; height: 10%;">
+                <div style="font-family:novaFont;text-align:center; color: rgb(255, 255, 255); font-size:3em; width: 100%; height: 10%;">
                     Notifica Avís
                 </div>
-                <div style="font-family:novaFont;text-align:center; color: rgb(255, 255, 255); font-size:2.2em; width: 100%; height: 10%;">
+                <div style="font-family:novaFont;text-align:center; color: rgb(255, 255, 255); font-size:1.2em; width: 100%; height: 10%;">
                    Gestió de les situacions de risc
                 </div>
             </div>
@@ -830,10 +841,10 @@
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
             <!------------------ Header --------------->    
-            <div data-role="header"  role="banner" id = "header" style="border-width:0;background-color: #f0cd2a;color: #fff;font-family: inherit;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
+            <div data-role="header"  role="banner" id = "header" style="height:2.2em;border-width:0;background-color: #f0cd2a;color: #fff;font-family: inherit;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
                 <div style="height: 2.0em;text-align:center;padding-top:0.5em">Gestió avisos</div>
-                <div onclick="recuperaElements();" style="width:40px;position:fixed;top:0.4em;left:2em;height:2em" id="troba4">                                 
-                    <i class="fa fa-list fa-2x" style=""></i>
+                <div onclick="recuperaElements();" style="font-size: 1.5em; width: 40px; position: fixed; height: 2em; top: 0.2em; left: 1.2em;" id="troba4">                                 
+                    <i class="fa fa-list" style=""></i>
                 </div>  
             </div>
             
@@ -945,13 +956,6 @@
                 </div>          
             </div-->            
         </div>  
-    
-
-
-
-
-
-        
     </body>
 </html>   
 
