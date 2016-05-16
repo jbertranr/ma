@@ -6,11 +6,11 @@
 			id = "com.phonegap.photos"
 			version = "1.0.0">
 
-    <name>photos</name>
+    <name>Risc Animal</name>
 	<gap:splash src="home.jpg" />
 	<preference name="SplashMaintainAspectRatio" value="true" />
     <description> 
-        Algunes proves més per anar fent
+        App per identificar situacions de risc animal
     </description>
 
     <!--author href="http://phonegap.com" email="support@phonegap.com">
