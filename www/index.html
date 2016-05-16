@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
     <head>
-        <title>visorSIG</title>
+        <title>Animals en Risc</title>
         <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"> 
         <!-- meta name="viewport" content="width=device-width, initial-scale=1" /-->
         <!--meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi"-->
@@ -211,7 +211,8 @@
             $( document ).on('pageshow','#pageMap', function(){
                 //$(window).bind('resize', function () {ajustaFinestres();ajustaPortada();});           
                 inicialitzaMapa(); 
-                ajustaFinestres();          
+                ajustaFinestres(); 
+				recuperaElements();	
             });
             
             $(window).bind('resize', function () {ajustaFinestres();});
@@ -345,7 +346,7 @@
                 visor.map = L.map('map', { zoomControl:false, detectRetina:true });
                 visor.popup = L.popup();
                 var opcionsBase= 'google';
-                visor.map.setView([41.54, 2.45], 17);   
+                visor.map.setView([41.37, 2.15], 12);   
                 
                 switch (opcionsBase){
                     case 'mapbox':           
@@ -497,22 +498,12 @@
                                         
                 if (latitude == 0 ) {                   
                     visor.posicioActual = { 'trobat' : 0,
-                                        'lat' : 41.5419 ,
-                                        'lng' : 2.447,
+                                        'lat' : 41.24 ,
+                                        'lng' : 2.1,
                                     };      
                 }
                 else {
-                }                
-                //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
-                /*
-                if ( estatAnterior == 0 ){
-                    mostraPosicioActual();
-                }
-                */
-                //mostraPosicioActual();
-                //visor.posicioAnterior = visor.posicioActual;
-                
-                
+                }   
             }
                 
             /* Deprecated
@@ -850,7 +841,7 @@
         <div data-role="page" id="pageMap" > 
             <!------------------ Header --------------->    
             <div data-role="header"  role="banner" id = "header" style="height:2.2em;border-width:0;background-color: #f0cd2a;color: #fff;font-family: inherit;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
-                <div style="height: 2.0em;text-align:center;padding-top:0.5em">Gestió avisos</div>
+                <div style="height: 2.0em;text-align:center;padding-top:0.5em">Avisos situacions risc animal</div>
                 <div onclick="recuperaElements();" style="font-size: 1.5em; width: 40px; position: fixed; height: 2em; top: 0.2em; left: 1.2em;" id="troba4">                                 
                     <i class="fa fa-list" style=""></i>
                 </div>  
@@ -874,7 +865,7 @@
                     <div onclick="recuperaElements();$.mobile.changePage($('#llistaElements'),'pop');" class="controlMapa controlMapa-separat" id="troba5">
                         <img style="margin-top:5px" width="24" height="40" src="images/llista.png">                 
                     </div-->
-                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="background-color:#d55" id="troba6">
+                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="display:none;background-color:#d55" id="troba6">
                         <img style="margin-top:5px;" width="37" height="40" src="images/camera.png">
                     </div>
                 </div>  
