@@ -345,7 +345,7 @@
             function inicialitzaMapa(){                 
                 visor.map = L.map('map', { zoomControl:false, detectRetina:true });
                 visor.popup = L.popup();
-                var opcionsBase= 'google';
+                var opcionsBase= 'osm';
                 visor.map.setView([41.37, 2.15], 12);   
                 
                 switch (opcionsBase){

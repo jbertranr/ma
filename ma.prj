@@ -1,0 +1,142 @@
+<NotepadPlus>
+    <Project name="Animal Risc">
+        <Folder name="www">
+            <Folder name="css">
+                <Folder name="fonts">
+                    <File name="www\css\fonts\Aaargh.ttf" />
+                    <File name="www\css\fonts\AftaSansThin-Italic.otf" />
+                    <File name="www\css\fonts\AftaSansThin-Regular.otf" />
+                    <File name="www\css\fonts\Apostrophic Labs License.txt" />
+                    <File name="www\css\fonts\Blue Vinyl License.txt" />
+                    <File name="www\css\fonts\LANENAR_.ttf" />
+                    <File name="www\css\fonts\LANEPOSH.ttf" />
+                    <File name="www\css\fonts\LANEUP__.ttf" />
+                    <File name="www\css\fonts\PrintBold.otf" />
+                    <File name="www\css\fonts\PrintClearly.otf" />
+                    <File name="www\css\fonts\PrintDashed.otf" />
+                    <File name="www\css\fonts\SIL Open Font License.txt" />
+                    <File name="www\css\fonts\Tup Wanders Font License.txt" />
+                </Folder>
+                <Folder name="themes">
+                    <File name="www\css\themes\iss.css" />
+                    <File name="www\css\themes\iss.min.css" />
+                    <File name="www\css\themes\jquery.mobile.icons.min.css" />
+                </Folder>
+                <File name="www\css\font-awesome.min.css" />
+            </Folder>
+            <Folder name="fonts">
+                <File name="www\fonts\fontawesome-webfont.eot" />
+                <File name="www\fonts\fontawesome-webfont.svg" />
+                <File name="www\fonts\fontawesome-webfont.ttf" />
+                <File name="www\fonts\fontawesome-webfont.woff" />
+                <File name="www\fonts\FontAwesome.otf" />
+            </Folder>
+            <Folder name="images">
+                <File name="www\images\camera-icon.png" />
+                <File name="www\images\camera.png" />
+                <File name="www\images\camp.png" />
+                <File name="www\images\ciutat.png" />
+                <File name="www\images\llista.png" />
+                <File name="www\images\locate.png" />
+                <File name="www\images\logo_gran.jpg" />
+                <File name="www\images\marker-icon-red.png" />
+                <File name="www\images\marker-icon-yellow.png" />
+                <File name="www\images\marker-icon_green.png" />
+                <File name="www\images\marker-orange.png" />
+                <File name="www\images\marker-shadow.png" />
+                <File name="www\images\marker_y.png" />
+                <File name="www\images\muntanya.png" />
+                <File name="www\images\muntanya1.png" />
+            </Folder>
+            <Folder name="js">
+                <Folder name="jquery-jsonp">
+                    <File name="www\js\jquery-jsonp\jquery.jsonp.js" />
+                </Folder>
+                <Folder name="leaflet-openweathermap">
+                    <File name="www\js\leaflet-openweathermap\leaflet-openweathermap.css" />
+                    <File name="www\js\leaflet-openweathermap\leaflet-openweathermap.js" />
+                    <File name="www\js\leaflet-openweathermap\owmloading.gif" />
+                    <File name="www\js\leaflet-openweathermap\README.md" />
+                </Folder>
+                <Folder name="leaflet-plugins-master">
+                    <Folder name="build">
+                        <File name="www\js\leaflet-plugins-master\build\deps.py" />
+                        <File name="www\js\leaflet-plugins-master\build\Makefile" />
+                    </Folder>
+                    <Folder name="control">
+                        <File name="www\js\leaflet-plugins-master\control\Distance.js" />
+                        <File name="www\js\leaflet-plugins-master\control\Layers.Load.js" />
+                        <File name="www\js\leaflet-plugins-master\control\Permalink.js" />
+                        <File name="www\js\leaflet-plugins-master\control\Permalink.Layer.js" />
+                        <File name="www\js\leaflet-plugins-master\control\Permalink.Line.js" />
+                        <File name="www\js\leaflet-plugins-master\control\Permalink.Marker.js" />
+                    </Folder>
+                    <Folder name="css">
+                        <File name="www\js\leaflet-plugins-master\css\cross.png" />
+                        <File name="www\js\leaflet-plugins-master\css\distance.css" />
+                        <File name="www\js\leaflet-plugins-master\css\measure.png" />
+                        <File name="www\js\leaflet-plugins-master\css\osb.css" />
+                    </Folder>
+                    <Folder name="layer">
+                        <Folder name="tile">
+                            <File name="www\js\leaflet-plugins-master\layer\tile\Bing.js" />
+                            <File name="www\js\leaflet-plugins-master\layer\tile\Google.js" />
+                            <File name="www\js\leaflet-plugins-master\layer\tile\Yandex.js" />
+                        </Folder>
+                        <Folder name="vector">
+                            <File name="www\js\leaflet-plugins-master\layer\vector\GPX.js" />
+                            <File name="www\js\leaflet-plugins-master\layer\vector\GPX.Speed.js" />
+                            <File name="www\js\leaflet-plugins-master\layer\vector\KML.js" />
+                            <File name="www\js\leaflet-plugins-master\layer\vector\OSM.js" />
+                        </Folder>
+                        <File name="www\js\leaflet-plugins-master\layer\Icon.Canvas.js" />
+                        <File name="www\js\leaflet-plugins-master\layer\Layer.Deferred.js" />
+                        <File name="www\js\leaflet-plugins-master\layer\Marker.Rotate.js" />
+                        <File name="www\js\leaflet-plugins-master\layer\Marker.Text.js" />
+                        <File name="www\js\leaflet-plugins-master\layer\OpenStreetBugs.js" />
+                    </Folder>
+                    <File name="www\js\leaflet-plugins-master\.jshintrc" />
+                    <File name="www\js\leaflet-plugins-master\LICENSE" />
+                    <File name="www\js\leaflet-plugins-master\package.json" />
+                    <File name="www\js\leaflet-plugins-master\README.asciidoc" />
+                </Folder>
+                <Folder name="locate">
+                    <File name="www\js\locate\L.Control.Locate.css" />
+                    <File name="www\js\locate\L.Control.Locate.ie.css" />
+                    <File name="www\js\locate\L.Control.Locate.ie.min.css" />
+                    <File name="www\js\locate\L.Control.Locate.ie.min.css.map" />
+                    <File name="www\js\locate\L.Control.Locate.mapbox.css" />
+                    <File name="www\js\locate\L.Control.Locate.mapbox.min.css" />
+                    <File name="www\js\locate\L.Control.Locate.mapbox.min.css.map" />
+                    <File name="www\js\locate\L.Control.Locate.min.css" />
+                    <File name="www\js\locate\L.Control.Locate.min.css.map" />
+                    <File name="www\js\locate\L.Control.Locate.min.js" />
+                    <File name="www\js\locate\L.Control.Locate.min.js.map" />
+                </Folder>
+            </Folder>
+            <Folder name="php">
+                <File name="www\php\insert.php" />
+                <File name="www\php\select.php" />
+                <File name="www\php\upload.php" />
+            </Folder>
+            <Folder name="spec">
+                <File name="www\spec\helper.js" />
+                <File name="www\spec\index.js" />
+            </Folder>
+            <File name="www\base.html" />
+            <File name="www\config.xml" />
+            <File name="www\icon.png" />
+            <File name="www\index.html" />
+            <File name="www\index11.html" />
+            <File name="www\index_2.html" />
+            <File name="www\index_3.html" />
+            <File name="www\index_4.html" />
+            <File name="www\index_deustch.html" />
+            <File name="www\index_ok_sense_jqm.html" />
+            <File name="www\index_v1.html" />
+        </Folder>
+        <File name=".gitattributes" />
+        <File name=".gitignore" />
+        <File name="README.md" />
+    </Project>
+</NotepadPlus>
