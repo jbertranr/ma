@@ -397,7 +397,7 @@
                 $.getJSON("http://nominatim.openstreetmap.org/reverse?json_callback=?", 
                     { format: "json", lat: punt.lat, lon: punt.lng, zoom: 18, addressdetails: 1 },
                     function(data) { 
-                        visor.adrecaOSM =  data.display_name;
+                        visor.adrecaOSM =  data.display_name.replace(/'/g, "\\'");
                 });               
             }
            
@@ -431,7 +431,6 @@
                                                 }
                                             );				  
             }
-
 			
             function uploadPhoto(imageURI) {
                 var options = new FileUploadOptions();
@@ -466,7 +465,7 @@
 					data: visor.params,
 					success: function(){
 						recuperaElements();
-						creaImatgePujada(visor.params);
+						//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat: " + xhr.responseText 
