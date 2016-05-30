@@ -28,7 +28,7 @@
             
             @font-face {
                 font-family: "novaFont";
-                src: url("./fonts/OpenSans-Regular.ttf");
+                src: url("./fonts/Lato-Regular.ttf");
             }
             
             #map { 
@@ -65,9 +65,12 @@
             }
             
             
-            .controlMapa
-            {   background-color: #f0cd2a;
-                border-radius: 25px;
+            .controlMapa-junt {
+                margin-top: 1px;
+            }
+            .controlMapa {
+                background-color: #656565;
+                border-radius: 5px 0 0 5px;
                 color: #ffffff;
                 cursor: pointer;
                 font-family: verdana;
@@ -78,13 +81,13 @@
                 text-align: center;
                 width: 50px;
                 z-index: 999999;
-            }  
+            }
             .controlMapa:hover {opacity:0.97}
-            .controlMapa-junt {margin-top:3px}
-            .controlMapa-separat {margin-top:10px}
+
+            .controlMapa-separat {margin-top:5px}
             
-            .caixaControl{ z-index:5000;position:fixed;right:15px;top:60px; }
-            .caixaControlInferior{ z-index:5000;position:fixed;right:15px;bottom:60px; }
+            .caixaControl{ z-index:5000;position:fixed;right:0px;top:60px; }
+            .caixaControlInferior{ z-index:5000;position:fixed;right:0px;bottom:60px; }
             .cubTitol { font-size: 0.8em;  height: 6px; width:100%;margin-top:5px;font-family:novaFont;  }
             .cubValor { margin-top:0.2em;font-size: 1.8em;  height: 26px; ; color: #ffffff;width:100%;font-family:novaFont; }
             .cubUnitat { margin-bottom:7px;font-size:0.8em;margin-top:0em;height:15px;font-family:novaFont; }
@@ -652,11 +655,25 @@
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
             <!------------------ Header --------------->    
-            <div data-role="header"  role="banner" id = "header" style="height:2.2em;border-width:0;background-color: #f0cd2a;color: #fff;font-family: inherit;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
-                <div style="height: 2.0em;text-align:center;padding-top:0.5em">Avisos situacions risc animal</div>
-                <div onclick="recuperaElements();" style="font-size: 1.5em; width: 40px; position: fixed; height: 2em; top: 0.2em; left: 1.2em;" id="troba4">                                 
-                    <i class="fa fa-list" style=""></i>
+            <div data-role="header"  role="banner" id = "header" style="height:2.2em;border-width:0;background-color: #ffffff;color: #ddd;font-family: inherit;font-size: 1.1em;font-weight: lighter;text-shadow: 0 0;z-index: 1;">
+                 <div onclick="recuperaElements();" style="font-size: 1.5em; width: 40px; position: fixed; height: 2em; top: 0.2em; left: 1.2em;" id="troba4">                                 
+                    <img width="35" src="icon.png" style="margin-left: -15px; margin-top: -3px;">
+                    <!--i class="fa fa-list" style=""></i-->
+                </div> 
+                    
+                <div style="text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); padding-left: 15%; width: 80%; float: left;">
+                    <div style="float: left; text-align: center; padding-top: 0em; font-family: Verdana; color: rgb(220, 70, 0); width: 100%;">
+                        Alerta Situació 
+                    </div>
+                    <div style="text-align: center; font-family: Verdana; color: rgb(220, 70, 0); font-size: 0.6em; width: 100%;">
+                        Risc Animal
+                    </div>
                 </div>  
+                <!-- style="float:right">
+                    <i class="fa fa-list" style=""></i>
+                </div-->    
+              
+
             </div>
             
             <!------------------ Content --------------->
@@ -677,7 +694,7 @@
                     <div onclick="recuperaElements();$.mobile.changePage($('#llistaElements'),'pop');" class="controlMapa controlMapa-separat" id="troba5">
                         <img style="margin-top:5px" width="24" height="40" src="images/llista.png">                 
                     </div-->
-                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="display:block;background-color:#d55" id="troba6">
+                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="display:block;right:0px" id="troba6">
                         <img style="margin-top:5px;" width="37" height="40" src="images/camera.png">
                     </div>
                 </div>  
