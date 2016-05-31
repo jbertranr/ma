@@ -640,36 +640,31 @@
     <body style="font-family:arial">
         <!--------------------------------  Pàgina Portada ---------------------------------------->     
         <div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;background-color:#cd0000;overflow:hidden">  
-            <div style="width:100%;height:90%;" id ="fotoPortada" >                
-                <div style="height:30%;width100%"></div>                
-				<div style="height:30%;width:100%;">
-					<div style="float:left;height:100%;width:20%;"></div>
-					<a href="#pageMap">
-						<div style="float:left;height:100%;width:60%;overflow:hidden">
-							<img style="width:100%" src="./images/logo_gran.jpg" />
-						</div>
-					</a>
-					<div style="float:left;height:100%;width:20%"></div>
-                </div>
-				<div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 40%;">                
-					<div style="text-align:center; color: rgb(255, 255, 255); overflow:hidden;font-size:2em; margin-top:10%;margin-left:10%;width: 80%; height: 35%;">
-						Notifica Avís 
+			<div id="fotoPortada" style="width:100%;height:70%;">
+				<div style="height:10%;width100%"></div>
+					<div style="height:70%;width:100%;">
+						<div style="float:left;height:100%;width:10%;"></div>
+						<div style="float:left;height:100%;width:80%;overflow:hidden;text-align:center">
+							<img style="height:100%;" src="./images/logo_gran.jpg">
 					</div>
-					<div style="text-align:center; overflow:hidden;color: rgb(255, 255, 255); font-size:1.2em; width: 80%; margin-left:10%; height: 40%;">
-					   Situacions de risc pels animals
-					</div>
-				</div> 
-            </div>
+					<div style="float:left;height:100%;width:10%;"></div>
+				</div>
+				<div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 30%;">
+					<div style="text-align:center; color: rgb(255, 255, 255); overflow:hidden;font-size:1.42em; margin-top:7%;margin-left:10%;width: 80%; height:auto;"> Notifica Avís </div>
+					<div style="text-align:center; overflow:hidden;color: rgb(255, 255, 255); font-size:1em; width: 80%; margin-left:10%; height: auto;"> Situacions de risc pels animals </div>
+				</div>
+			</div>
+			<div style="position:absolute;bottom:4px;right:10px;text-align:right; overflow:hidden;color: rgb(255, 255, 255); font-size:0.8em; width: 100%; margin-left:10%; height: auto;"> Prototip desenvolupar per ISS </div>
         </div>
         
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
             <!------------------ Header --------------->    
 			<div id="header" style="border-width: 0px; height:2.3em;background-color: rgb(196, 13, 1); color: rgb(250, 250, 250); font-family: inherit; font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
-				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 42px;" onclick="recuperaElements();">
+				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 5%;" onclick="recuperaElements();">
 					<img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png">
 				</div>
-				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 80%; float: left; padding-left: 1%;">
+				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; float: left; margin-left: -5%;">
 					<div style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> Alerta Situació </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Risc Animal </div>
 				</div>
