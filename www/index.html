@@ -90,7 +90,13 @@
             .controlMapa-separat {margin-top:5px}
             
             .caixaControl{ z-index:5000;position:fixed;right:0px;top:60px; }
-            .caixaControlInferior{ z-index:5000;position:fixed;right:0px;bottom:60px; }
+
+            .caixaControlInferior {
+                position: fixed;
+                right: 0;
+                top: 201px;
+                z-index: 5000;
+            }
             .cubTitol { font-size: 0.8em;  height: 6px; width:100%;margin-top:5px;font-family:novaFont;  }
             .cubValor { margin-top:0.2em;font-size: 1.8em;  height: 26px; ; color: #ffffff;width:100%;font-family:novaFont; }
             .cubUnitat { margin-bottom:7px;font-size:0.8em;margin-top:0em;height:15px;font-family:novaFont; }
@@ -231,9 +237,10 @@
             function ajustaFinestres(){         
                 var resizeTimer = null;         
                 if (resizeTimer) clearTimeout(resizeTimer);         
+                if($("#peuMapa").is(':visible')) { var limita = 43 } else {var limita = 0}
                 resizeTimer = setTimeout(function () {
                     $('#map').width($(window).width());
-                    $('#map').height($(window).height() - $('#header').height() - $('#footer').height() - 6); //abans -3
+                    $('#map').height($(window).height() - $('#header').height() - $('#footer').height() - limita - 1); //abans -3
                     $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
                     visor.map._onResize(); 
                 });
@@ -699,19 +706,14 @@
             <!------------------ Footer --------------->
 
             <div data-role="footer" > 
-                <!--div data-role="navbar">
-                    <ul>
-                        <li>
-                            <a data-role="none" href="#" onclick="recuperaElements()" >Carregar punts</a>
-                        </li>
-                        <li>
-                            <a  data-transition="pop" href="#llistaElements" > Mostra llistat</a>
-                        </li>
-                        <li>
-                            <a data-role="none"href="#">Search</a>
-                        </li>
-                    </ul>
-                </div-->
+                <div id="peuMapa" style="display:block;position: fixed; text-align: center; font-size: 1.1em; background-color: rgb(255, 255, 255); border-radius: 0px; bottom: 0px; left: 0px; width: 100%; opacity: 1; color: rgb(122, 122, 122); height: 42px">
+                  <div style="float:left;width:10%;margin-top:0.3em">  
+                    <i class="fa fa-camera">
+                  </i></div>
+                  <div style="float:left;width:100%;text-align:center;margin-top:0.3em;margin-left:-10%">
+                       Calculant la posició actual... 
+                   </div>
+                </div>
             </div>
         </div>
 
