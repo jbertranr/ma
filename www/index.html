@@ -240,7 +240,7 @@
                 if($("#peuMapa").is(':visible')) { var limita = 43 } else {var limita = 0}
                 resizeTimer = setTimeout(function () {
                     $('#map').width($(window).width());
-                    $('#map').height($(window).height() - $('#header').height() - $('#footer').height() - limita - 1); //abans -3
+                    $('#map').height($(window).height() - $('#header').height() - $('#footer').height() - limita - 4); //abans -3
                     $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
                     visor.map._onResize(); 
                 });
@@ -300,10 +300,19 @@
                                         placeCamera(e);
                                         recuperaAdreca(e.latlng);    
                                     });
-				activaLocator();						
+				missatgePeuMapa('Buscant localització ... <i class="fa fa-spin fa-spinner"/>  ' ); 
+                activaLocator();
+                    
             }
 
-			function activaLocator(){
+			
+            function missatgePeuMapa( contingut ){
+               $('#txtPeuMapa').html(contingut);
+               $('#peuMapa').show();
+               if ( contingut.length < 1) {  $('#peuMapa').hide(); ajustaFinestres();}
+            }
+            
+            function activaLocator(){
 			// Activa la localització del plugin de leaflet 
 				visor.locate = L.control.locate( {
 					position: 'topright',  // set the location of the control
@@ -339,6 +348,7 @@
 				
 				//-- Incorpora el control al mapa
 				visor.locate.addTo(visor.map);
+                visor.locate.start();
 				
 				//-- Funció quan troba la posició
 				visor.map.on('locationfound', posicioTrobada);
@@ -347,6 +357,7 @@
             // -- Recupera la posició actual i la introdueix a les variables corresponents
             function posicioTrobada(e) {
                 //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
+                missatgePeuMapa('');
                 var latitude = e.latlng.lat;
                 var longitude = e.latlng.lng;
                 var estatAnterior = visor.posicioActual.trobat;
@@ -481,7 +492,7 @@
 						//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
-						alert("Error detectat: " + xhr.responseText 
+						alert("Error detectat. Puja-la de nou." + xhr.responseText 
 							+ "\nstatus: " + textStatus 
 							+ "\nerror: " + errorThrown);
 					}                                       
@@ -640,21 +651,23 @@
     <body style="font-family:arial">
         <!--------------------------------  Pàgina Portada ---------------------------------------->     
         <div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;background-color:#cd0000;overflow:hidden">  
-			<div id="fotoPortada" style="width:100%;height:70%;">
+            <div id="fotoPortada" style="width:100%;height:70%;">
 				<div style="height:10%;width100%"></div>
 					<div style="height:70%;width:100%;">
 						<div style="float:left;height:100%;width:10%;"></div>
-						<div style="float:left;height:100%;width:80%;overflow:hidden;text-align:center">
-							<img style="height:100%;" src="./images/logo_gran.jpg">
-					</div>
-					<div style="float:left;height:100%;width:10%;"></div>
-				</div>
-				<div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 30%;">
-					<div style="text-align:center; color: rgb(255, 255, 255); overflow:hidden;font-size:1.42em; margin-top:7%;margin-left:10%;width: 80%; height:auto;"> Notifica Avís </div>
-					<div style="text-align: center; overflow: hidden; color: rgb(255, 255, 255); width: 80%; margin-left: 10%; height: auto; font-size: 0.8em; line-height: 0.9em;"> Situacions de risc pels animals </div>
-				</div>
-			</div>
-			<div style="position:absolute;bottom:4px;right:10px;text-align:right; overflow:hidden;color: rgb(255, 255, 255); font-size:0.8em; width: 100%; margin-left:10%; height: auto;"> Prototip desenvolupar per ISS </div>
+                        <a href="#pageMap">    
+                            <div style="float:left;height:100%;width:80%;overflow:hidden;text-align:center">
+                                <img style="height:100%;" src="./images/logo_gran.jpg">
+                            </div>
+                       </a>     
+				</div> 
+            </div>
+            <div style="float:left;height:100%;width:10%;"></div>
+            <div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 30%;">
+                <div style="text-align:center; color: rgb(255, 255, 255); overflow:hidden;font-size:1.42em; margin-top:7%;margin-left:10%;width: 80%; height:auto;"> Notifica Avís </div>
+                <div style="text-align: center; overflow: hidden; color: rgb(255, 255, 255); width: 80%; margin-left: 10%; height: auto; font-size: 0.8em; line-height: 0.9em;"> Situacions de risc pels animals </div>
+            </div>
+			<div style="position:absolute;bottom:4px;right:10px;text-align:right; overflow:hidden;color: rgb(255, 255, 255); font-size:0.8em; width: 100%; margin-left:10%; height: auto;"> Prototip desenvolupat per ... </div>
         </div>
         
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
@@ -664,7 +677,7 @@
 				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 5%;" onclick="recuperaElements();">
 					<img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png">
 				</div>
-				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; float: left; margin-left: -5%;">
+				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
 					<div style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> Alerta Situació </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Risc Animal </div>
 				</div>
@@ -705,7 +718,7 @@
                   <div style="float:left;width:10%;margin-top:0.3em">  
                     <i class="fa fa-camera">
                   </i></div>
-                  <div style="float:left;width:100%;text-align:center;margin-top:0.3em;margin-left:-10%">
+                  <div id='txtPeuMapa' style="float:left;width:100%;text-align:center;margin-top:0.3em;margin-left:-10%">
                        Calculant la posició actual... 
                    </div>
                 </div>
