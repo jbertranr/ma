@@ -180,7 +180,8 @@
                 'markerCamera':{},
                 'data':{},
                 'adrecaOSM':null,
-				'params':null
+				'params':null,
+                'primeraUbicació' :  1
             };
             
             //
@@ -301,10 +302,9 @@
                                         recuperaAdreca(e.latlng);    
                                     });
 				missatgePeuMapa('Buscant localització ... <i class="fa fa-spin fa-spinner"/>  ' ); 
-                activaLocator();
+                activaLocator();            
                     
             }
-
 			
             function missatgePeuMapa( contingut ){
                $('#txtPeuMapa').html(contingut);
@@ -357,7 +357,6 @@
             // -- Recupera la posició actual i la introdueix a les variables corresponents
             function posicioTrobada(e) {
                 //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
-                missatgePeuMapa('');
                 var latitude = e.latlng.lat;
                 var longitude = e.latlng.lng;
                 var estatAnterior = visor.posicioActual.trobat;
@@ -373,7 +372,12 @@
                                     };      
                 }
                 else {
-                }   
+                } 
+                if ( visor.primeraUbicació ==  1){
+                    missatgePeuMapa('');
+                    placeCamera(e);
+                    visor.primeraUbicació = 0;
+                }            
             } 
             //-- Mostra la icona en el punt actual TODO: unificar funció anterior
 			
@@ -404,6 +408,9 @@
                             + ' Posició actual aproximada'                  
                             );
                 }
+                
+                
+                
                     
             }
 
@@ -639,7 +646,8 @@
                         + ''                    
                         )
                     .on('click', uploadFromGallery);
-                visor.posicioCamera = e.latlng;    
+                visor.posicioCamera = e.latlng;
+                missatgePeuMapa('<a class="btn btn-danger" onclick="uploadfromGallery()"> <i class="fa fa-camera-o fa-lg"></i> Captura </a>' );      
             }
 
     
@@ -681,7 +689,7 @@
 					<div style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> Alerta Situació </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Risc Animal </div>
 				</div>
-				<div style="position: fixed; top: 40px; left: 0%; background-color: rgb(0, 0, 0); width: 100%; text-align: center; font-size: 0.7em; opacity: 0.7;">Calculant la posició actual...</div>
+				<div style="position: fixed; top: 40px; left: 0%; background-color: rgb(0, 0, 0); width: 100%; text-align: center; font-size: 0.7em; opacity: 0.7;padding-top:0.1em">Captura de les imatges</div>
 			</div>
             
             <!------------------ Content --------------->
@@ -719,7 +727,7 @@
                     <i class="fa fa-camera">
                   </i></div>
                   <div id='txtPeuMapa' style="float:left;width:100%;text-align:center;margin-top:0.3em;margin-left:-10%">
-                       Calculant la posició actual... 
+                       Captureu la imatge sobre el mapa 
                    </div>
                 </div>
             </div>
