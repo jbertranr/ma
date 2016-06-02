@@ -238,10 +238,10 @@
             function ajustaFinestres(){         
                 var resizeTimer = null;         
                 if (resizeTimer) clearTimeout(resizeTimer);         
-                if($("#peuMapa").is(':visible')) { var limita = 43 } else {var limita = 0}
+                //if($("#peuMapa").is(':visible')) { var alcPeuMapa =  $('#peuMapa').height() } else {var alcPeuMapa = 0}
                 resizeTimer = setTimeout(function () {
                     $('#map').width($(window).width());
-                    $('#map').height($(window).height() - $('#header').height() - $('#footer').height() - limita - 4); //abans -3
+                    $('#map').height($(window).height() - $('#header').height() - $('#peuMapa').height() - 5); //abans -3
                     $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
                     visor.map._onResize(); 
                 });
@@ -408,10 +408,6 @@
                             + ' Posició actual aproximada'                  
                             );
                 }
-                
-                
-                
-                    
             }
 
             function mostraPosicioActual(){            
@@ -496,7 +492,7 @@
 					data: visor.params,
 					success: function(){
 						recuperaElements();
-						//creaImatgePujada(visor.params);
+						setTimeout(function(){mostraImatgeCaptada();}, 500);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Puja-la de nou." + xhr.responseText 
@@ -554,7 +550,28 @@
                     }
                 });
             }  
-                   
+            
+            function mostraImatgeCaptada(){
+                var punt = visor.data[visor.data.length - 1];
+                var htmlPeu = '  <div>'
+                                +     punt.data_imatge
+                                + '</div>'
+                                + '<div><b>'
+                                + punt.adreca
+                                + '</b></div>'
+                                +    '<img width=150 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
+                                +       punt.imatge 
+                                +       '?d='
+                                +       new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
+                                + '" />';
+                missatgePeuMapa( htmlPeu );            
+            }
+
+
+
+
+
+            
             function creaImatgePujada(params) {
                 $('#divImatgePujada').prepend( '     <div class="divContImatge" style="width=100%;height:auto"> '
                                             + '         <div class="divContImatgeTitol" style="font-size:14px;height:30px;"> '
@@ -647,7 +664,8 @@
                         )
                     .on('click', uploadFromGallery);
                 visor.posicioCamera = e.latlng;
-                missatgePeuMapa('<a class="btn btn-danger" onclick="uploadfromGallery()"> <i class="fa fa-camera-o fa-lg"></i> Captura </a>' );      
+               // missatgePeuMapa('<a class="btn btn-danger" onclick="uploadfromGallery()"> <img class="" src="images/camera-icon.png" style=" width: 30px; height: 30px;" />Captura </a>' );
+                missatgePeuMapa('<div onclick="uploadFromGallery();" style="border-radius:10px;background-color:#cd3311;color:#ffffff;text-shadow:0 0px #000000;"> Activa Càmera <i class="fa fa-camera "/>  ' )                
             }
 
     
@@ -721,16 +739,16 @@
             
             <!------------------ Footer --------------->
 
-            <div data-role="footer" > 
+            <!--div data-role="footer" --> 
                 <div id="peuMapa" style="display:block;position: fixed; text-align: center; font-size: 1.1em; background-color: rgb(255, 255, 255); border-radius: 0px; bottom: 0px; left: 0px; width: 100%; opacity: 1; color: rgb(122, 122, 122); height: 42px">
-                  <div style="float:left;width:10%;margin-top:0.3em">  
-                    <i class="fa fa-camera">
-                  </i></div>
-                  <div id='txtPeuMapa' style="float:left;width:100%;text-align:center;margin-top:0.3em;margin-left:-10%">
-                       Captureu la imatge sobre el mapa 
+                    <div style="float:left;width:10%;margin-top:0.3em">  
+                        <i class="fa fa-camera"></i>
+                    </div>
+                    <div id="txtPeuMapa" style="float: left; width: 70%; text-align: center; margin-left: 5%; margin-top: 0.3em; font-size: 1.2em; padding-top: 0.0em;">                       
+                        Captureu la imatge sobre el mapa 
                    </div>
                 </div>
-            </div>
+            <!--/div-->
         </div>
 
 
