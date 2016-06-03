@@ -330,8 +330,8 @@
                         break;
 
                     case 'mostraFoto':
-                        if ( foto > 9 ) { foto = 1 }
-                        if ( foto < 9 && foto > 0 ) { 
+                        if ( foto == visor.data.length - 1 ) { foto = 1 }
+                        // if ( foto < 9 && foto > 0 ) { 
                             var punt = visor.data[visor.data.length - foto];
                             var seguentFoto = foto + 1;
                             txtPeu =  '   <div style="width:100%;height:40%"> '                                 
@@ -340,7 +340,8 @@
                                         + '         <div onclick="missatgePeuMapa( \'mostraFoto\','
                                         +              seguentFoto 
                                         + '            );" style="background-color:#ffffff;float:left;font-weight:bold;font-size:1.8em;height:1.3em;width:100%;text-align:left;margin-top:-0.2em">'
-                                        + '             123445 ' 
+                                        + '            Avís: '
+                                        +              Foto    
                                         + '         </div>'
                                         + '         <div style="float:left;font-weight:bold;font-size:1.0em;height:auto;background-color:#ffffff;width:100%;text-align:left;margin-top:-0.6em">'
                                         +               punt.data_imatge
@@ -358,7 +359,7 @@
                                         + '         " />'
                                         + '     </div>   '   
                                         + ' </div> ';
-                                }       
+                        //        }       
                         break;
                     
                     default:
