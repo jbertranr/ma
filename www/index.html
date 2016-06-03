@@ -565,7 +565,7 @@
                                 + '         <div style="background-color:#ffffff;float:left;margin-left:1%;font-weight:bold;font-size:1.8em;height:1.3em;width:100%;text-align:left;margin-top:-0.2em">'
                                 + '             123445 ' 
                                 + '         </div>'
-                                + '         <div style="float:left;margin-left:1%;font-weight:bold;font-size:1.0em;height:auto;background-color:#ffffff;width:100%;text-align:left;margin-top:-0.6em">'
+                                + '         <div style="float:left;margin-left:4%;font-weight:bold;font-size:1.0em;height:auto;background-color:#ffffff;width:100%;text-align:left;margin-top:-0.6em">'
                                 +               punt.data_imatge
                                 + '         </div>'
                                 + '         <div style="clear: both; margin-left: 0%; height: auto; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 3em; font-size: 0.7em;">'
@@ -573,12 +573,12 @@
                                 +                   punt.adreca
                                 + '             </b>'
                                 + '         </div>'
-                                + '         <div style="clear: both; margin:0%;height:auto; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;">'
+                                + '         <div style="clear: both; margin-left: 3%; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 9em;overflow: hidden;">'
                                 + '             <b> Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada.  Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada </b>'
                                 + '         </div>   '
                                 + '     </div>   '                               
                                 + '     <div style="float:right;height:95%;overflow:hidden;width: 56%;background-color:#ffffff"> '
-                                + '         <img   style="display:block;max-width:90%;max-height:90%;width:auto;height:auto;" src="http://issolutions.esy.es/ma/www/php/image/'
+                                + '         <img style="display:block;max-width:90%;max-height:90%;width:auto;height:auto;" src="http://issolutions.esy.es/ma/www/php/image/'
                                 +               punt.imatge 
                                 + '         " />'
                                 + '     </div>   ' ;    
@@ -702,6 +702,7 @@
                 visor.posicioCamera = e.latlng;
                // missatgePeuMapa('<a class="btn btn-danger" onclick="uploadfromGallery()"> <img class="" src="images/camera-icon.png" style=" width: 30px; height: 30px;" />Captura </a>' );
                 missatgePeuMapa('<div onclick="uploadFromGallery();" style="width: 40%; margin-left: 30%; margin-top: 0.3em; border-radius: 10px; color: rgb(255, 255, 255); text-shadow: 0px 0px rgb(0, 0, 0); background-color: rgb(196, 13, 1);"> Activa Càmera <i class="fa fa-camera "/>  ' )                
+                ajustaFinestres();    
             }
 
     
