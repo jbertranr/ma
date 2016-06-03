@@ -222,6 +222,12 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
+            $("#peuMapa").on("swipe", function (evt) {
+                missatgePeuMapa('<div onclick="uploadFromGallery();" style="width: 40%; margin-left: 30%; margin-top: 0.3em; border-radius: 10px; color: rgb(255, 255, 255); text-shadow: 0px 0px rgb(0, 0, 0); background-color: rgb(196, 13, 1);"> Activa Càmera <i class="fa fa-camera "/>  ' )  ; 
+                ajustaFinestres();
+            });
+            
+            
             //-- Inicia llistaElements          
             $( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -571,8 +577,8 @@
                                 + '         <div style="max-height:19%;overflow:hiden;clear: both; height: auto; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 3em; font-size: 0.7em;">'
                                 +               punt.adreca
                                 + '         </div>'
-                                + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 9em;overflow: hidden;">'
-                                + '             <b> Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada.  Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada </b>'
+                                + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 7.8em;overflow: hidden;">'
+                                + '             Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada.  Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada '
                                 + '         </div>   '
                                 + '     </div>   '                               
                                 + '     <div style="float:right;height:95%;overflow:hidden;width: 56%;background-color:#ffffff"> '
@@ -775,7 +781,7 @@
             <!------------------ Footer --------------->
 
             <!--div data-role="footer" --> 
-                <div id="peuMapa" style="display:block;position: fixed; text-align: center; font-size: 1.1em; background-color: rgb(255, 255, 255); border-radius: 0px; bottom: 0px; left: 0px; width: 100%; opacity: 1; color: rgb(122, 122, 122); height: 2em">
+                <div id="peuMapa" style="box-shadow:0px 5px 12px 4px #232323;display:block;position: fixed; text-align: center; font-size: 1.1em; background-color: rgb(255, 255, 255); border-radius: 0px; bottom: 0px; left: 0px; width: 100%; opacity: 1; color: rgb(122, 122, 122); height: 2em">
 
                 </div>
             <!--/div-->
