@@ -333,7 +333,8 @@
                     case 'mostraFoto':
                         if ( foto == visor.data.length - 1 ) { foto = 1 }
                         // if ( foto < 9 && foto > 0 ) { 
-                            var punt = visor.data[visor.data.length - foto];
+                            visor.map.panTo([punt.den_y, punt.den_x]);
+							var punt = visor.data[visor.data.length - foto];
                             var seguentFoto = foto + 1;
                             txtPeu =  '   <div style="width:100%;height:215px;overflow:hidden"> '                                 
                                         + '     <div style="display: block; text-align: center; font-size: 1em; border-radius: 0px; bottom: 0px; left: 0px; width: 100%; opacity: 1; color: rgb(122, 122, 122); height: 0.3em; background-color: rgb(255, 255, 255);"></div>'
@@ -347,10 +348,10 @@
                                         + '         <div style="float:left;font-weight:bold;font-size:1.0em;height:auto;background-color:#ffffff;width:100%;text-align:left;margin-top:-0.6em">'
                                         +               punt.data_imatge
                                         + '         </div>'
-                                        + '         <div style="max-height:19%;overflow:hiden;clear: both; height: auto; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 3em; font-size: 0.7em;">'
+                                        + '         <div style="max-height:20%;overflow:hidden;clear: both; height: auto; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 3em; font-size: 0.7em;">'
                                         +               punt.adreca
                                         + '         </div>'
-                                        + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 7.8em;overflow: hidden;">'
+                                        + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 6.8em;overflow: hidden;">'
                                         + '             Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada.  Fanal malmès per l\'estat de l\'asfalt i altres situacions visualitzades a la calçada '
                                         + '         </div>   '
                                         + '     </div>   '                               
@@ -758,8 +759,8 @@
              <div data-role="content" id="contMapa" style="border-top:1px solid rgb(211,211,211);clear:both;padding-top:15px"> 
             
                 <div class="caixaControl" >             
-                    <div id="troba1" class="controlMapa" onclick="visor.map.zoomIn();">+</div>
-                    <div id="troba2" class="controlMapa controlMapa-junt" onclick="visor.map.zoomOut()">-</div>
+                    <!--div id="troba1" class="controlMapa" onclick="visor.map.zoomIn();">+</div>
+                    <!--div id="troba2" class="controlMapa controlMapa-junt" onclick="visor.map.zoomOut()">-</div -->
                     <div id="troba3" class="controlMapa controlMapa-separat" onclick="visor.locate.start();">
                         <img width=44 src="images/locate.png">
                     </div>
@@ -772,8 +773,8 @@
                     <div onclick="recuperaElements();$.mobile.changePage($('#llistaElements'),'pop');" class="controlMapa controlMapa-separat" id="troba5">
                         <img style="margin-top:5px" width="24" height="40" src="images/llista.png">                 
                     </div-->
-                    <div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="display:block;right:0px" id="troba6">
-                        <img style="margin-top:5px;" width="29" height="34" src="images/camera.png">
+                    <!--div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="display:block;right:0px" id="troba6">
+                        <img style="margin-top:5px;" width="29" height="34" src="images/camera.png" -->
                     </div>
                 </div>  
                 
