@@ -7,7 +7,7 @@
 			version = "1.0.0">
 
     <name>Risc Animal</name>
-	<gap:splash src="home.jpg" />
+	<gap:splash src="splash.png" />
 	<preference name="SplashMaintainAspectRatio" value="true" />
     <description> 
         App per identificar situacions de risc animal
