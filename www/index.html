@@ -218,7 +218,8 @@
             $(window).bind('resize', function () {ajustaFinestres();});
             
             $("#peuMapa").on("swipe", function (evt) {
-                missatgePeuMapa( 'fesFoto' )  ; 
+                alert('swipe');
+				missatgePeuMapa( 'fesFoto' )  ; 
                 ajustaFinestres();
             });
             
@@ -692,8 +693,8 @@
             // Situar la icona de la càmera
             function placeCamera(e){
                 visor.map.removeLayer(visor.markerCamera);
-                var iconSizeX = 30;
-                var iconSizeY = 30;             
+                var iconSizeX = 030;
+                var iconSizeY = 030;             
                 var iconMap = L.icon({
                     iconUrl: 'images/camera-icon.png',
                     iconSize:     [iconSizeX, iconSizeY], 	// size of the icon
