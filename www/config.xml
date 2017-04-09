@@ -60,7 +60,7 @@
     <gap:plugin name="org.apache.cordova.network-information" source="npm" />
     <gap:plugin name="org.apache.cordova.splashscreen" source="npm" />
     <gap:plugin name="org.apache.cordova.vibration" source="npm"/>
-    <gap:plugin name="com.phonegap.plugin.statusbar" source="npm"/>
+    <gap:plugin spec="https://github.com/phonegap-build/StatusBarPlugin.git" source="npm" />
 
     <!-- Third party plugins -->
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
