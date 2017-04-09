@@ -6,7 +6,10 @@
 			id = "com.phonegap.riscanimal"
 			version = "1.0.0">
 
-    <name>Risc Animal</name>
+    <access origin="*" />
+    <allow-intent href="*" />
+    <allow-navigation href="*" />
+	<name>Risc Animal</name>
 	<gap:splash src="splash.png" />
 	<preference name="SplashMaintainAspectRatio" value="true" />
     <description> 
