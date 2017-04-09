@@ -6,15 +6,16 @@
 			id = "com.phonegap.riscanimal"
 			version = "1.0.0">
 
-    <access origin="*" />
-    <allow-intent href="*" />
-    <allow-navigation href="*" />
+  
 	<name>Risc Animal</name>
 	<gap:splash src="splash.png" />
 	<preference name="SplashMaintainAspectRatio" value="true" />
     <description> 
         App per identificar situacions de risc animal
     </description>
+	<access origin="*" />
+    <allow-intent href="*" />
+    <allow-navigation href="*" />
 	<preference name="android-build-tool" value="gradle" />
 	<preference name="phonegap-version" value="cli-6.4.0" />
 
@@ -27,7 +28,6 @@
 	permission on your app, which PhoneGap requires.	
 	-->
     <!--preference name="permissions" value="none"/-->
-	<preference name="phonegap-version" value="cli-6.4.0" />
     <!-- Customize your app and platform with the preference element. -->
     <!-- <preference name="phonegap-version" value="cli-6.1.0" /> Nova versió no funciona  -->
     <preference name="orientation" value="default" /> <!-- all: default means both landscape and portrait are enabled -->
@@ -65,6 +65,7 @@
     <gap:plugin name="org.apache.cordova.network-information" source="npm" />
     <gap:plugin name="org.apache.cordova.splashscreen" source="npm" />
     <gap:plugin name="org.apache.cordova.vibration" source="npm"/>
+	<gap:plugin name="cordova-plugin-whitelist" version="1.1.0" source="npm" />
     <gap:plugin spec="https://github.com/phonegap-build/StatusBarPlugin.git" source="npm" />
 
     <!-- Third party plugins -->
