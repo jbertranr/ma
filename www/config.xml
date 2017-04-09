@@ -12,6 +12,7 @@
     <description> 
         App per identificar situacions de risc animal
     </description>
+	<preference name="android-build-tool" value="gradle" />
 
     <!--author href="http://phonegap.com" email="support@phonegap.com">
         PhoneGap Team
