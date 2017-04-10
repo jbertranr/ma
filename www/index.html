@@ -337,8 +337,8 @@
 						// if ( foto < 9 && foto > 0 ) { 
                             var punt = visor.data[visor.data.length - foto];
 							setTimeout(function(){visor.map.panTo([punt.den_y, punt.den_x]);},300);
-                            var seguentFoto = foto + 1;
-                            var anteriorFoto = foto - 1;
+                            var seguentFoto = foto - 1;
+                            var anteriorFoto = foto + 1;
 							txtPeu =      '   <div style="z-index:0;border-top: 2px solid #b9b900;width:100%;height:215px;overflow:hidden"> '                                 
                                         + '     <div style="display: block; text-align: center; font-size: 1em; border-radius: 0px; bottom: 0px; left: 0px; width: 100%; opacity: 1; color: rgb(122, 122, 122); height: 0.3em; background-color: rgb(255, 255, 255);"></div>'
                                         + '     <div style="overflow:hidden;margin-top:1em;margin-left:1em;float:left;font-size:0.8em;height:86%;background-color:#ffffff;width:40%;text-align:left"> '
