@@ -352,14 +352,14 @@
                                         + '         <div style="max-height:20%;overflow:hidden;clear: both; height: auto; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 3em; font-size: 0.7em;">'
                                         +               punt.adreca
                                         + '         </div>'
-                                        + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
-                                        + '             Avís de situació de risc animal detectada a la via pública.  Intervenció immediata necessària.'
+                                        + '         <div  onclick ="$.mobile.changePage($(\'#imatgePujada\'),\'pop\');" style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
+                                        + '             Introduïu una breu descripció'
                                         + '         </div>   '
-                                        + '         <div style="background-color:#ffffff;float:right;font-weight:bold;font-size:1.8em;height:1.3em;width:36%;text-align:left;margin-top:-0.2em">'
+                                        + '         <div style="background-color:#ffffff;float:right;font-weight:bold;font-size:1.8em;height:1.3em;width:100%;text-align:left;margin-top:-0.2em">'
                                         + ' 	        <i class="fa fa-arrow-left" onclick="missatgePeuMapa( \'mostraFoto\','
                                         +                  anteriorFoto 
                                         + '             );"/>'
-                                        + ' 	    	<i class="fa fa-arrow-right" onclick="missatgePeuMapa( \'mostraFoto\','
+                                        + ' 	    	<i style="float:left" class="fa fa-arrow-right" onclick="missatgePeuMapa( \'mostraFoto\','
                                         +                 seguentFoto 
                                         + '             );"/>'
 										+ '          </div>'                                        
@@ -760,7 +760,7 @@
 					<img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png">
 				</div>
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
-					<div style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> Alerta Situació </div>
+					<div onclick ="$.mobile.changePage($('#imatgePujada'),'pop');" style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> Alerta Situació </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Risc Animal </div>
 				</div>
 				<div id="troba5" style="float: right; margin-top: -1.3em;height:24px ; font-size: 1.5em; width: 5%;margin-right: 9px;" onclick="navigator.app.exitApp();">
@@ -841,7 +841,7 @@
             </div>
             
 
-            <!--div data-role="footer"  id = "footer" style="box-shadow: 0 0 8px 2px rgb(68, 68, 68);"> 
+        <!--div data-role="footer"  id = "footer" style="box-shadow: 0 0 8px 2px rgb(68, 68, 68);"> 
                 <div data-type="horizontal" data-role="controlgroup" style="text-align:center;">    
                     <a onclick="nextOverlayLayer(-1)" href="#" style="width:30px;height:16px;"  class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-l"></a>
                     <a style="margin-top: 0px;width:120px" id="layerName"   class="ui-btn ">Layers</a>
@@ -864,7 +864,10 @@
             
 
             <div data-role="content" id="contImatgePujada"> 
-                <div id="divImatgePujada" style="height:300px"></div>               
+                <form>
+					<label for="textarea-1">Descripció</label>
+					<textarea name="textarea-1" id="textarea-1"></textarea>
+			    </form>            
             </div>
             <div data-role="footer">
                 <h1>Dades enregistrades</h1>
