@@ -161,7 +161,7 @@
                 'markerGroup': null,
                 'markerGroupDetail': null,
                 'llistaInicial': 0,
-                'map' : {}, //  Objecte Leaflet del mapa
+                //'map' : {}, //  Objecte Leaflet del mapa
                 'mapDetail' : {}, //    Objecte Leaflet del mapa Detall
                 'wpid' : 0,
                 'modeNavegacio' : null,
@@ -228,7 +228,7 @@
                 ajustaFinestres();
             });
             
-            
+            $('#frmActDesc').submit(actualitzaDescripcio);
             //-- Inicia llistaElements          
             $( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -270,48 +270,51 @@
             //-- Inicialització del mapa 
 			
             function inicialitzaMapa(){                 
-                visor.map = L.map('map', { zoomControl:false, detectRetina:true });
-                visor.popup = L.popup();
-                var opcionsBase= 'google';
-                visor.map.setView([41.37, 2.15], 12);   
-                
-                switch (opcionsBase){
-                    case 'mapbox':           
-                        var capa = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        });
-                        break;
-                    
-                    case 'googleSat':
-                        var capa = new L.Google('');
-                        break;
-                
-                    case 'google':
-                        var capa = new L.Google('map');
-                        break;   
-                    
-                    default :
-                        var capa = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-                            maxZoom: 18,
-                            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
-                                +
-                                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                            id: 'examples.map-i875mjb7'
-                        });
-                        break;
-                }   
+ 	
+				if ( visor.map == undefined) {
+					visor.map = L.map('map', { zoomControl:false, detectRetina:true });
+					visor.popup = L.popup();
+					var opcionsBase= 'google';
+					visor.map.setView([41.37, 2.15], 12);   
+					
+					switch (opcionsBase){
+						case 'mapbox':           
+							var capa = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+										attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+							});
+							break;
+						
+						case 'googleSat':
+							var capa = new L.Google('');
+							break;
+					
+						case 'google':
+							var capa = new L.Google('map');
+							break;   
+						
+						default :
+							var capa = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+								maxZoom: 18,
+								attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+									+
+									'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+									'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+								id: 'examples.map-i875mjb7'
+							});
+							break;
+					}   
 
-                visor.map.addLayer(capa);
-                // -- Event en fer click    
-                visor.map.on('click', function(e) {        
-                                        placeCamera(e);
-                                        recuperaAdreca(e.latlng);    
-                                    });
-                             
-                missatgePeuMapa( 'buscaPosicio' ); 
-                activaLocator();                               
-            }
+					visor.map.addLayer(capa);
+					// -- Event en fer click    
+					visor.map.on('click', function(e) {        
+											placeCamera(e);
+											recuperaAdreca(e.latlng);    
+										});
+								 
+					missatgePeuMapa( 'buscaPosicio' ); 
+					activaLocator();                               
+				} 
+			}
 			
             function missatgePeuMapa( contingut, foto ){
 			
@@ -583,6 +586,39 @@
 				});             				
             }
 
+			function actualitzaDescripcio() {
+				//alert('actDesc');
+				var params = {};
+                params.codi= 'Joan';
+                params.usuari_codi = 'Gomis';
+				//params.adreca = visor.adrecaOSM;
+                params.descripcio = 'Simulació de descripcio';
+                //params.imatge = options.fileName;//file.name;
+                params.den_x = parseFloat(visor.posicioCamera.lng);
+                params.den_y = parseFloat(visor.posicioCamera.lat);
+                params.usu_x = parseFloat(visor.posicioCamera.lng);
+                params.usu_y = parseFloat(visor.posicioCamera.lat);                
+                //options.params = params;
+				visor.params = params;				
+				visor.params.descripcio = 'ssss' ;//$('#textarea-1').val();
+				//alert(visor.params.codi);
+				$.ajax({
+					url: "http://issolutions.esy.es/ma/www/php/update.php", 
+					type: "POST",
+					data: visor.params,
+					success: function(){
+						recuperaElements();
+						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
+					},
+					error: function(xhr, textStatus, errorThrown){
+						alert("Error detectat. Tona a introduir descripció." + xhr.responseText 
+							+ "\nstatus: " + textStatus 
+							+ "\nerror: " + errorThrown);
+					}                                       
+				});             				
+            }
+			
+			
             function ftFail(error) {
                 alert("La imatge no s'ha pujat. Intenta-ho de nou");
                 //console.log("upload error source " + error.source);
@@ -868,9 +904,21 @@
             
 
             <div data-role="content" id="contImatgePujada"> 
-                <form>
+                <form id="frmActDesc" data-ajax="false" >
 					<label for="textarea-1">Descripció</label>
 					<textarea name="textarea-1" id="textarea-1"></textarea>
+					<fieldset data-role="controlgroup">
+						<legend>Identifica la situació de risc</legend>
+							<input name="radio-choice-1" id="radio-choice-1" value="choice-1" checked="checked" type="radio">
+							<label for="radio-choice-1">Molt alt</label>
+							<input name="radio-choice-1" id="radio-choice-2" value="choice-2" type="radio">
+							<label for="radio-choice-2">Alt</label>
+							<input name="radio-choice-1" id="radio-choice-3" value="choice-3" type="radio">
+							<label for="radio-choice-3">Mig</label>
+							<input name="radio-choice-1" id="radio-choice-4" value="choice-4" type="radio">
+							<label for="radio-choice-4">Baix</label>
+					</fieldset>
+					<button onclick="actualitzaDescripcio()" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Enviar les dades</button>
 			    </form>            
             </div>
             <div data-role="footer">
