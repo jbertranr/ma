@@ -360,9 +360,11 @@
                                         + '         <div style="max-height:20%;overflow:hidden;clear: both; height: auto; background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 3em; font-size: 0.7em;">'
                                         +               punt.adreca
                                         + '         </div>'
-                                        + '         <div  onclick ="$.mobile.changePage($(\'#imatgePujada\'),\'pop\');" style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
+                                        + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
+                                        + '             <a href="#imatgePujada" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" data-transition="pop">'
                                         +               punt.descripcio
-                                        + '         </div>   '
+										+ '             </a>'                                        
+										+ '         </div>   '
                                         + '         <div style="background-color:#ffffff;float:right;font-weight:bold;font-size:1.8em;height:1.3em;width:100%;text-align:left;margin-top:-0.2em">'
                                         + ' 	        <div style="width:40%;float:left">'
 										+ ' 	           <i class="fa fa-arrow-left" onclick="missatgePeuMapa( \'mostraFoto\','
@@ -592,7 +594,7 @@
             }
 
 			function actualitzaDescripcio() {
-								
+				//$.mobile.back();				
 				var params = {};
                 params.codi= visor.codiAvisVigent;
                 params.usuari_codi = null;
@@ -610,7 +612,7 @@
 					type: "POST",
 					data: visor.params,
 					success: function(){
-					    $('#imatgePujada').dialog('close');
+					    //$('#imatgePujada').dialog('close');
 						recuperaElements();
 						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
 					},
@@ -803,7 +805,12 @@
 					<img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png">
 				</div>
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
-					<div onclick ="$.mobile.changePage($('#imatgePujada'),'pop');" style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> Alerta Situació </div>
+					
+					<div style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> 
+						<a href="#imatgePujada" data-transition="pop">	
+							Alerta Situació
+						</a>			
+				     </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Risc Animal </div>
 				</div>
 				<div id="troba5" style="float: right; margin-top: -1.3em;height:24px ; font-size: 1.5em; width: 5%;margin-right: 9px;" onclick="navigator.app.exitApp();">
@@ -910,18 +917,9 @@
                 <form id="frmActDesc" data-ajax="false" >
 					<label for="textarea-1">Descripció</label>
 					<textarea name="textarea-1" id="textarea-1"></textarea>
-					<fieldset data-role="controlgroup">
-						<legend>Identifica la situació de risc</legend>
-							<input name="radio-choice-1" id="radio-choice-1" value="choice-1" checked="checked" type="radio">
-							<label for="radio-choice-1">Molt alt</label>
-							<input name="radio-choice-1" id="radio-choice-2" value="choice-2" type="radio">
-							<label for="radio-choice-2">Alt</label>
-							<input name="radio-choice-1" id="radio-choice-3" value="choice-3" type="radio">
-							<label for="radio-choice-3">Mig</label>
-							<input name="radio-choice-1" id="radio-choice-4" value="choice-4" type="radio">
-							<label for="radio-choice-4">Baix</label>
-					</fieldset>
-					<button onclick="actualitzaDescripcio()" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Enviar les dades</button>
+					<a onclick="actualitzaDescripcio()" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#" data-rel="back">
+						Enviar les dades
+				    </a>
 			    </form>            
             </div>
             <div data-role="footer">
