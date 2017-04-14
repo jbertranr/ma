@@ -602,8 +602,8 @@
                 params.usu_x = parseFloat(visor.posicioCamera.lng);
                 params.usu_y = parseFloat(visor.posicioCamera.lat);                
 				visor.params = params;				
-				visor.params.descripcio = 'ssss' ;
-				//$('#textarea-1').val();
+				visor.params.descripcio = $('#textarea-1').val() ;
+				//;
 				//alert(visor.params.codi);
 				$.ajax({
 					url: "http://issolutions.esy.es/ma/www/php/update.php", 
