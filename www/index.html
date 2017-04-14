@@ -610,6 +610,7 @@
 					type: "POST",
 					data: visor.params,
 					success: function(){
+					    $.mobile.changePage($('#pageMap'));
 						recuperaElements();
 						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
 					},
