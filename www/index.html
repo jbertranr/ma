@@ -606,8 +606,7 @@
 					url: "http://issolutions.esy.es/ma/www/php/update.php", 
 					type: "POST",
 					data: visor.params,
-					success: function(retorn){
-						alert(retorn);
+					success: function(){
 						recuperaElements();
 						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
 					},
