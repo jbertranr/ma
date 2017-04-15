@@ -614,8 +614,8 @@
 					success: function(){
 					    //$('#imatgePujada').dialog('close');
 						recuperaElements();
-						$.mobile.changePage($('#imatgePujada'),'pop');
-						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
+						
+						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );$.mobile.changePage($('#imatgePujada'),'pop');}, 700);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Tona a introduir descripció." + xhr.responseText 
