@@ -361,7 +361,7 @@
                                         +               punt.adreca
                                         + '         </div>'
                                         + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
-                                        + '             <a href="#imatgePujada" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" data-transition="pop">'
+                                        + '             <a href="#imatgePujada" class="" data-transition="pop">'
                                         +               punt.descripcio
 										+ '             </a>'                                        
 										+ '         </div>   '
@@ -614,6 +614,7 @@
 					success: function(){
 					    //$('#imatgePujada').dialog('close');
 						recuperaElements();
+						$.mobile.changePage($(\'#imatgePujada\'),\'pop\');                                        + '             <a href="#imatgePujada" class="" data-transition="pop">'
 						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
