@@ -583,7 +583,7 @@
 					data: visor.params,
 					success: function(){
 						recuperaElements();
-						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
+						setTimeout(function(){$.mobile.changePage($('#imatgePujada'),'pop');}, 700);missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Puja-la de nou." + xhr.responseText 
@@ -615,7 +615,7 @@
 					    //$('#imatgePujada').dialog('close');
 						recuperaElements();
 						
-						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );$.mobile.changePage($('#imatgePujada'),'pop');}, 700);//creaImatgePujada(visor.params);
+						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Tona a introduir descripció." + xhr.responseText 
