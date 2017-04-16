@@ -612,9 +612,9 @@
 					type: "POST",
 					data: visor.params,
 					success: function(){
-					    //$('#imatgePujada').dialog('close');
-						recuperaElements();						
-						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 )},500);//creaImatgePujada(visor.params);
+					    $('#imatgePujada').dialog('close');
+						recuperaElements();
+						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Tona a introduir descripció." + xhr.responseText 
