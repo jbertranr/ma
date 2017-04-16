@@ -361,7 +361,7 @@
                                         +               punt.adreca
                                         + '         </div>'
                                         + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
-                                        + '             <a href="#imatgePujada" class="" data-transition="pop">'
+                                        + '             <a id="editaDesc" href="#imatgePujada" class="" data-transition="pop">'
                                         +               punt.descripcio
 										+ '             </a>'                                        
 										+ '         </div>   '
@@ -583,7 +583,7 @@
 					data: visor.params,
 					success: function(){
 						recuperaElements();
-						setTimeout(function(){ missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
+						setTimeout(function(){ $( "#editaDesc" ).trigger( "click" );missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Puja-la de nou." + xhr.responseText 
@@ -807,7 +807,7 @@
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
 					
 					<div style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> 
-						<a href="#imatgePujada" data-transition="pop">	
+						<a id="activa" href="#imatgePujada" data-transition="pop">	
 							Alerta Situació
 						</a>			
 				     </div>
