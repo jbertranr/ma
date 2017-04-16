@@ -583,7 +583,7 @@
 					data: visor.params,
 					success: function(){
 						recuperaElements();
-						setTimeout(function(){$.mobile.changePage($('#imatgePujada'),'pop');missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
+						setTimeout(function(){ missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Puja-la de nou." + xhr.responseText 
