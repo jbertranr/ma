@@ -10,9 +10,6 @@
         <link rel="stylesheet" href="js/locate/L.Control.Locate.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">    
 		<script type="text/javascript">
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			WebView.setWebContentsDebuggingEnabled(true);
-		}
 //			document.addEventListener('deviceready', function() {
 //				var url = 'https://www.google.com' // change to whatever you want
 //				cordova.InAppBrowser.open(url, '_self', 'location=no');
@@ -574,8 +571,8 @@
                 options.params = params;
 				visor.params = params;
                 var ft = new FileTransfer();
-                ft.upload(imageURI, encodeURI("http://www.municipi.net/app/php/upload.php"), ftWin, ftFail, options,true);
-		//		ft.upload(imageURI, encodeURI("http://issolutions.esy.es/ma/www/php/upload.php"), ftWin, ftFail, options,true);				
+        //        ft.upload(imageURI, encodeURI("http://www.municipi.net/app/php/upload.php"), ftWin, ftFail, options,true);
+				ft.upload(imageURI, encodeURI("http://issolutions.esy.es/ma/www/php/upload.php"), ftWin, ftFail, options,true);				
             } 
 
             function ftWin(r) {
