@@ -209,6 +209,7 @@
                 $('#pageMap').trigger('pagecreate');
                 if (visor.actiu == 0){
                     inicialitzaMapa(); 
+					
                     visor.actiu = 1;    
                 }    
             });
@@ -242,6 +243,8 @@
             //}
             
             //-- Intentar fer tots els ajustaments en aquesta funció
+			setTimeout(function(){recuperaDarrerAvis();},3000); // treure només test
+			
             function ajustaFinestres(){         
                 var resizeTimer = null;         
                 if (resizeTimer) clearTimeout(resizeTimer);         
@@ -629,7 +632,79 @@
                 //console.log("upload error target " + error.target);
             }       
 
-            //-- Ajax per recuperar punts 
+			//-- Ajax per recuperar punts 
+            function recuperaDarrerAvis() {
+              //visor.map.removeLayer(visor.totMarker);
+                //alert('dsdsd');
+				$.mobile.changePage( "#avisMapa");
+				$.ajax({
+                    type: "POST",
+                    url: "http://issolutions.esy.es/ma/www/php/select.php",
+                    contentType: "application/json; charset=ISO-8859-1",
+                    dataType: "json",
+                    success: function( data ) {   
+						$.each(visor.data,function(i,punt){
+							if (i == 9){
+								$('#textarea-1').val(punt.adreca);
+								$('#imatge-1').attr('src','http://issolutions.esy.es/ma/www/php/image/' + punt.imatge ); 
+								//alet(punt.codi);
+							}
+					    });
+                    /*    visor.data = data;
+                        visor.totMarker = new L.FeatureGroup();
+                        var iconSizeX = 30;
+                        var iconSizeY = 45;             
+                        var iconMap = L.icon({
+                            iconUrl: 'images/marker-icon-red.png' ,
+                            shadowUrl: 'images/marker-shadow.png',
+                            iconSize:     [iconSizeX, iconSizeY], // size of the icon
+                            shadowSize:   [32, 32],  // size of the shadow
+                            iconAnchor:   [15, 45],  // point of the icon which will correspond to marker's location
+                            shadowAnchor: [ 10, 30], // the same for the shadow
+                            popupAnchor:  [ 0,-45]   // point from which the popup should open relative to the iconAnchor
+                        });       
+                        
+                        $.each(visor.data,function(i,punt){
+                            var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
+                                .bindPopup('  <div>'
+                                            +     punt.data_imatge
+                                            + '</div>'
+                                            + '<div><b>'
+                                            + punt.adreca
+                                            + '</b></div>'
+                                            +    '<img width=150 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
+                                            +       punt.imatge 
+                                            +       '?d='
+                                            +       new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
+                                            + '" />');
+                            visor.totMarker.addLayer(marker);
+                            visor.map.addLayer(visor.totMarker);
+                        });*/
+                    },
+					error:function(){alert('sss');}
+                });
+            }  
+            
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//-- Ajax per recuperar punts 
             function recuperaElements() {
                 visor.map.removeLayer(visor.totMarker);
                 $.ajax({
@@ -837,6 +912,31 @@
         </div>
 
 
+        <!--------------------------------  Pàgina Fitxa avís mapa --------------------------------->        
+        <div data-role="page" data-dialog="false" id="avisMapa"> 
+            <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
+                 <h1>Imatge pujada</h1> 
+            </div>           
+
+            <div data-role="content" id="contImatgePujada"> 
+                <form id="frmImatgePujada" data-ajax="false" >
+					<label for="textarea-1">Descripció</label>
+					<textarea name="textarea-1" id="textarea-1"></textarea>
+					<img style=' width:100%' id="imatge-1" src=""/> 
+					<a onclick="actualitzaDescripcio()"  data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#imatgePujada2">
+						Enviar les dades
+				    </a>
+			    </form>            
+            </div>
+
+			
+            <div data-role="footer">
+                <h1>Tots els elements trobats</h1>
+            </div>          
+			
+        </div>		
+		
+		
         
         <!--------------------------------  Pàgina Detall Element --------------------------------->        
         <div data-role="page" data-dialog="true" id="llistaElements"> 
