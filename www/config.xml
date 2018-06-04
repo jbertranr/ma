@@ -66,7 +66,7 @@
     <gap:plugin name="cordova-plugin-media" source="npm"/>
     <gap:plugin name="cordova-plugin-network-information" source="npm" />
     <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
-    <gap:plugin name="cordova-plugin-vibration" source="npm"/>
+    <gap:plugin name="cordova-plugin-vibration" source="npm"/> 
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <gap:plugin spec="https://github.com/phonegap-build/StatusBarPlugin.git" source="npm" />
 
