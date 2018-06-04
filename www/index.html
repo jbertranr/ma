@@ -571,7 +571,8 @@
                 options.params = params;
 				visor.params = params;
                 var ft = new FileTransfer();
-                ft.upload(imageURI, encodeURI("http://issolutions.esy.es/ma/www/php/upload.php"), ftWin, ftFail, options,true);                                       
+                ft.upload(imageURI, encodeURI("http://www.municipi.net/app/php/upload.php"), ftWin, ftFail, options,true);
+		//		ft.upload(imageURI, encodeURI("http://issolutions.esy.es/ma/www/php/upload.php"), ftWin, ftFail, options,true);				
             } 
 
             function ftWin(r) {
@@ -801,7 +802,7 @@
 			</div>
             
             <!------------------ Content --------------->
-             <div data-role="content" id="contMapa" style="border-top:1px solid rgb(211,211,211);clear:both;padding-top:14px"> 
+             <div data-role="content" id="contMapa" style="border-top:1px solid rgb(211,211,211);clear:both;padding-top:14px;padding-left:0px;"> 
             
                 <div class="caixaControl" >             
 
