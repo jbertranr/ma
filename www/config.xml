@@ -53,8 +53,8 @@
     <plugin name="cordova-plugin-camera" source="npm" />
     <plugin name="cordova-plugin-media-capture" source="npm" />
     <plugin name="cordova-plugin-console" source="npm" />
-    <!--plugin name="org.apache.cordova.device" />
-    <plugin name="cordova-plugin-device-motion" source="npm"/>
+    <!--plugin name="org.apache.cordova.device" /-->
+    <!--plugin name="cordova-plugin-device-motion" source="npm"/>
     <plugin name="cordova-plugin-device-orientation"  source="npm"/>
     <plugin name="cordova-plugin-dialogs" source="npm"/>
     <plugin name="cordova-plugin-file" source="npm"/>
