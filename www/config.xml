@@ -49,11 +49,11 @@
     <!-- Plugins -->
 
     <!-- Core plugins -->
-    <!--plugin name="org.apache.cordova.battery-status" /-->
+    <!--plugin name="org.apache.cordova.battery-status" />
     <plugin name="cordova-plugin-camera" source="npm" />
     <plugin name="cordova-plugin-media-capture" source="npm" />
     <plugin name="cordova-plugin-console" source="npm" />
-    <!--plugin name="org.apache.cordova.device" /-->
+    <!--plugin name="org.apache.cordova.device" />
     <plugin name="cordova-plugin-device-motion" source="npm"/>
     <plugin name="cordova-plugin-device-orientation"  source="npm"/>
     <plugin name="cordova-plugin-dialogs" source="npm"/>
@@ -67,7 +67,46 @@
     <plugin name="cordova-plugin-splashscreen" source="npm" />
     <plugin name="cordova-plugin-vibration" source="npm"/> 
 	<plugin name="cordova-plugin-whitelist" source="npm" />
-    <plugin spec="https://github.com/phonegap-build/StatusBarPlugin.git" source="npm" />
+    <plugin spec="https://github.com/phonegap-build/StatusBarPlugin.git" source="npm" /-->
+	
+    <plugin name="cordova-plugin-whitelist" spec="*" />
+    <plugin name="cordova.plugins.diagnostic" spec="*" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <plugin name="cordova-plugin-device" spec="^2.0.1" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
+	<plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
+	<plugin name="cordova-plugin-camera" spec="^4.0.2" />
+	<plugin name="cordova-plugin-dialogs" spec="^2.0.1" />
+	<plugin name="cordova-plugin-inappbrowser" spec="^2.0.2" />
+	<plugin name="cordova-plugin-media" spec="^5.0.2" />
+	<plugin name="cordova-plugin-media-capture" spec="^3.0.1" />
+	<plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
+	<plugin name="cordova-plugin-network-information" spec="^2.0.1" />	
+	<plugin name="cordova-plugin-statusbar" spec="^2.4.1" />	
+	<plugin name="cordova-plugin-vibration" spec="^3.0.1" />
+    <engine name="android" spec="latest" />
+    <!--engine name="ios" spec="latest" />
+    <engine name="windows" spec="latest" /-->	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
     <!-- Third party plugins -->
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
