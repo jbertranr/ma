@@ -19,8 +19,15 @@
     <allow-navigation href="*" />
 	<!--preference name="android-build-tool" value="gradle" / -->
     <preference name="phonegap-version" value="cli-7.1.0" />	
-    <platform name="android"/>
-    
+	<platform name="android">
+		<config-file parent="/*" target="AndroidManifest.xml">
+			<uses-permission android:name="android.permission.CAMERA" />
+			<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+			<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+			<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+		</config-file>
+	</platform>
+		
 	<!--platform name="ios"/-->
 
     <!--author href="http://phonegap.com" email="support@phonegap.com">
