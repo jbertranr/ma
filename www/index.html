@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
     <head>
         <title>Animals en Risc</title>
@@ -140,8 +139,7 @@
             .cubPetitUnitat {margin-bottom:7px;font-size:0.6em;margin-top:0em;height:10px;font-family:novaFont }
             .cubsContenidor { width:100%;height:125px;clear:both;border-bottom: 1px dotted #dddddd;overflow:hidden; padding-bottom:4px;}
             .iconWrapper { float:right;margin-right:30px;margin-top:15px}
-            
-            
+            .botoDescripcioActiu {margin-top: 0.6em; font-size: 1em; overflow: hidden; height: auto; width: 200px; text-align: center; color: rgb(255, 255, 255); background-color: rgb(130, 2, 10)}            
         </style>
       
 		<script src="phonegap.js"></script>
@@ -155,7 +153,8 @@
         <script type="text/javascript"> 
 
             var visor = {
-                'actiu' : 0,
+                'resposta' : [{"codi":"1286","usuari_codi":"0","adreca":"Casa dels francesos, Carrer Trafalgar, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 21:32:33","descripcio":"Rfffffdddfddd","imatge":"1492378360228.jpg","den_x":"2.3882335424423218","den_y":"41.504160132476564","usu_x":"2.3882335424423218","usu_y":"41.504160132476564"},{"codi":"1287","usuari_codi":"0","adreca":"Casa dels francesos, Carrer Trafalgar, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 21:36:09","descripcio":"Rfffff","imatge":"1492378575221.jpg","den_x":"2.388042944676272","den_y":"41.503662199338535","usu_x":"2.388042944676272","usu_y":"41.503662199338535"},{"codi":"1288","usuari_codi":"0","adreca":"Carrer de Santa Maria, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 21:37:13","descripcio":"Rfffff","imatge":"1492378639662.jpg","den_x":"2.3876781642502465","den_y":"41.50325643214635","usu_x":"2.3876781642502465","usu_y":"41.50325643214635"},{"codi":"1289","usuari_codi":"0","adreca":"Pla\u00e7a Jeroni Gelpi, Avinguda de l'Escultor Monjo, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 21:38:06","descripcio":"Tfffff dhdhdhrhehe sgsgsgsg sgsgsgsg sgsgsgsg dndh","imatge":"1492378691955.jpg","den_x":"2.3885138922196347","den_y":"41.50461938206671","usu_x":"2.3885138922196347","usu_y":"41.50461938206671"},{"codi":"1290","usuari_codi":"0","adreca":"Casa dels francesos, Carrer Trafalgar, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 21:54:33","descripcio":"Tfffff","imatge":"1492379680079.jpg","den_x":"2.388378381729126","den_y":"41.503432969315305","usu_x":"2.388378381729126","usu_y":"41.503432969315305"},{"codi":"1291","usuari_codi":"0","adreca":"Queviures, Carrer de Sant Gen\u00eds, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 21:55:37","descripcio":"Fffggg","imatge":"1492379743645.jpg","den_x":"2.38828182220459","den_y":"41.503035235733684","usu_x":"2.38828182220459","usu_y":"41.503035235733684"},{"codi":"1292","usuari_codi":"0","adreca":"Casa dels francesos, Carrer Trafalgar, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 22:03:56","descripcio":"Tfffff","imatge":"1492380243629.jpg","den_x":"2.3886841535568237","den_y":"41.50376642083944","usu_x":"2.3886841535568237","usu_y":"41.50376642083944"},{"codi":"1293","usuari_codi":"0","adreca":"Motocicletes Rocamoto, Carrer de Santa Maria, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 22:10:09","descripcio":"Tfffff","imatge":"1492380614447.jpg","den_x":"2.388753890991211","den_y":"41.50339279431696","usu_x":"2.388753890991211","usu_y":"41.50339279431696"},{"codi":"1294","usuari_codi":"0","adreca":"Motocicletes Rocamoto, Carrer de Santa Maria, Vilasar de Mar, Maresme, Barcelona, Catalu\u00f1a, 08340, Espa\u00f1a","data_imatge":"2017-04-16 22:10:42","descripcio":"Tfffff","imatge":"1492380648569.jpg","den_x":"2.3888933658599854","den_y":"41.50305130582475","usu_x":"2.3888933658599854","usu_y":"41.50305130582475"},{"codi":"1295","usuari_codi":"0","adreca":"Tip-Top, Rac\u00f3 del Trist, Montju\u00efc, Sants-Montju\u00efc, Barcelona, Barcelon\u00e8s, Barcelona, Catalunya, 08038, Espanya","data_imatge":"2017-04-16 22:18:50","descripcio":"Vyfyfyfyf5f5","imatge":"1492381139331.jpg","den_x":"2.1476026077289134","den_y":"41.36932337563419","usu_x":"2.1476026077289134","usu_y":"41.36932337563419"}], 
+				'actiu' : 0,
                 'markerGroupPosActual': null,
                 'markerGroupPosActualDetail': null,
                 'markerGroup': null,
@@ -362,7 +361,7 @@
                                         + '         </div>'
                                         + '         <div style="line-height:1em; clear: both;background-color: rgb(255, 255, 255); width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
 										+ '             <a  href="#imatgePujada" class="" data-transition="pop">'
-                                        + '                <div id="editaDesc" style="width: 100%; text-align: left; margin-top: 0.6em; font-size: 1em;height: 5.8em;overflow: hidden;">'
+                                        + '                <div id="editaDesc" class="botoDescripcioActiu">'
                                         +                     punt.descripcio
 										+ '                </div>'
 										+ '             </a>'                                        
@@ -375,7 +374,7 @@
 								        + ' 	        </div >'
                                         + ' 	        <div style="width:40%;float:right">'
                                         + ' 	    	   <i style="float:left" class="fa fa-arrow-right" onclick="missatgePeuMapa( \'mostraFoto\','
-                                        +                 seguentFoto 
+                                        +                 	  seguentFoto 
                                         + '                );"/>'
 								        + ' 	        </div >'
 										+ '          </div>'                                        
@@ -596,7 +595,6 @@
             }
 
 			function actualitzaDescripcio() {
-				//$.mobile.back();				
 				var params = {};
                 params.codi= visor.codiAvisVigent;
                 params.usuari_codi = null;
@@ -607,8 +605,6 @@
                 params.usu_y = parseFloat(visor.posicioCamera.lat);                
 				visor.params = params;				
 				visor.params.descripcio = $('#textarea-1').val() ;
-				//;
-				//alert(visor.params.codi);
 				$.ajax({
 					url: "http://issolutions.esy.es/ma/www/php/update.php", 
 					type: "POST",
@@ -671,7 +667,8 @@
                             visor.totMarker.addLayer(marker);
                             visor.map.addLayer(visor.totMarker);
                         });
-                    }
+                    },
+					error:function(){alert('sss');}
                 });
             }  
             
@@ -779,25 +776,7 @@
     </head>
     
     <body style="font-family:arial">
-        <!--------------------------------  Pàgina Portada ---------------------------------------->     
-        <!--div data-role="page" id="portada" style="width:100%;height:100%;margin:0px;background-color:rgb(172,17,24);overflow:hidden">  
-            <div id="fotoPortada" style="width:100%;height:70%;">
-				<div style="height:10%;width100%"></div>
-					<div style="height:70%;width:100%;">
-						<div style="float:left;height:100%;width:10%;"></div>
-                        <a href="#pageMap" onclick="$('#portada').css({'display':'none'});">    
-                            <div style="float:left;height:100%;width:80%;overflow:hidden;text-align:center">
-                                <img style="height:100%;" src="./images/logo_gran.jpg">
-                            </div>
-                       </a>     
-				</div> 
-            </div>
-            <div style="float:left;height:100%;width:10%;"></div>
-            <div style="text-align:center; color: rgb(255, 255, 255); font-size:2em; width: 100%; height: 30%;">
-                <div style="text-align:center; color: rgb(255, 255, 255); overflow:hidden;font-size:1.42em; margin-top:7%;margin-left:10%;width: 80%; height:auto;"> Notifica Avís </div>
-                <div style="text-align: center; overflow: hidden; color: rgb(255, 255, 255); width: 80%; margin-left: 10%; height: auto; font-size: 0.8em; line-height: 0.9em;"> Situacions de risc pels animals </div>
-            </div>
-        </div-->
+    
         
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
@@ -825,8 +804,7 @@
              <div data-role="content" id="contMapa" style="border-top:1px solid rgb(211,211,211);clear:both;padding-top:14px"> 
             
                 <div class="caixaControl" >             
-                    <!--div id="troba1" class="controlMapa" onclick="visor.map.zoomIn();">+</div>
-                    <!--div id="troba2" class="controlMapa controlMapa-junt" onclick="visor.map.zoomOut()">-</div -->
+
                     <div id="troba3" class="controlMapa controlMapa-separat" onclick="visor.locate.start();">
                         <i class="fa fa-location-arrow" aria-hidden="true"></i>
                     </div>
@@ -838,22 +816,10 @@
                     <div id="troba3" class="controlMapa controlMapa-separat" onclick="missatgePeuMapa( 'mostraFoto', 1 )">
                         <i class="fa fa-list" aria-hidden="true"></i>
                     </div>
-
-
-
-					
+				
                 </div>
                 
                 <div class="caixaControlInferior">
-                    <!--div onclick="recuperaElements();" class="controlMapa controlMapa-separat" id="troba4">
-                        <img style="margin-top:5px" width="28" height=40 src="images/elements.png">
-                    </div>
-                    <div onclick="recuperaElements();$.mobile.changePage($('#llistaElements'),'pop');" class="controlMapa controlMapa-separat" id="troba5">
-                        <img style="margin-top:5px" width="24" height="40" src="images/llista.png">                 
-                    </div-->
-                    <!--div onclick="uploadFromGallery();" class="controlMapa controlMapa-separat" style="display:block;right:0px" id="troba6">
-                        <img style="margin-top:5px;" width="29" height="34" src="images/camera.png" -->
-                    </div>
                 </div>  
                 
                 <div id="map" style="height:100%;margin-top:-30px;margin-left:0px"></div>           
@@ -874,68 +840,91 @@
         <!--------------------------------  Pàgina Detall Element --------------------------------->        
         <div data-role="page" data-dialog="true" id="llistaElements"> 
             <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
-                <!--div data-inline="true" value="on"  style="" checked="checked" type="radio" onclick=" visor.mapDetail.setView([visor.posicioActual.lat, visor.posicioActual.lng], 20);" href="#" class="ui-btn-right ui-btn ui-icon-navigation ui-btn-icon-left ui-shadow ui-corner-all "> Troba'm </div>    
-                <h1 class="ui-title" role="heading" aria-level="1">Elements visibles en el mapa</h1> 
-                <a href="#pageList"  class="ui-btn ui-icon-bullets ui-btn-icon-left ui-shadow ui-corner-all">Llista</a>
-                <div data-type="horizontal" data-role="controlgroup" style="position:absolute;top:47px;right:3px;">
-                    <a value="on"  checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[3])" href="#" class="ui-btn ">Map</a>
-                    <a value="off" checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[0])" href="#" class="ui-btn ">Sat</a>
-                </div-->
-                 <h1>Elements en el mapa</h1>           
-            </div>
-            
+                 <h1>Elements en el mapa</h1> 
+            </div>           
 
             <div data-role="content" id="contMapDetail"> 
                 <div id="relacioPuntsMapa" style="height:300px"></div>              
             </div>
+			
             <div data-role="footer">
                 <h1>Tots els elements trobats</h1>
-            </div>
-            
-
-        <!--div data-role="footer"  id = "footer" style="box-shadow: 0 0 8px 2px rgb(68, 68, 68);"> 
-                <div data-type="horizontal" data-role="controlgroup" style="text-align:center;">    
-                    <a onclick="nextOverlayLayer(-1)" href="#" style="width:30px;height:16px;"  class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-l"></a>
-                    <a style="margin-top: 0px;width:120px" id="layerName"   class="ui-btn ">Layers</a>
-                    <a onclick="nextOverlayLayer(1)" href="#" style="width:30px;height:16px;" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-r"></a>
-                </div>          
-            </div-->            
+            </div>          
+			
         </div>
+		
         <!--  Pàgina Imatge Pujada -->      
         <div data-role="page" data-dialog="true" id="imatgePujada"> 
             <div data-role="header"  role="banner" id ="headerImatgePujada" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
-                <!--div data-inline="true" value="on"  style="" checked="checked" type="radio" onclick=" visor.mapDetail.setView([visor.posicioActual.lat, visor.posicioActual.lng], 20);" href="#" class="ui-btn-right ui-btn ui-icon-navigation ui-btn-icon-left ui-shadow ui-corner-all "> Troba'm </div>    
-                <h1 class="ui-title" role="heading" aria-level="1">Elements visibles en el mapa</h1> 
-                <a href="#pageList"  class="ui-btn ui-icon-bullets ui-btn-icon-left ui-shadow ui-corner-all">Llista</a>
-                <div data-type="horizontal" data-role="controlgroup" style="position:absolute;top:47px;right:3px;">
-                    <a value="on"  checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[3])" href="#" class="ui-btn ">Map</a>
-                    <a value="off" checked="checked" type="radio" onclick="baseLayerDetail(visor.config.layers.base[0])" href="#" class="ui-btn ">Sat</a>
-                </div-->
-                 <h1>Dades de la Imatge pujada</h1>         
+                 <h1>Dades de la Imatge </h1>         
             </div>
-            
-
+ 
             <div data-role="content" id="contImatgePujada"> 
                 <form id="frmActDesc" data-ajax="false" >
 					<label for="textarea-1">Descripció</label>
 					<textarea name="textarea-1" id="textarea-1"></textarea>
-					<a onclick="actualitzaDescripcio()" data-rel="back" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#">
+					<!--a onclick="actualitzaDescripcio()" data-rel="back" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#"-->
+					<a onclick="actualitzaDescripcio()"  data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#imatgePujada2">
 						Enviar les dades
 				    </a>
 			    </form>            
             </div>
+			
             <div data-role="footer">
                 <h1>Dades enregistrades</h1>
             </div>
-            
+			
+		</div>
+		
+        <!--  Pàgina Imatge Pujada -->      
+        <div data-role="page" data-dialog="true" id="imatgePujada2"> 
+            <div data-role="header"  role="banner" id ="headerImatgePujada" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
+                 <h1>Dades de la Imatge </h1>         
+            </div>
+ 
+            <div data-role="content" id="contImatgePujada"> 
+				<form>
+					<fieldset data-role="controlgroup">
+						<legend>Vertical:</legend>
+						<input name="checkbox-v-2a" id="checkbox-v-2a" type="checkbox">
+						<label for="checkbox-v-2a">One</label>
+						<input name="checkbox-v-2b" id="checkbox-v-2b" type="checkbox">
+						<label for="checkbox-v-2b">Two</label>
+						<input name="checkbox-v-2c" id="checkbox-v-2c" type="checkbox">
+						<label for="checkbox-v-2c">Three</label>
+					</fieldset>
+					<a onclick="actualitzaDescripcio()"  href="#imatgePujada3" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " >
+						Enviar les dades2
+				    </a>
+				</form>           
+            </div>
+			
+            <div data-role="footer">
+                <h1>Dades enregistrades</h1>
+            </div>
+			
+		</div>
+		
+        <!--  Pàgina Imatge Pujada -->      
+        <div data-role="page" data-dialog="true" id="imatgePujada3"> 
+            <div data-role="header"  role="banner" id ="headerImatgePujada2" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
+                 <h1>Dades de la Imatge pujada2</h1>         
+            </div>            
 
-            <!--div data-role="footer"  id = "footer" style="box-shadow: 0 0 8px 2px rgb(68, 68, 68);"> 
-                <div data-type="horizontal" data-role="controlgroup" style="text-align:center;">    
-                    <a onclick="nextOverlayLayer(-1)" href="#" style="width:30px;height:16px;"  class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-l"></a>
-                    <a style="margin-top: 0px;width:120px" id="layerName"   class="ui-btn ">Layers</a>
-                    <a onclick="nextOverlayLayer(1)" href="#" style="width:30px;height:16px;" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-notext ui-icon-arrow-r"></a>
-                </div>          
-            </div-->            
+            <div data-role="content" id="contImatgePujada2"> 
+                <form id="frmActDesc3" data-ajax="false" >
+					<label for="textarea-12">Descripció2</label>
+					<textarea name="textarea-12" id="textarea-122"></textarea>
+					<a onclick="actualitzaDescripcio()"  href="#pageMap" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " >
+						Enviar les dades2
+				    </a>
+			    </form>            
+            </div>
+			
+            <div data-role="footer">
+                <h1>Dades enregistrades</h1>
+            </div> 
+         
         </div>  
     </body>
 </html>   
