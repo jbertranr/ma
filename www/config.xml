@@ -2,7 +2,8 @@
 
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 	<widget xmlns = "http://www.w3.org/ns/widgets"
-			xmlns:gap = "http://phonegap.com/ns/1.0"
+			xmlns:android="http://schemas.android.com/apk/res/android" 
+			xmlns:cdv="http://cordova.apache.org/ns/1.0"
 			id = "com.phonegap.riscanimal"
 			version = "1.0.0">
 
@@ -16,10 +17,11 @@
 	<access origin="*" />
     <allow-intent href="*" />
     <allow-navigation href="*" />
-	<preference name="android-build-tool" value="gradle" />
+	<!--preference name="android-build-tool" value="gradle" / -->
     <preference name="phonegap-version" value="cli-7.1.0" />	
     <platform name="android"/>
-    <!--platform name="ios"/-->
+    
+	<!--platform name="ios"/-->
 
     <!--author href="http://phonegap.com" email="support@phonegap.com">
         PhoneGap Team
@@ -52,9 +54,9 @@
     <!--plugin name="org.apache.cordova.battery-status" />
     <plugin name="cordova-plugin-camera" source="npm" />
     <plugin name="cordova-plugin-media-capture" source="npm" />
-    <plugin name="cordova-plugin-console" source="npm" />
+    <plugin name="cordova-plugin-console" source="npm" /-->
     <!--plugin name="org.apache.cordova.device" /-->
-    <plugin name="cordova-plugin-device-motion" source="npm"/>
+    <!--plugin name="cordova-plugin-device-motion" source="npm"/>
     <plugin name="cordova-plugin-device-orientation"  source="npm"/>
     <plugin name="cordova-plugin-dialogs" source="npm"/>
     <plugin name="cordova-plugin-file" source="npm"/>
