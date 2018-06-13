@@ -610,7 +610,7 @@
 					data: visor.params,
 					success: function(){
 					    //$('#imatgePujada').dialog('close');
-						//recuperaDarrerAvis()
+						recuperaDarrerAvis()
 						//recuperaElements();
 						//setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
 					},
@@ -860,23 +860,23 @@
         <!--------------------------------  Pàgina Fitxa avís mapa --------------------------------->        
         <div data-role="page" data-dialog="false" id="avisMapa"> 
             <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
-                 <h1>Imatge pujada</h1> 
+                 <h1>Localització de l'indret</h1> 
             </div>           
 
             <div data-role="content" id="contImatgePujada"> 
                 <form id="frmImatgePujada" data-ajax="false" >
-					<label for="textarea-1">Descripció</label>
+					<label for="textarea-1">Adreça automàtica - Afegiu observacions per identificar</label>
 					<textarea name="textarea-1" id="textarea-1"></textarea>
 					<img style=' width:100%' id="imatge-1" src=""/> 
 					<a onclick="actualitzaDescripcio()"  data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#imatgePujada2">
-						Enviar les dades
+						Següent
 				    </a>
 			    </form>            
             </div>
 
 			
             <div data-role="footer">
-                <h1>Tots els elements trobats</h1>
+                <h1>Pas 1/3</h1>
             </div>          
 			
         </div>		
@@ -902,16 +902,16 @@
         <!--  Pàgina Imatge Pujada -->      
         <div data-role="page" data-dialog="true" id="imatgePujada"> 
             <div data-role="header"  role="banner" id ="headerImatgePujada" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
-                 <h1>Dades de la Imatge </h1>         
+                 <h1>Identifica </h1>         
             </div>
  
             <div data-role="content" id="contImatgePujada"> 
                 <form id="frmActDesc" data-ajax="false" >
-					<label for="textarea-1">Descripció</label>
+					<label for="textarea-1">Descripció </label>
 					<textarea name="textarea-1" id="textarea-1"></textarea>
 					<!--a onclick="actualitzaDescripcio()" data-rel="back" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#"-->
 					<a onclick="actualitzaDescripcio()"  data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " href="#imatgePujada2">
-						Enviar les dades
+						Següent
 				    </a>
 			    </form>            
             </div>
@@ -925,28 +925,28 @@
         <!--  Pàgina Imatge Pujada -->      
         <div data-role="page" data-dialog="false" id="imatgePujada2"> 
             <div data-role="header"  role="banner" id ="headerImatgePujada" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
-                 <h1>Dades de la Imatge </h1>         
+                 <h1>Idenitificació del risc </h1>         
             </div>
  
             <div data-role="content" id="contImatgePujada"> 
 				<form>
 					<fieldset data-role="controlgroup">
-						<legend>Vertical:</legend>
+						<legend>Trieu una opció:</legend>
 						<input name="checkbox-v-2a" id="checkbox-v-2a" type="checkbox">
-						<label for="checkbox-v-2a">One</label>
+						<label for="checkbox-v-2a">Normal</label>
 						<input name="checkbox-v-2b" id="checkbox-v-2b" type="checkbox">
-						<label for="checkbox-v-2b">Two</label>
+						<label for="checkbox-v-2b">Urgent</label>
 						<input name="checkbox-v-2c" id="checkbox-v-2c" type="checkbox">
-						<label for="checkbox-v-2c">Three</label>
+						<label for="checkbox-v-2c">Molt Urgent</label>
 					</fieldset>
 					<a onclick="actualitzaDescripcio()"  href="#imatgePujada3" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " >
-						Enviar les dades2
+						Següent
 				    </a>
 				</form>           
             </div>
 			
             <div data-role="footer">
-                <h1>Dades enregistrades</h1>
+                <h1>Pas 2/3</h1>
             </div>
 			
 		</div>
@@ -954,21 +954,21 @@
         <!--  Pàgina Imatge Pujada -->      
         <div data-role="page" data-dialog="false" id="imatgePujada3"> 
             <div data-role="header"  role="banner" id ="headerImatgePujada2" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
-                 <h1>Dades de la Imatge pujada2</h1>         
+                 <h1>Dades de contacte</h1>         
             </div>            
 
             <div data-role="content" id="contImatgePujada2"> 
                 <form id="frmActDesc3" data-ajax="false" >
-					<label for="textarea-12">Descripció2</label>
+					<label for="textarea-12">Correu electrònic de contacte per informar de seguiment</label>
 					<textarea name="textarea-12" id="textarea-122"></textarea>
 					<a onclick="actualitzaDescripcio()"  href="#pageMap" data-theme="b" class="ui-btn ui-corner-all ui-icon-delete " >
-						Enviar les dades2
+						Finalitzar
 				    </a>
 			    </form>            
             </div>
 			
             <div data-role="footer">
-                <h1>Dades enregistrades</h1>
+                <h1>Pas 3/3</h1>
             </div> 
          
         </div>  
