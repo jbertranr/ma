@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
     <head>
-        <title>Animals en Risc</title>
+        <title>Depana - Avisos</title>
         <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"> 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" /> 
@@ -211,16 +211,16 @@
             $( document ).on('pageshow','#pageMap', function(){
                 inicialitzaMapa(); 
                 ajustaFinestres(); 
-				recuperaElements();	
+				//recuperaElements();	Ja no recupera els avisos anteriors
             });
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
-            $("#peuMapa").on("swipe", function (evt) {
-                alert('swipe');
-				missatgePeuMapa( 'fesFoto' )  ; 
-                ajustaFinestres();
-            });
+           // $("#peuMapa").on("swipe", function (evt) {
+           //     alert('swipe');
+		   //		missatgePeuMapa( 'fesFoto' )  ; 
+           //     ajustaFinestres();
+           // });
             
  
             //-- Inicia llistaElements          
@@ -244,7 +244,7 @@
                 //if($("#peuMapa").is(':visible')) { var alcPeuMapa =  $('#peuMapa').height() } else {var alcPeuMapa = 0}
                 resizeTimer = setTimeout(function () {
                     $('#map').width($(window).width());
-                    $('#map').height($(window).height() - $('#header').height() - $('#peuMapa').height() ); //abans -3
+                    $('#map').height($(window).height() - $('#header').height() - $('#peuMapa').height() + 12 ); //abans -3
                     $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
                     visor.map._onResize(); 
                 });
@@ -318,7 +318,7 @@
 				
                 switch ( contingut ) {
                     case 'fesFoto':
-                        txtPeu =    ' <div onclick="uploadFromGallery();" style="width: 40%; margin-left: 30%; border-radius: 10px; color: rgb(255, 255, 255); text-shadow: 0px 0px rgb(0, 0, 0); background-color: rgb(196, 13, 1); padding: 0.3em 0em 0.5em; height: 1em; margin-bottom: 0.2em; margin-top: 0.2em;">'
+                        txtPeu =    ' <div onclick="uploadFromGallery();" style="width: 40%; margin-left: 30%; border-radius: 10px; color: rgb(255, 255, 255); text-shadow: 0px 0px rgb(0, 0, 0); background-color: #359; padding: 0.3em 0em 0.5em; height: 1em; margin-bottom: 0.2em; margin-top: 0.2em;">'
                                    +    '    Foto  <i class="fa fa-camera "></i>'
                                    +    ' </div>';
                         break;
@@ -547,6 +547,7 @@
                                             );				  
             }
 			
+			
             function uploadPhoto(imageURI) {
                 var options = new FileUploadOptions();
                 //var options = {};
@@ -580,8 +581,9 @@
 					type: "POST",
 					data: visor.params,
 					success: function(){
-						recuperaElements();
-						setTimeout(function(){ $( "#editaDesc" ).trigger( "click" );missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
+           						
+						//recuperaElements();
+						//setTimeout(function(){ $( "#editaDesc" ).trigger( "click" );missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Puja-la de nou." + xhr.responseText 
@@ -608,8 +610,9 @@
 					data: visor.params,
 					success: function(){
 					    //$('#imatgePujada').dialog('close');
-						recuperaElements();
-						setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
+						//recuperaDarrerAvis()
+						//recuperaElements();
+						//setTimeout(function(){missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 700);//creaImatgePujada(visor.params);
 					},
 					error: function(xhr, textStatus, errorThrown){
 						alert("Error detectat. Tona a introduir descripció." + xhr.responseText 
@@ -799,20 +802,20 @@
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
             <!------------------ Header --------------->    
-			<div id="header" style="border-width: 0px; height:2.3em;background-color: rgb(172, 17, 24); color: rgb(250, 250, 250); font-family: inherit; font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
+			<div id="header" style="border-width: 0px; height:2.3em;background-color: #359; color: rgb(250, 250, 250); font-family: inherit; font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
 				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 16px;" onclick="recuperaElements();">
-					<img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png">
+					<!--img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png"-->
 				</div>
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
 					
-					<div style="float: left; font-weight:bold; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.3em;"> 
+					<div style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
 						<!--a id="activa" href="#imatgePujada" data-transition="pop"-->	
 							Depana Sistema Avisos
 						<!--/a-->			
 				     </div>
-					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Risc Animal </div>
+					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Comunicacions mòbils </div>
 				</div>
-				<div id="troba5" style="float: right; margin-top: -1.3em;height:24px ; font-size: 1.5em; width: 5%;margin-right: 9px;" onclick="navigator.app.exitApp();">
+				<div id="troba5" style="float: right;margin-top: -1.4em;height: 24px;font-size: 1.3em;width: 5%;margin-right: 2px;" onclick="navigator.app.exitApp();">
 					<i class="fa fa-close"></i>
 				</div>			
 				
@@ -827,13 +830,13 @@
                         <i class="fa fa-location-arrow" aria-hidden="true"></i>
                     </div>
 					
-                    <div id="troba3" class="controlMapa controlMapa-separat" onclick="missatgePeuMapa( 'fesFoto' );">
+                    <!--div id="troba3" class="controlMapa controlMapa-separat" onclick="missatgePeuMapa( 'fesFoto' );">
                         <i class="fa fa-map" aria-hidden="true"></i>
                     </div>
 					
                     <div id="troba3" class="controlMapa controlMapa-separat" onclick="missatgePeuMapa( 'mostraFoto', 1 )">
                         <i class="fa fa-list" aria-hidden="true"></i>
-                    </div>
+                    </div-->
 				
                 </div>
                 
@@ -881,7 +884,7 @@
 		
         
         <!--------------------------------  Pàgina Detall Element --------------------------------->        
-        <div data-role="page" data-dialog="true" id="llistaElements"> 
+        <div data-role="page" data-dialog="false" id="llistaElements"> 
             <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
                  <h1>Elements en el mapa</h1> 
             </div>           
@@ -920,7 +923,7 @@
 		</div>
 		
         <!--  Pàgina Imatge Pujada -->      
-        <div data-role="page" data-dialog="true" id="imatgePujada2"> 
+        <div data-role="page" data-dialog="false" id="imatgePujada2"> 
             <div data-role="header"  role="banner" id ="headerImatgePujada" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
                  <h1>Dades de la Imatge </h1>         
             </div>
@@ -949,7 +952,7 @@
 		</div>
 		
         <!--  Pàgina Imatge Pujada -->      
-        <div data-role="page" data-dialog="true" id="imatgePujada3"> 
+        <div data-role="page" data-dialog="false" id="imatgePujada3"> 
             <div data-role="header"  role="banner" id ="headerImatgePujada2" style="z-index: 1; box-shadow:0px 2px 6px #444444;">                
                  <h1>Dades de la Imatge pujada2</h1>         
             </div>            
