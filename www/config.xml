@@ -11,6 +11,7 @@
 	<name>Depana</name>
 	<splash src="splash.png" />
 	<preference name="SplashMaintainAspectRatio" value="true" />
+	<preference name="SplashScreenDelay" value="4000" />
     <description> 
         Depana - Avisos per mòbil
     </description>
