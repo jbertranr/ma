@@ -69,20 +69,20 @@
             }
 
 			.controlMapa {
-				background-color: #656565;
-				border-radius: 5px 0 0 5px;
+				background-color: #359;
+				border-radius: 5px;
 				color: #ffffff;
 				cursor: pointer;
 				font-family: verdana;
 				font-size: 27px;
 				font-weight: bold;
-				height: 38px;
+				height: 40px;
 				opacity: 0.93;
 				text-align: center;
-				width: 38px;
+				width: 41px;
 				z-index: 999999;
-				padding-left: 2px;
-				padding-top: 4px;
+				padding-left: -1px;
+				padding-top: 0px;
 				text-shadow: 0px 0px #000000;
 			}
 			
@@ -90,7 +90,7 @@
 
             .controlMapa-separat {margin-top:5px}
             
-            .caixaControl{ z-index:5000;position:fixed;right:0px;top:60px; }
+            .caixaControl{ z-index:5000;position:fixed;right:10px;top:60px; }
 
             .caixaControlInferior {
                 position: fixed;
@@ -98,6 +98,8 @@
                 top: 201px;
                 z-index: 5000;
             }
+			.caixaControlPeu{ z-index:5000;position:fixed;right:20px;bottom:60px; }
+			
             .cubTitol { font-size: 0.8em;  height: 6px; width:100%;margin-top:5px;font-family:novaFont;  }
             .cubValor { margin-top:0.2em;font-size: 1.8em;  height: 26px; ; color: #ffffff;width:100%;font-family:novaFont; }
             .cubUnitat { margin-bottom:7px;font-size:0.8em;margin-top:0em;height:15px;font-family:novaFont; }
@@ -220,12 +222,7 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
-           // $("#peuMapa").on("swipe", function (evt) {
-           //     alert('swipe');
-		   //		missatgePeuMapa( 'fesFoto' )  ; 
-           //     ajustaFinestres();
-           // });
-            
+        
  
             //-- Inicia llistaElements          
             $( document ).on('pagebeforeshow','#llistaElements', function(){
@@ -233,14 +230,7 @@
                 //creaRelacioPunts(); Bloquejat l'accés al detall
             });         
             
-            //function onDeviceReady() {
-                //navigator.geolocation.getCurrentPosition(onSuccess, onError);
-                 //alert('Activa GPS');
-                // treure navigator.geolocation.getCurrentPosition(successGeo, onErrorPlug, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
-            //}
-            
-            //-- Intentar fer tots els ajustaments en aquesta funció
-			//setTimeout(function(){recuperaDarrerAvis();},3000); // treure només test
+
 			
             function ajustaFinestres(){         
                 var resizeTimer = null;         
@@ -264,9 +254,9 @@
                 });
                 */
             }
-            
+        /*   
 		function makeApiCall() {
-		 alert('12121212SASAS');
+		  alert('12121212SASAS');
 		  var params = {
 			// The ID of the spreadsheet to update.
 			spreadsheetId: '1sSIZJ_3CEd5XQEXsZ5_XlaqnRTBVECfd6Gmy3O96oVY',  // TODO: Update placeholder value.
@@ -312,7 +302,7 @@
 		  //   'https://www.googleapis.com/auth/drive'
 		  //   'https://www.googleapis.com/auth/drive.file'
 		  //   'https://www.googleapis.com/auth/spreadsheets'
-		  var SCOPE = 'https://www.googleapis.com/auth/drive;
+		  var SCOPE = 'https://www.googleapis.com/auth/drive';
 
 		  gapi.client.init({
 			'apiKey': API_KEY,
@@ -334,7 +324,7 @@
 		function updateSignInStatus(isSignedIn) {
 		  alert('asasas');
 		  if (isSignedIn) {
-			makeApiCall();
+			  ();
 		  }
 		}
 
@@ -357,7 +347,7 @@
 				                    insertDataOption: "INSERT_ROWS" };
 				Sheets.Spreadsheets.Values.append(resource, spreadsheetId, range, optionalArgs);
 			}
-
+         */
 			
 			
 			
@@ -407,7 +397,7 @@
 											recuperaAdreca(e.latlng);    
 										});
 								 
-					missatgePeuMapa( 'buscaPosicio' ); 
+					//missatgePeuMapa( 'buscaPosicio' ); 
 					activaLocator();                               
 				} 
 			}
@@ -635,16 +625,22 @@
             
             function uploadFromGallery() {
                 // Retrieve image file location from specified source
-                navigator.camera.getPicture(    uploadPhoto,
-                                                function(message) { alert("Problemes amb l'enviament"); },
-                                                {   quality: 50, 
-                                                    targetWidth: 1024,
-                                                    targetHeight: 1024,
-                                                    destinationType: navigator.camera.DestinationType.FILE_URI,
-                                                    sourceType: navigator.camera.PictureSourceType.CAMERA,
-                                                    mediaType: navigator.camera.MediaType.ALLMEDIA
-                                                }
-                                            );				  
+                if (visor.posicioCamera.lng == null) {				
+				    alert('Posició no detectada');
+				}	
+				else 
+				{
+					navigator.camera.getPicture(    uploadPhoto,
+													function(message) { alert("Problemes amb l'enviament"); },
+													{   quality: 50, 
+														targetWidth: 1024,
+														targetHeight: 1024,
+														destinationType: navigator.camera.DestinationType.FILE_URI,
+														sourceType: navigator.camera.PictureSourceType.CAMERA,
+														mediaType: navigator.camera.MediaType.ALLMEDIA
+													}
+												);
+				}							
             }
 			
 			
@@ -896,7 +892,7 @@
             }   
 
     </script>
-	<script async defer src="https://apis.google.com/js/api.js"	onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
+	<!--script async defer src="https://apis.google.com/js/api.js"	onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"-->
 	</script>
     
     </head>
@@ -944,6 +940,21 @@
                     </div-->
 				
                 </div>
+                <div class="caixaControlPeu" >             
+
+                    <div id="troba3" onclick="uploadFromGallery" class="controlMapa controlMapa-separat" style="border-radius: 1em;width: 2em;height: 2em;background-color: #c00;">
+                        <i class="fa fa-camera" aria-hidden="true" style="padding-top:0.5em"></i>
+                    </div>
+					
+                    <!--div id="troba3" class="controlMapa controlMapa-separat" onclick="missatgePeuMapa( 'fesFoto' );">
+                        <i class="fa fa-map" aria-hidden="true"></i>
+                    </div>
+					
+                    <div id="troba3" class="controlMapa controlMapa-separat" onclick="missatgePeuMapa( 'mostraFoto', 1 )">
+                        <i class="fa fa-list" aria-hidden="true"></i>
+                    </div-->
+				
+                </div>				
                 
                 <div class="caixaControlInferior">
                 </div>  
