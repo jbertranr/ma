@@ -1026,13 +1026,12 @@
                 <form id="frmImatgePujada" data-ajax="false" >
 					<label for="textarea-1">Adreça automàtica - Afegiu observacions per identificar</label>
 					<textarea name="textarea-1" id="textarea-1"></textarea>
-					<a onclick="visor.params.descripcio=$('#textarea-1').val();" 
-					   class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
+					<a class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
 					   href="#pageMap">
 						Cancelar
 				    </a>			
 					
-					<a onclick="visor.params.descripcio=$('#textarea-1').val();"
+					<a onclick="visor.params.adreca=$('#textarea-1').val();"
 					   class="ui-btn ui-btn-b ui-corner-all ui-icon-delete " 
 					   href="#imatgePujada2">
 						Següent
@@ -1060,7 +1059,7 @@
  
             <div data-role="content" id="contImatgePujada"> 
 				<form>
-					<fieldset data-role="controlgroup">
+					<!--fieldset data-role="controlgroup">
 						<legend>Trieu una opció:</legend>
 						<input name="checkbox-v-2a" id="checkbox-v-2a" type="checkbox">
 						<label for="checkbox-v-2a">Normal</label>
@@ -1068,18 +1067,21 @@
 						<label for="checkbox-v-2b">Urgent</label>
 						<input name="checkbox-v-2c" id="checkbox-v-2c" type="checkbox">
 						<label for="checkbox-v-2c">Molt Urgent</label>
-					</fieldset>
-					
-					<a onclick="visor.params.descripcio=$('#textarea-1').val();"
-					   class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
+					</fieldset-->
+				    <label for="textarea-1b">Descripció</label>
+					<textarea name="textarea-1b" id="textarea-1b"></textarea>
+
+					<a class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
 					   href="#pageMap">
 						Cancelar
 				    </a>								
-					<a onclick="visor.params.risc = $('#checkbox-v-2a').val();"  
-					   href="#imatgePujada3" 
-					   class="ui-btn ui-btn-b ui-corner-all ui-icon-delete " >
+					<a 				  
+					    onclick="visor.params.descripcio=$('#textarea-1b').val();"
+					    href="#imatgePujada3" 
+					    class="ui-btn ui-btn-b ui-corner-all ui-icon-delete " >
 						Següent
 				    </a>
+					 <!-- onclick="visor.params.risc = $('#checkbox-v-2a').val();"  -->
 				</form>           
             </div>
 			
@@ -1102,8 +1104,7 @@
                 <form id="frmActDesc3" data-ajax="false" >
 					<label for="correu">Correu electrònic de contacte per informar de seguiment</label>
 					<textarea name="correu" id="correu"></textarea>
-					<a onclick="visor.params.descripcio=$('#textarea-1').val();"  data-theme="b" 
-					   class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
+					<a class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
 					   href="#pageMap">
 						Cancelar
 				    </a>								
