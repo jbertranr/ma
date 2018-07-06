@@ -185,7 +185,8 @@
                 'adrecaOSM':null,
 				'params': {  projecte: 'depana', 'codi' : null , 'usuari_codi':null, 'adreca': null, 'descripcio': null, 'imatge': null , 'den_x' : null , 'den_y':null, 'usu_x': null, 'usu_y': null, 'correu': null , 'risc': null},
                 'primeraUbicació' :  1,
-				'codiAvisVigent' : null
+				'codiAvisVigent' : null,
+				'darrerAvislista' : null
             };
             
             //-- Paràmetres d'inicialització
@@ -218,6 +219,8 @@
                 inicialitzaMapa(); 
                 ajustaFinestres(); 
 				//recuperaDarrerAvis();	// Eliminar línia només demo
+				//recuperaElements();	// Eliminar línia només demo
+				//$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');
             });
             
             $(window).bind('resize', function () {ajustaFinestres();});
@@ -752,10 +755,11 @@
             }  
   			
 			//-- Ajax per recuperar punts 
-            function recuperaElements() {
+            function recuperaElements(codi) {
                 visor.map.removeLayer(visor.totMarker);
                 $.ajax({
-                    type: "POST",
+                    data: codi,
+					type: "POST",
                     url: "http://issolutions.esy.es/ma/www/php/select.php",
                     contentType: "application/json; charset=ISO-8859-1",
                     dataType: "json",
@@ -773,9 +777,41 @@
                             shadowAnchor: [ 10, 30], // the same for the shadow
                             popupAnchor:  [ 0,-45]   // point from which the popup should open relative to the iconAnchor
                         });       
+                       // var llistat = '<div data-demo-html="true"><ul data-role="listview"> ';
+                        var llistat = ' ';
                         
-                        $.each(visor.data,function(i,punt){
-                            var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
+						$.each(visor.data,function(i,punt){
+						    visor.darrerAvisLlista = punt.codi;
+							var diaData = punt.data_imatge.split(' ')[0].split('-');
+							var horaData = punt.data_imatge.split(' ')[1];
+							
+							llistat += '<div style="height:auto; width:100%;margin-top:0.5em;border-bottom:#444 1px dotted;overflow:hidden" >'
+							                + '<div style="float:left;width:60%;height:auto">'
+							                + '   <div style="float:left;height:auto;width:100%">'
+							                +       '<span style="font-weight:bold;font-size:1.3em;color:#359">' +  punt.codi + ' </span> ' 
+											+       '<span style="font-weight:bold;font-size:1.3em;color:#359"> - ' + diaData[2] + '/' + diaData[1] + '/'+diaData[0] + '</span>  ' + '<span style="font-size:0.8em"> (' + horaData + ')</(span>'
+							                + '   </div>'
+							                + '   <div style="float:left;height:auto;font-size:0.8em;color:#B57;">'
+							                +       '<b>' +  punt.correu + ' </b> ' 
+							                + '   </div>'											
+							                + '   <div style="float:left;height:auto;font-size:0.8em;color:#579;">'
+							                +       '<b>' +  punt.adreca + ' </b> ' 
+							                + '   </div>'
+							                + '   <div style="font-size:0.9em;float:left;height:auto;margin-top:1em;color:#888;font-size:0.9em;width:100%"">'
+							                +       '' +  punt.descripcio + '' 
+							                + '   </div>'											
+											+ '</div>' 
+											+ '<div style="float:left;width:40%;height:auto">'
+											+ '   <div style="float:right"> <img  width=150  src="http://issolutions.esy.es/ma/www/php/image/' 
+                                            +          punt.imatge 
+                                            +          '?d='
+                                            +          new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
+                                            + '   " /> '
+							                + '   </div>'
+											+ '</div>'
+											+ '</div> ';
+											
+                          /*  var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
                                 .bindPopup('  <div>'
                                             +     punt.data_imatge
                                             + '</div>'
@@ -788,8 +824,12 @@
                                             +       new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
                                             + '" />');
                             visor.totMarker.addLayer(marker);
-                            visor.map.addLayer(visor.totMarker);
+                            visor.map.addLayer(visor.totMarker);*/
+							
                         });
+						//llistat += '</ul>' ;
+						$('#contLlista').html(llistat).trigger("create");
+						
                     },
 					error:function(){alert('sss');}
                 });
@@ -910,7 +950,7 @@
 				</div>
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
 					
-					<div style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
+					<div onclick="recuperaElements();$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
 						<!--a id="activa" href="#imatgePujada" data-transition="pop"-->	
 							Depana Sistema Avisos
 						<!--/a-->			
@@ -1041,7 +1081,7 @@
 
 			
             <div data-role="footer">
-                <h1>Pas 1/3</h1>
+                <h1>Pas 2/4</h1>
             </div>          
 			
         </div>		
@@ -1122,6 +1162,48 @@
             </div> 
          
         </div>
+        <!--------------------------------  Mostra Llista ---------------------------------> 
+		
+        <!--------------------------------        ---------------------------------> 
+		<div data-role="page" 
+		     data-dialog="true" 
+			 data-close-btn="none" 
+			 id="llistaAvisos"> 
+            <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
+                 <h1>Avisos</h1> 
+            </div>           
+
+            <div data-role="content" id="contLlista"> 
+        
+            </div>
+			<a class="ui-btn ui-btn-b ui-corner-all ui-icon-delete " 
+			   href="#llistaAvisos"
+			   onclick="recuperaElements(visor.darrerAvisLlista - 20);">
+				Anteriors avisos
+			</a>			
+			<a class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
+			   href="#pageMap">
+				Sortir
+			</a>				
+	
+            <div data-role="footer">
+                <h1>Avisos</h1>
+            </div>          
+			
+        </div>		
+	
+
+
+
+
+
+
+
+
+
+
+
+
 		
         <!--  Pàgina Imatge Pujada -->      
         <div data-role="page" data-dialog="false" id="imatgePujada"> 
