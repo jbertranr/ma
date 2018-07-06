@@ -682,6 +682,7 @@
 					url: "http://issolutions.esy.es/ma/www/php/insert.php", 
 					type: "POST",
 					data: visor.params,
+
 					success: function(){           						
 						recuperaDarrerAvis();
 						//setTimeout(function(){ $( "#editaDesc" ).trigger( "click" );missatgePeuMapa( 'mostraFoto', visor.data.length - 1 );}, 500);//creaImatgePujada(visor.params);
@@ -755,13 +756,16 @@
             }  
   			
 			//-- Ajax per recuperar punts 
-            function recuperaElements(codi) {
+            function recuperaElements(codigo) {
                 visor.map.removeLayer(visor.totMarker);
-                $.ajax({
-                    data: codi,
+                var params = {};
+                params.codi = codigo;
+				//codi = 1240;
+				$.ajax({
+                    data:params,
 					type: "POST",
                     url: "http://issolutions.esy.es/ma/www/php/select.php",
-                    contentType: "application/json; charset=ISO-8859-1",
+                   // contentType: "application/json; charset=ISO-8859-1",
                     dataType: "json",
                     success: function( data ) {                   
                         visor.data = data;
@@ -788,8 +792,8 @@
 							llistat += '<div style="height:auto; width:100%;margin-top:0.5em;border-bottom:#444 1px dotted;overflow:hidden" >'
 							                + '<div style="float:left;width:60%;height:auto">'
 							                + '   <div style="float:left;height:auto;width:100%">'
-							                +       '<span style="font-weight:bold;font-size:1.3em;color:#359">' +  punt.codi + ' </span> ' 
-											+       '<span style="font-weight:bold;font-size:1.3em;color:#359"> - ' + diaData[2] + '/' + diaData[1] + '/'+diaData[0] + '</span>  ' + '<span style="font-size:0.8em"> (' + horaData + ')</(span>'
+							                +       '<span style="font-weight:bold;font-size:1.0em;color:#359">' +  punt.codi + ' </span> ' 
+											+       '<span style="font-weight:bold;font-size:1.0em;color:#359"> - ' + diaData[2] + '/' + diaData[1] + '/'+diaData[0] + '</span>  ' + '<span style="font-size:0.8em"> (' + horaData + ')</(span>'
 							                + '   </div>'
 							                + '   <div style="float:left;height:auto;font-size:0.8em;color:#B57;">'
 							                +       '<b>' +  punt.correu + ' </b> ' 
@@ -828,10 +832,10 @@
 							
                         });
 						//llistat += '</ul>' ;
-						$('#contLlista').html(llistat).trigger("create");
+						$('#contLlista').html('').html(llistat).trigger("create");
 						
                     },
-					error:function(){alert('sss');}
+					error:function(){alert('eeeesss');}
                 });
             }  
             
@@ -950,7 +954,7 @@
 				</div>
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
 					
-					<div onclick="recuperaElements();$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
+					<div onclick="recuperaElements(1520);$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
 						<!--a id="activa" href="#imatgePujada" data-transition="pop"-->	
 							Depana Sistema Avisos
 						<!--/a-->			
@@ -1173,12 +1177,17 @@
                  <h1>Avisos</h1> 
             </div>           
 
-            <div data-role="content" id="contLlista"> 
+            <div data-role="content" style="font-size:0.8em" id="contLlista"> 
         
             </div>
-			<a class="ui-btn ui-btn-b ui-corner-all ui-icon-delete " 
+			<a class="ui-btn ui-corner-all ui-icon-delete " 
 			   href="#llistaAvisos"
-			   onclick="recuperaElements(visor.darrerAvisLlista - 20);">
+			   onclick=" recuperaElements(1540);">
+				Principi llista
+			</a>			
+			<a class="ui-btn ui-corner-all ui-icon-delete " 
+			   href="#llistaAvisos"
+			   onclick=" recuperaElements(visor.darrerAvisLlista);">
 				Anteriors avisos
 			</a>			
 			<a class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
