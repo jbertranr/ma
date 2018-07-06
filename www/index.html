@@ -183,7 +183,7 @@
                 'markerCamera':{},
                 'data':{},
                 'adrecaOSM':null,
-				'params': {  'codi' : null , 'usuari_codi':null, 'adreca': null, 'descripcio': null, 'imatge': null , 'den_x' : null , 'den_y':null, 'usu_x': null, 'usu_y': null, 'correu': null , 'risc': null},
+				'params': {  projecte: 'depana', 'codi' : null , 'usuari_codi':null, 'adreca': null, 'descripcio': null, 'imatge': null , 'den_x' : null , 'den_y':null, 'usu_x': null, 'usu_y': null, 'correu': null , 'risc': null},
                 'primeraUbicació' :  1,
 				'codiAvisVigent' : null
             };
@@ -974,6 +974,7 @@
 
 
         <!--------------------------------  Càrrega dades ---------------------------------> 
+		
         <!--------------------------------  Pas 1/4       ---------------------------------> 
 		<div data-role="page" 
 		     data-dialog="true" 
@@ -988,8 +989,7 @@
 					<label for="imatge-1">Revisa la imatge adreçada
 				</label>
 					<img style="width:80%;margin:0 10%" id="imatge-1" src=""/> 				
-					<a onclick="visor.params.descripcio=$('#textarea-1').val();"  
-					   class="ui-btn ui-corner-all ui-icon-delete " 
+					<a class="ui-btn ui-corner-all ui-icon-delete " 
 					   href="#pageMap">
 					    Cancelar
 				    </a>					
@@ -1000,7 +1000,6 @@
 				    </a>
 			    </form>            
             </div>
-
 			
             <div data-role="footer">
                 <h1>Pas 1/4</h1>
