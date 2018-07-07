@@ -737,17 +737,17 @@
 				$.mobile.changePage( "#revisaImatge");
 				$.ajax({
                     type: "POST",
-                    url: "http://issolutions.esy.es/ma/www/php/select.php",
-                    contentType: "application/json; charset=ISO-8859-1",
+                    url: "http://issolutions.esy.es/ma/www/php/select_darrer.php",
+                    //contentType: "application/json; charset=ISO-8859-1",
                     dataType: "json",
                     success: function( data ) {   
 						visor.data = data;
 						$.each(visor.data,function(i,punt){
-							if (i == 9){
-								$('#textarea-1').val(punt.adreca);
-								$('#imatge-1').attr('src','http://issolutions.esy.es/ma/www/php/image/' + punt.imatge ); 
+							if (i == 0){
+								$('#textarea-1').val(visor.data[0].adreca);
+								$('#imatge-1').attr('src','http://issolutions.esy.es/ma/www/php/image/' + visor.data[0].imatge ); 
 								//alert(punt.codi);
-								visor.params.codi = punt.codi;
+								visor.params.codi = visor.data[0].codi;
 							}
 					    });
                     },
@@ -761,6 +761,35 @@
                 var params = {};
                 params.codi = codigo;
 				//codi = 1240;
+					var llistat = ' ';
+							llistat += ''
+								+ '<div style="width:20%;float:left;height:auto">'
+								+ 	'<a class="ui-btn ui-corner-all ui-icon-delete " '
+							//	+ 	'   href="#llistaAvisos"'
+								+ 	'   onclick=" recuperaElements();">'
+								+     '		Inici'
+								+	 '</a>'
+								+ '</div>'
+								+ '<div style="width:20%;float:left;height:auto">		'
+								+ '	<a class="ui-btn ui-corner-all ui-icon-delete " '
+							//	+ '	   href="#llistaAvisos"'
+								+ '	   onclick=" recuperaElements(visor.darrerAvisLlista);">'
+								+ '	   Enrere'
+								+ '	</a>'
+								+ '</div>'
+								+ '<div style="width:20%;float:left;height:auto">		'							
+								+ '	<a class="ui-btn ui-corner-all ui-icon-delete " '
+							//	+ '	   href="#llistaAvisos"'
+								+ '	   onclick=" visor.darrerAvisLlista = Number(visor.darrerAvisLlista) + 20 ;recuperaElements(visor.darrerAvisLlista);">'
+								+ '	   Endavant'
+								+ '	</a>'
+								+ '</div>'
+								+ '<div style="width:20%;float:left;height:auto">'
+								+ '	<a  class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " '
+								+ '	   href="#pageMap">'
+								+ '	   Sortir'
+								+ '	</a>'
+								+ '</div>';				
 				$.ajax({
                     data:params,
 					type: "POST",
@@ -768,71 +797,77 @@
                    // contentType: "application/json; charset=ISO-8859-1",
                     dataType: "json",
                     success: function( data ) {                   
-                        visor.data = data;
-                        visor.totMarker = new L.FeatureGroup();
-                        var iconSizeX = 30;
-                        var iconSizeY = 45;             
-                        var iconMap = L.icon({
-                            iconUrl: 'images/marker-icon-red.png' ,
-                            shadowUrl: 'images/marker-shadow.png',
-                            iconSize:     [iconSizeX, iconSizeY], // size of the icon
-                            shadowSize:   [32, 32],  // size of the shadow
-                            iconAnchor:   [15, 45],  // point of the icon which will correspond to marker's location
-                            shadowAnchor: [ 10, 30], // the same for the shadow
-                            popupAnchor:  [ 0,-45]   // point from which the popup should open relative to the iconAnchor
-                        });       
-                       // var llistat = '<div data-demo-html="true"><ul data-role="listview"> ';
-                        var llistat = ' ';
+                        if (data  != 'test'){
+							visor.data = data;
+							visor.totMarker = new L.FeatureGroup();
+							var iconSizeX = 30;
+							var iconSizeY = 45;             
+							var iconMap = L.icon({
+								iconUrl: 'images/marker-icon-red.png' ,
+								shadowUrl: 'images/marker-shadow.png',
+								iconSize:     [iconSizeX, iconSizeY], // size of the icon
+								shadowSize:   [32, 32],  // size of the shadow
+								iconAnchor:   [15, 45],  // point of the icon which will correspond to marker's location
+								shadowAnchor: [ 10, 30], // the same for the shadow
+								popupAnchor:  [ 0,-45]   // point from which the popup should open relative to the iconAnchor
+							});       
+						   // var llistat = '<div data-demo-html="true"><ul data-role="listview"> ';
+								
                         
-						$.each(visor.data,function(i,punt){
-						    visor.darrerAvisLlista = punt.codi;
-							var diaData = punt.data_imatge.split(' ')[0].split('-');
-							var horaData = punt.data_imatge.split(' ')[1];
-							
-							llistat += '<div style="height:auto; width:100%;margin-top:0.5em;border-bottom:#444 1px dotted;overflow:hidden" >'
-							                + '<div style="float:left;width:60%;height:auto">'
-							                + '   <div style="float:left;height:auto;width:100%">'
-							                +       '<span style="font-weight:bold;font-size:1.0em;color:#359">' +  punt.codi + ' </span> ' 
-											+       '<span style="font-weight:bold;font-size:1.0em;color:#359"> - ' + diaData[2] + '/' + diaData[1] + '/'+diaData[0] + '</span>  ' + '<span style="font-size:0.8em"> (' + horaData + ')</(span>'
-							                + '   </div>'
-							                + '   <div style="float:left;height:auto;font-size:0.8em;color:#B57;">'
-							                +       '<b>' +  punt.correu + ' </b> ' 
-							                + '   </div>'											
-							                + '   <div style="float:left;height:auto;font-size:0.8em;color:#579;">'
-							                +       '<b>' +  punt.adreca + ' </b> ' 
-							                + '   </div>'
-							                + '   <div style="font-size:0.9em;float:left;height:auto;margin-top:1em;color:#888;font-size:0.9em;width:100%"">'
-							                +       '' +  punt.descripcio + '' 
-							                + '   </div>'											
-											+ '</div>' 
-											+ '<div style="float:left;width:40%;height:auto">'
-											+ '   <div style="float:right"> <img  width=150  src="http://issolutions.esy.es/ma/www/php/image/' 
-                                            +          punt.imatge 
-                                            +          '?d='
-                                            +          new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
-                                            + '   " /> '
-							                + '   </div>'
-											+ '</div>'
-											+ '</div> ';
-											
-                          /*  var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
-                                .bindPopup('  <div>'
-                                            +     punt.data_imatge
-                                            + '</div>'
-                                            + '<div><b>'
-                                            + punt.adreca
-                                            + '</b></div>'
-                                            +    '<img width=150 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
-                                            +       punt.imatge 
-                                            +       '?d='
-                                            +       new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
-                                            + '" />');
-                            visor.totMarker.addLayer(marker);
-                            visor.map.addLayer(visor.totMarker);*/
-							
-                        });
+							$.each(visor.data,function(i,punt){
+								visor.darrerAvisLlista = punt.codi;
+								var diaData = punt.data_imatge.split(' ')[0].split('-');
+								var horaData = punt.data_imatge.split(' ')[1];
+								
+								llistat += '<div style="height:auto; width:100%;margin-top:0.5em;border-bottom:#444 1px dotted;overflow:hidden" >'
+												+ '<div style="float:left;width:60%;height:auto">'
+												+ '   <div style="float:left;height:auto;width:100%">'
+												+       '<span style="font-weight:bold;font-size:1.0em;color:#359">' +  punt.codi + ' </span> ' 
+												+       '<span style="font-weight:bold;font-size:1.0em;color:#359"> - ' + diaData[2] + '/' + diaData[1] + '/'+diaData[0] + '</span>  ' + '<span style="font-size:0.8em"> (' + horaData + ')</(span>'
+												+ '   </div>'
+												+ '   <div style="float:left;height:auto;font-size:0.8em;color:#B57;">'
+												+       '<b>' +  punt.correu + ' </b> ' 
+												+ '   </div>'											
+												+ '   <div style="float:left;height:auto;font-size:0.8em;color:#579;">'
+												+       '<b>' +  punt.adreca + ' </b> ' 
+												+ '   </div>'
+												+ '   <div style="font-size:0.9em;float:left;height:auto;margin-top:1em;color:#888;font-size:0.9em;width:100%"">'
+												+       '' +  punt.descripcio + '' 
+												+ '   </div>'											
+												+ '</div>' 
+												+ '<div style="float:left;width:40%;height:auto">'
+												+ '   <div style="float:right"> <img  width=150  src="http://issolutions.esy.es/ma/www/php/image/' 
+												+          punt.imatge 
+												+          '?d='
+												+          new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
+												+ '   " /> '
+												+ '   </div>'
+												+ '</div>'
+												+ '</div> ';
+												
+							  /*  var marker = L.marker([punt.den_y, punt.den_x],{icon: iconMap})
+									.bindPopup('  <div>'
+												+     punt.data_imatge
+												+ '</div>'
+												+ '<div><b>'
+												+ punt.adreca
+												+ '</b></div>'
+												+    '<img width=150 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
+												+       punt.imatge 
+												+       '?d='
+												+       new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
+												+ '" />');
+								visor.totMarker.addLayer(marker);
+								visor.map.addLayer(visor.totMarker);*/
+								
+							});
+						}
 						//llistat += '</ul>' ;
-						$('#contLlista').html('').html(llistat).trigger("create");
+
+						
+						
+						
+						$('#contLlista').html('').html(llistat);
 						
                     },
 					error:function(){alert('eeeesss');}
@@ -947,14 +982,15 @@
         
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
-            <!------------------ Header --------------->    
+            <!------------------ Header ----------recuperaElements()----->    
 			<div id="header" style="border-width: 0px; height:2.3em;background-color: #359; color: rgb(250, 250, 250); font-family: inherit; font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
-				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 16px;" onclick="recuperaElements();">
+				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 16px;" onclick="recuperaDarrerAvis();"> 
 					<!--img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png"-->
 				</div>
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
 					
-					<div onclick="recuperaElements(1520);$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
+					<!--div onclick="recuperaDarrerAvis();$(':mobile-pagecontainer').pagecontainer('change', '#revisaImatge');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"--> 
+					<div onclick="recuperaElements();$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
 						<!--a id="activa" href="#imatgePujada" data-transition="pop"-->	
 							Depana Sistema Avisos
 						<!--/a-->			
@@ -1180,20 +1216,7 @@
             <div data-role="content" style="font-size:0.8em" id="contLlista"> 
         
             </div>
-			<a class="ui-btn ui-corner-all ui-icon-delete " 
-			   href="#llistaAvisos"
-			   onclick=" recuperaElements(1540);">
-				Principi llista
-			</a>			
-			<a class="ui-btn ui-corner-all ui-icon-delete " 
-			   href="#llistaAvisos"
-			   onclick=" recuperaElements(visor.darrerAvisLlista);">
-				Anteriors avisos
-			</a>			
-			<a class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " 
-			   href="#pageMap">
-				Sortir
-			</a>				
+	
 	
             <div data-role="footer">
                 <h1>Avisos</h1>
