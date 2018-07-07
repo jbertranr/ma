@@ -47,7 +47,25 @@
                 width:100%; 
             }
             
-            
+		    .boto_4 {
+				text-align: center;
+				width: 20%;
+				margin: 1% 2%;
+				border-radius: 5px;
+				background-color: #777;
+				padding-top: 0.6em;
+				float: left;
+				height: 2em;
+				width: 20%;
+				text-shadow:none;
+				color:#fff;
+			}
+
+			.boto_4:hover {
+				background-color: #2075c8;
+				color:#444;
+			}
+			
             .cub{
                 font-weight:bold;
                 text-shadow:none;
@@ -763,33 +781,34 @@
 				//codi = 1240;
 					var llistat = ' ';
 							llistat += ''
-								+ '<div style="width:20%;float:left;height:auto">'
-								+ 	'<a class="ui-btn ui-corner-all ui-icon-delete " '
+								+ '<div class="boto_4">'
+								+ 	'<a style="color:#fff" '
 							//	+ 	'   href="#llistaAvisos"'
 								+ 	'   onclick=" recuperaElements();">'
-								+     '		Inici'
+								+     '		Darrer'
 								+	 '</a>'
 								+ '</div>'
-								+ '<div style="width:20%;float:left;height:auto">		'
-								+ '	<a class="ui-btn ui-corner-all ui-icon-delete " '
-							//	+ '	   href="#llistaAvisos"'
-								+ '	   onclick=" recuperaElements(visor.darrerAvisLlista);">'
-								+ '	   Enrere'
-								+ '	</a>'
-								+ '</div>'
-								+ '<div style="width:20%;float:left;height:auto">		'							
-								+ '	<a class="ui-btn ui-corner-all ui-icon-delete " '
+								+ '<div class="boto_4">'
+								+ 	'<a style="color:#fff" '			
 							//	+ '	   href="#llistaAvisos"'
 								+ '	   onclick=" visor.darrerAvisLlista = Number(visor.darrerAvisLlista) + 20 ;recuperaElements(visor.darrerAvisLlista);">'
-								+ '	   Endavant'
+								+ '	   Posteriors'
 								+ '	</a>'
 								+ '</div>'
-								+ '<div style="width:20%;float:left;height:auto">'
-								+ '	<a  class="ui-btn ui-btn-a ui-corner-all ui-icon-delete " '
+								+ '<div class="boto_4">'
+				                + 	'<a style="color:#fff" '			
+								+ '	   onclick=" recuperaElements(visor.darrerAvisLlista);">'
+								+ '	   Anteriors'
+								+ '	</a>'
+
+								+ '</div>'
+								+ '<div class="boto_4">'
+								+ 	'<a style="color:#fff" '			
 								+ '	   href="#pageMap">'
 								+ '	   Sortir'
 								+ '	</a>'
-								+ '</div>';				
+								+ '</div>'
+								+ 	'<div style="height:1em; width:100%"></div>';				
 				$.ajax({
                     data:params,
 					type: "POST",
@@ -819,8 +838,8 @@
 								var diaData = punt.data_imatge.split(' ')[0].split('-');
 								var horaData = punt.data_imatge.split(' ')[1];
 								
-								llistat += '<div style="height:auto; width:100%;margin-top:0.5em;border-bottom:#444 1px dotted;overflow:hidden" >'
-												+ '<div style="float:left;width:60%;height:auto">'
+								llistat += '<div style="height:auto; width:100%;margin-top:1em;border-top:#444 1px dotted;overflow:hidden" >'
+												+ '<div style="float:left;width:60%;height:auto;margin-top:1em;">'
 												+ '   <div style="float:left;height:auto;width:100%">'
 												+       '<span style="font-weight:bold;font-size:1.0em;color:#359">' +  punt.codi + ' </span> ' 
 												+       '<span style="font-weight:bold;font-size:1.0em;color:#359"> - ' + diaData[2] + '/' + diaData[1] + '/'+diaData[0] + '</span>  ' + '<span style="font-size:0.8em"> (' + horaData + ')</(span>'
@@ -835,8 +854,8 @@
 												+       '' +  punt.descripcio + '' 
 												+ '   </div>'											
 												+ '</div>' 
-												+ '<div style="float:left;width:40%;height:auto">'
-												+ '   <div style="float:right"> <img  width=150  src="http://issolutions.esy.es/ma/www/php/image/' 
+												+ '<div style="float:right;width:110px;height:auto;margin-top:1em;">'
+												+ '   <div style="float:right"> <img  width=100  src="http://issolutions.esy.es/ma/www/php/image/' 
 												+          punt.imatge 
 												+          '?d='
 												+          new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
@@ -852,7 +871,7 @@
 												+ '<div><b>'
 												+ punt.adreca
 												+ '</b></div>'
-												+    '<img width=150 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
+												+    '<img width=125 onerror="alert(\'Pujant la imatge ...\')" src="http://issolutions.esy.es/ma/www/php/image/' 
 												+       punt.imatge 
 												+       '?d='
 												+       new Date().getTime() // TODO: Per refrescar cache (optimitzar-ho amb onerror)                                            
@@ -990,10 +1009,12 @@
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
 					
 					<!--div onclick="recuperaDarrerAvis();$(':mobile-pagecontainer').pagecontainer('change', '#revisaImatge');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"--> 
-					<div onclick="recuperaElements();$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
-						<!--a id="activa" href="#imatgePujada" data-transition="pop"-->	
+					<div onclick="$(':mobile-pagecontainer').pagecontainer('change', '#paraulaPas');" 
+			
+					     style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
+						
 							Depana Sistema Avisos
-						<!--/a-->			
+								
 				     </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Comunicacions mòbils </div>
 				</div>
@@ -1076,7 +1097,7 @@
 				    </a>					
 					<a onclick="visor.params.descripcio=$('#textarea-1').val();"   
 					   class="ui-btn ui-btn-b ui-corner-all ui-icon-delete " 
-					   href="#avisMapa">
+					   href="#avisMapa2">
 						Següent
 				    </a>
 			    </form>            
@@ -1096,7 +1117,7 @@
 		<div data-role="page" 
 		     data-dialog="true" 
 			 data-close-btn="none" 
-		     id="avisMapa"> 
+		     id="avisMapa2"> 
 			 
             <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
                  <h1>Ubicació Avís</h1> 
@@ -1223,7 +1244,35 @@
             </div>          
 			
         </div>		
+
+       <!--------------------------------  Mostra Llista ---------------------------------> 
+		
+        <!--------------------------------        ---------------------------------> 
+		<div data-role="page" 
+		     data-dialog="true" 
+			 id="paraulaPas"> 
+            <div data-role="header"  role="banner" id = "headerDetail" style="z-index: 1; box-shadow:0px 2px 6px #444444;">         
+                 <h1>Paraula de pas</h1> 
+            </div>           
+
+            <div data-role="content" style="font-size:0.8em" id="ppasCont"> 
+                <form id="frmPpas" data-ajax="false" >
+					<label for="ppas">Paraula de pas</label>
+					<textarea name="ppas" id="ppas"></textarea>
+					<a class="boto_4" style="margin-left:40%;color:#fff" onclick="var ppas2 = $('#ppas').val();  if (ppas2 == 'depana1234'){recuperaElements();$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');   }">
+						Llistat
+				    </a>
+			    </form>            
+
+            </div>
 	
+	
+            <div data-role="footer">
+                <h1>Avisos</h1>
+            </div>          
+			
+        </div>		
+			
 
 
 
