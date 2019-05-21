@@ -1,15 +1,26 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
-    <head>
+   <head>
         <title>Mobilitat - Avisos</title>
         <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"> 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" /> 
+        
+        
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.Default.css">  
+        
+        
+        
+        <!--link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" /--> 
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+        <!--link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /-->
         <link rel="stylesheet" href="js/locate/L.Control.Locate.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">    
-        <style>               
+        <style> 
+
+                        
             .leaflet-control-locate {display:none}
             
             #portada{
@@ -19,7 +30,7 @@
                 background-color:#f0cd2a;
             }
             
-			#fotoPortada{
+			   #fotoPortada{
                 width:100%;
                 height:100%;
                 margin:0px;              
@@ -66,25 +77,24 @@
 				color:#444;
 			}
 			
-            .cub{
-                font-weight:bold;
-                text-shadow:none;
-                background-color: transparent;
-                text-align:center; 
-                height:35px;
-                margin-top: 0em; 
-                margin-left:0em;
-                float: left; 
-                color: rgb(244, 244, 244); 
-                font-family:novaFont;
-                width: 80px;
-                    
-            }
+        .cub{
+           font-weight:bold;
+           text-shadow:none;
+           background-color: transparent;
+           text-align:center; 
+           height:35px;
+           margin-top: 0em; 
+           margin-left:0em;
+           float: left; 
+           color: rgb(244, 244, 244); 
+           font-family:novaFont;
+           width: 80px;                    
+        }
             
             
-            .controlMapa-junt {
-                margin-top: 1px;
-            }
+         .controlMapa-junt {
+             margin-top: 1px;
+        }
 
 			.controlMapa {
 				background-color: #359;
@@ -102,13 +112,14 @@
 				padding-left: -1px;
 				padding-top: 0px;
 				text-shadow: 0px 0px #000000;
+            overflow:hidden;
 			}
 			
             .controlMapa:hover {opacity:0.97}
 
             .controlMapa-separat {margin-top:5px}
             
-            .caixaControl{ z-index:5000;position:fixed;right:10px;top:60px; }
+            .caixaControl{ z-index:5000;position:fixed;left:23px;bottom:53px; }
 
             .caixaControlInferior {
                 position: fixed;
@@ -156,13 +167,22 @@
             .botoDescripcioActiu {margin-top: 0.6em; font-size: 1em; overflow: hidden; height: auto; width: 200px; text-align: center; color: rgb(255, 255, 255); background-color: rgb(130, 2, 10)}            
         </style>
       
-		<script src="phonegap.js"></script>
+		  <script src="phonegap.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-        <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>       
+        <!--script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script--> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js"></script> 
+        <script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/leaflet.markercluster.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/leaflet.markercluster-src.js "></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.3/proj4.js"></script>  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.1/proj4leaflet.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>  
+        <script src="https://mapes.mataro.cat/OpenData/CSS/pluginmapa.js"></script>          
         <script src="./js/locate/L.Control.Locate.min.js" ></script>
-        <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>         
-        <script src="js/leaflet-plugins-master/layer/tile/Google.js"></script>          
+        <!-- src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>         
+        <script src="js/leaflet-plugins-master/layer/tile/Google.js"></script-->          
         
         <script type="text/javascript"> 
 
@@ -203,13 +223,13 @@
                 'adrecaOSM':null,
 				    'params': {  projecte: 'Mobilitat', 'codi' : null , 'usuari_codi':null, 'adreca': null, 'descripcio': null, 'imatge': null , 'den_x' : null , 'den_y':null, 'usu_x': null, 'usu_y': null, 'correu': null , 'risc': null},
                 'primeraUbicació' :  1,
-				'codiAvisVigent' : null,
-				'darrerAvislista' : null
+				    'codiAvisVigent' : null,
+				    'darrerAvislista' : null
             };
             
             //-- Paràmetres d'inicialització
             
-			//actualitzaForm();
+			   //actualitzaForm();
 			
 			
             //-- Totes les pantalles
@@ -227,24 +247,19 @@
                 $('#pageMap').trigger('pagecreate');
                 if (visor.actiu == 0){
                     //setTimeout(function(){inicialitzaMapa(),3000}); 
-                    inicialitzaMapa()
-					visor.actiu = 1;    
+                    inicialitzaMapa();
+					    visor.actiu = 1;    
                 }    
             });
              
             //-- Inicia pageMap                    
             $( document ).on('pageshow','#pageMap', function(){
                 inicialitzaMapa(); 
-                ajustaFinestres(); 
-				//recuperaDarrerAvis();	// Eliminar línia només demo
-				//recuperaElements();	// Eliminar línia només demo
-				//$(':mobile-pagecontainer').pagecontainer('change', '#llistaAvisos');
+                setTimeout(function(){ajustaFinestres(),3000});  
             });
             
             $(window).bind('resize', function () {ajustaFinestres();});
-            
-        
- 
+  
             //-- Inicia llistaElements          
             $( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -275,60 +290,113 @@
                 });
                 */
             }
-
-
-			
-			
 			
             function actualitzaFormulari(){ }
             //-- Funcions del mapa
             //-- Inicialització del mapa 
 			
-            function inicialitzaMapa(){                 
- 	
-				if ( visor.map == undefined) {
-					visor.map = L.map('map', { zoomControl:false, detectRetina:true });
-					visor.popup = L.popup();
-					var opcionsBase= 'google';
-					visor.map.setView([41.37, 2.15], 12);   
-					
-					switch (opcionsBase){
-						case 'mapbox':           
-							var capa = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-										attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							});
-							break;
-						
-						case 'googleSat':
-							var capa = new L.Google('');
-							break;
-					
-						case 'google':
-							var capa = new L.Google('map');
-							break;   
-						
-						default :
-							var capa = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-								maxZoom: 18,
-								attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
-									+
-									'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-									'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-								id: 'examples.map-i875mjb7'
-							});
-							break;
-					}   
+            function inicialitzaMapa(){ 
+            
+               if ( visor.map == undefined) {
+            
+                  var crs25831 = new L.Proj.CRS('EPSG:25831','+proj=utm +zone=31 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',   
+                   {           
+                       // resolutions:  [8.821702, 3.52868, 1.76394, 0.8820702, 0.352868, 0.176434, 0.0705736],   
+                        bounds: L.bounds([257909.15, 4484800.15], [535906.39, 4751797.52]),
+                        resolutions: [10, 5, 2, 1, 0.5,0.25, 0.15, 0.05],    
+                       // bounds: L.bounds([258000,  4485000], [536000, 4752000]),    
+                        origin: [257909.15, 4484800.15 ]      
+                   }) 
+     
+                  var crs23031 =new L.Proj.CRS('EPSG:23031','+proj=utm +zone=31 +ellps=intl +units=m +no_defs',   
+                   {           
+                        resolutions: [10, 5, 2, 1, 0.5,0.25, 0.15, 0.05],    
+                        bounds: L.bounds([258000,  4485000], [536000, 4752000]),  
+                        origin: [258000,  4485000 ]      
+                   }) 
 
-					visor.map.addLayer(capa);
-					// -- Event en fer click    
-					visor.map.on('click', function(e) {        
-											placeCamera(e);
-											recuperaAdreca(e.latlng);    
-										});
-								 
-					//missatgePeuMapa( 'buscaPosicio' ); 
-					activaLocator();                               
-				} 
+                  var guiaUrbana = L.tileLayer(" http://serveisweb.mataro.cat/mapproxy/tms/1.0.0/ly_guiaurbana_tms/grd_25831_tms/{z}/{x}/{-y}.png", { 
+                      maxZoom:7,  
+                      minZoom:0,    
+                      attribution: " Mataró "  
+                    });
+                    
+                  var guiaUrbana_nit = L.tileLayer(" http:/serveisweb.mataro.cat/mapproxy/tms/1.0.0/ly_guiaurbana_nit_tms/grd_25831_tms/{z}/{x}/{-y}.png", {
+                      maxZoom:7,  
+                      minZoom:0,    
+                      attribution: " Mataró "  
+                    });
+
+                   var serveiTopoCache = L.tileLayer.wms("http://mapcache.icc.cat/map/bases/service?", { 
+                          layers: 'topo', 
+                          format: 'image/jpeg', 
+                          crs: crs25831, 
+                          continuousWorld: true, 
+                          attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC' 
+                    });
+
+                   var serveiOrtoCache = L.tileLayer.wms("http://mapcache.icc.cat/map/bases/service?", { 
+                          layers: 'orto', 
+                          format: 'image/jpeg', 
+                          crs: crs25831, 
+                          continuousWorld: true, 
+                          attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC' 
+                    });
+
+                    var serveitopoGrisCache = L.tileLayer.wms("http://mapcache.icc.cat/map/bases/service?", {  
+                          layers: 'topogris', 
+                          format: 'image/jpeg', 
+                          crs: crs25831, 
+                          continuousWorld: true, 
+                          attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC' 
+                    });
+
+                    var wmsComarques = L.tileLayer.wms("http://geoserveis.icc.cat/icc_limadmin/wms/service?", { 
+                          layers: '5,1', 
+                          format: 'image/png', 
+                          crs: crs25831, 
+                          transparent: true, 
+                          continuousWorld: true, 
+                          attribution: 'Base Comarcal 1:50.000 -ICGC' 
+                    });        
+
+
+                   var baseMaps = { 
+                     'Guia Urbana' : guiaUrbana,
+                     'Guia Urbana Nit' : guiaUrbana_nit,
+                     'Topogràfic': serveiTopoCache,
+                     'Topogràfic gris': serveitopoGrisCache,
+                     'Ortofoto': serveiOrtoCache
+                     }; 
+                    
+                    visor.map = L.map('contMapa',{ 
+                                           crs: crs25831,
+                                           worldCopyJump: false, 
+                                           layers: [ baseMaps['Guia Urbana']],                             
+                                            maxZoom:6,
+                                            minZoom:0 })
+                                            .setView([41.54, 2.44], 3);
+                                            L.control.layers(baseMaps).addTo(visor.map);
+                    
+                    visor.map.doubleClickZoom.disable();
+                   
+ 	
+
+                  //visor.map = L.map('map', { zoomControl:false, detectRetina:true });
+                  visor.popup = L.popup();
+                  
+                  //var opcionsBase= 'google';
+
+                  //visor.map.addLayer(capa);
+                  // -- Event en fer click    
+                  visor.map.on('click', function(e) {        
+                                    placeCamera(e);
+                                    recuperaAdreca(e.latlng);    
+                                 });
+                            
+                  //missatgePeuMapa( 'buscaPosicio' ); 
+                  activaLocator();                               
+               } 
 			}
 			
             function missatgePeuMapa( contingut, foto ){
@@ -419,12 +487,12 @@
             }
             
             function activaLocator(){
-			// Activa la localització del plugin de leaflet 
+			      // Activa la localització del plugin de leaflet 
 				   visor.locate = L.control.locate( {
-					position: 'topright',  // set the location of the control
+					position: 'bottomright',  // set the location of the control
 					drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
-					follow: false,  // follow the user's location
-					setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
+					follow: true,  // follow the user's location
+					setView: false, // automatically sets the map view to the user's location, enabled if `follow` is true
 					keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
 					stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
 					remainActive: false, // if true locate control remains active on click even if the user's location is in view.
@@ -842,6 +910,7 @@
                 // $.mobile.changePage($('#imatgePujada'),'pop'); Per ara bloquejat - Nomostra les dades de la imatge pujada per deixar temps a que pugi a l'aplicació
             }
             
+            
             // Creació del llistat de punts 
             function creaRelacioPunts(){
                 $.each(visor.data,function(i,punt){
@@ -902,8 +971,8 @@
                 ajustaFinestres();    
             } 
 
-      function geoposiciona2(){
-         var options = {
+         function geoposiciona2(){
+            var options = {
            enableHighAccuracy: true,
            timeout: 5000,
            maximumAge: 0
@@ -963,7 +1032,7 @@
 			</div>
             
             <!------------------ Content --------------->
-             <div data-role="content" id="contMapa" style="border-top:1px solid rgb(211,211,211);clear:both;padding-top:14px;padding-left:0px;"> 
+             <div data-role="content" id="contMapa" style="overflow:hidden;border-top:1px solid rgb(211,211,211);clear:both;padding-top:14px;padding-left:0px;"> 
             
                 <div class="caixaControl" >          
 
