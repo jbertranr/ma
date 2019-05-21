@@ -264,10 +264,24 @@
             $( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
                 //creaRelacioPunts(); Bloquejat l'accés al detall
-            });         
+            });    
             
-
-			
+            function mostraJSON(){
+               var path = window.location.href.replace('index.html','');
+               $.getJSON( path + "data/DS_EQUIP01.json", function( data ) {
+                 var items = [];
+                 $.each( data, function( key, val ) {
+                   items.push( "<li id='" + key + "'>" + val + "</li>" );
+                   alert(key + ' ' + val);
+                 });
+                
+                 $( "<ul/>", {
+                   "class": "my-new-list",
+                   html: items.join( "" )
+                 }).appendTo( "body" );
+               });
+            }
+         
             function ajustaFinestres(){         
                 var resizeTimer = null;         
                 if (resizeTimer) clearTimeout(resizeTimer);         
@@ -491,9 +505,9 @@
 				   visor.locate = L.control.locate( {
 					position: 'bottomright',  // set the location of the control
 					drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
-					follow: true,  // follow the user's location
+					follow: false,  // follow the user's location
 					setView: false, // automatically sets the map view to the user's location, enabled if `follow` is true
-					keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+					keepCurrentZoomLevel: true, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
 					stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
 					remainActive: false, // if true locate control remains active on click even if the user's location is in view.
 					markerClass: L.marker, // L.circleMarker or L.marker
@@ -874,6 +888,7 @@
             }  
             
             function creaImatgePujada(params) {
+            
                 $('#divImatgePujada').prepend( '     <div class="divContImatge" style="width=100%;height:auto"> '
                                             + '         <div class="divContImatgeTitol" style="font-size:14px;height:30px;"> '
                                             + '             Dades de la Imatge Pujada '
@@ -1016,7 +1031,8 @@
 					
 					<!--div onclick="recuperaDarrerAvis();$(':mobile-pagecontainer').pagecontainer('change', '#revisaImatge');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"--> 
 					<!--div onclick="$(':mobile-pagecontainer').pagecontainer('change', '#paraulaPas');" -->
-               <div onclick="window.open('https://aplicacions.mataro.org:444/apex/f?p=261:5','_self'); " 
+               <!--div onclick="window.open('https://aplicacions.mataro.org:444/apex/f?p=261:5','_self'); "--> 
+               <div onclick="mostraJSON(); " 
 			      
 					     style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
 						
