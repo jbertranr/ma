@@ -257,7 +257,18 @@
                         $ul.listview( "refresh" );
                         $.getJSON( window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json',
                                    function ( response ) {
-                                       $.each( response, function ( i, val ) {
+                                       var output = '';
+                                       for (var entry in response) {
+                                         output += 'key: ' + entry + ' | value: ' + response[entry] + '\n';
+                                       }
+                                       alert(output);                                    
+
+
+
+
+
+
+                                      $.each( response, function ( i, val ) {
                                            html += "<li>" + val + "</li>";
                                        });
                                        $ul.html( html );
