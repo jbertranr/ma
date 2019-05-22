@@ -159,7 +159,7 @@
             .iconWrapper { float:right;margin-right:30px;margin-top:15px}
             .botoDescripcioActiu {margin-top: 0.6em; font-size: 1em; overflow: hidden; height: auto; width: 200px; text-align: center; color: rgb(255, 255, 255); background-color: rgb(130, 2, 10)}            
         </style>
-      
+    
 		  <script src="phonegap.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -218,8 +218,8 @@
 				    'codiAvisVigent' : null,
 				    'darrerAvislista' : null
             };
-
-            
+ 
+ 
             // -- 2 INICIALITZACIÓ DE LES PANTALLES - Eevents    
             //-- Totes les pantalles            
             $( window ).on( 'orientationchange', function( event ) {ajustaPortada();});                        
@@ -244,7 +244,56 @@
             });
             
             $(window).bind('resize', function () {ajustaFinestres();});
-  
+
+            $( document ).on( "pagecreate", "#pageMap", function() {
+                $( "#autocomplete" ).on( "filterablebeforefilter", function ( e, data ) {
+                    var $ul = $( this ),
+                        $input = $( data.input ),
+                        value = $input.val(),
+                        html = "";
+                    $ul.html( "" );
+                    if ( value && value.length > 2 ) {
+                        $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+                        $ul.listview( "refresh" );
+                        $.getJSON( window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json',
+                                   function ( response ) {
+                                       $.each( response, function ( i, val ) {
+                                           html += "<li>" + val + "</li>";
+                                       });
+                                       $ul.html( html );
+                                       $ul.listview( "refresh" );
+                                       $ul.trigger( "updatelayout");
+                        });
+                     }
+                });
+             });                    
+                        
+                /*    $.ajax({
+                            url: window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json', // ;"http://gd.geobytes.com/AutoCompleteCity",
+                            dataType: "json",
+                            crossDomain: true,
+                            data: {
+                                q: $input.val()
+                            }
+                        })
+                        .then( function ( response ) {
+                            $.each( response, function ( i, val ) {
+                                html += "<li>" + val + "</li>";
+                            });
+                            $ul.html( html );
+                            $ul.listview( "refresh" );
+                            $ul.trigger( "updatelayout");
+                        });
+                      
+                    }
+                });
+            });
+            
+            */  
+
+
+
+            
             //-- Inicia llistaElements          
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -275,12 +324,11 @@
                 });
                 */
             }
-			
-           
 
             // -- 3 FUNCIONS DEL VISOR LEAFLET
             //
-            function mostraJSON(){
+            function mostraJSON(){ 
+               fitxer = window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json' ;
                var path = window.location.href.replace('index.html','');
                $.getJSON( path + "data/DS_EQUIP01.json", function( data ) {
                  var items = [];
@@ -295,6 +343,26 @@
                  }).appendTo( "body" );
                });
             }
+ 
+            function cercaGenerica( fitxer ){
+               fitxer = window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json' ;
+               $('#equipament').autocomplete({
+                   source: function (request, response) {
+                       $.getJSON( fitxer, function (data) {
+                           response($.map(data.equipaments, function (value, key) {
+                               return {
+                                   label: value,
+                                   value: key
+                               };
+                           }));
+                       });
+                   },
+                   minLength: 2,
+                   delay: 100
+               });
+            
+            }
+ 
  
             
             // -- 4 INICIALITZACIÓ DEL MAPA LEAFLET 
@@ -1006,6 +1074,7 @@
 					<!--div onclick="recuperaDarrerAvis();$(':mobile-pagecontainer').pagecontainer('change', '#revisaImatge');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"--> 
 					<!--div onclick="$(':mobile-pagecontainer').pagecontainer('change', '#paraulaPas');" -->
                <!--div onclick="window.open('https://aplicacions.mataro.org:444/apex/f?p=261:5','_self'); "--> 
+               
                <div onclick="mostraJSON(); " 			      
 					     style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 						
 							Informació via pública                     
@@ -1016,11 +1085,17 @@
 					<i class="fa fa-close"></i>
 				</div>						
 			</div>
-            
+
+
+
+                <form class="ui-filterable">
+                   <input id="autocomplete-input" data-type="search" placeholder="Find a city...">
+                </form>             
+                <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-input="#autocomplete-input" style="position.fixed;top:12px;right:10px"></ul>
+         
             <!------------------ Content --------------->
-             <div data-role="content" id="contMapa" style="overflow:hidden;border-top:1px solid rgb(211,211,211);clear:both;padding-top:14px;padding-left:0px;"> 
-            
-                <div class="caixaControl" >          
+             <div data-role="content" id="contMapa" style="overflow:hidden;border-top:1px solid rgb(211,211,211);clear:both;padding-top:14px;padding-left:0px;">
+                <div class="caixaControl" >       
 
                     <!--div id="troba3" class="controlMapa controlMapa-separat" onclick="visor.locate.start();"-->
                         <!--div id="troba3" class="controlMapa controlMapa-separat" onclick="geoposiciona2();"-->
@@ -1266,19 +1341,7 @@
             </div>          
 			
         </div>		
-			
-
-
-
-
-
-
-
-
-
-
-
-
+	
 		
         <!--  Pàgina Imatge Pujada -->      
         <div data-role="page" data-dialog="false" id="imatgePujada"> 
