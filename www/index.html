@@ -13,9 +13,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">    
         <style> 
-
                         
-            .leaflet-control-locate {display:none}
+            //.leaflet-control-locate {display:none}
             
             #portada{
                 width:100%;
@@ -174,7 +173,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>  
         <script src="https://mapes.mataro.cat/OpenData/CSS/pluginmapa.js"></script>          
         <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
-  
         
         <script type="text/javascript"> 
 
@@ -251,9 +249,7 @@
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
                 //creaRelacioPunts(); Bloquejat l'accés al detall
-            //});    
- 
-
+            //});
 
             //-- Reajustaments dinàmics
  
@@ -299,8 +295,6 @@
                  }).appendTo( "body" );
                });
             }
-          
-
  
             
             // -- 4 INICIALITZACIÓ DEL MAPA LEAFLET 
@@ -409,16 +403,13 @@
                   activaLocator();                               
                } 
 			}
-			
-
- 
-// ---  FUNCIONS DE LOCATOR I EVENTS ASSOCIATS 
- 
+	
+            // ---  FUNCIONS DE LOCATOR I EVENTS ASSOCIATS  
             function activaLocator(){
 			      // Activa la localització del plugin de leaflet 
 			
 	            visor.locate = L.control.locate( {
-                  position: 'bottomright',  // set the location of the control
+                  position: 'topleft',  // set the location of the control
                   //layer: ; The layer that the user's location should be drawn on.
                   setView:'once',// Set the map view (zoom and pan) to the user's location as it updates. Options are false, 'once', 'always', 'untilPan', or 'untilPanOrZoom'
                   flyto:false, // 	Smooth pan and zoom to the location of the marker. Only works in Leaflet 1.0+.
@@ -491,8 +482,6 @@
             //        visor.primeraUbicacio = 0;
             //    }            
             }
-
-
             
             //-- Mostra la icona en el punt actual TODO: unificar funció anterior
 			
@@ -551,7 +540,7 @@
                 alert(e.message);
             }
             
-//-- ENVIAMENT DE LA FOTOGRAFIA I ACTUALITZACIÓ DE LA BASE DE DADES
+        //-- ENVIAMENT DE LA FOTOGRAFIA I ACTUALITZACIÓ DE LA BASE DE DADES
         /*  
             function uploadFromGallery() {
                 // Retrieve image file location from specified source
@@ -654,7 +643,6 @@
          navigator.geolocation.getCurrentPosition(success, error, options); 
                  
       }*/ 
-
       
 // --  A FUNCIONS SENSE ÚS
  /*
@@ -1012,22 +1000,16 @@
         <div data-role="page" id="pageMap" > 
             <!------------------ Header ----------recuperaElements()----->    
 			<div id="header" style="border-width: 0px; height:2.3em;background-color: #359; color: rgb(250, 250, 250); font-family: inherit; font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
-				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 16px;" onclick="recuperaDarrerAvis();">
- 
-					<!--img width="34" style="margin-left: 4px; margin-top:3px;" src="icon.png"-->
+				<div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 16px;" onclick="recuperaDarrerAvis();">			
 				</div>
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
-					
 					<!--div onclick="recuperaDarrerAvis();$(':mobile-pagecontainer').pagecontainer('change', '#revisaImatge');" style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"--> 
 					<!--div onclick="$(':mobile-pagecontainer').pagecontainer('change', '#paraulaPas');" -->
                <!--div onclick="window.open('https://aplicacions.mataro.org:444/apex/f?p=261:5','_self'); "--> 
-               <div onclick="mostraJSON(); " 
-			      
-					     style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 
-						
-							Informació via pública
-                     
-				     </div>
+               <div onclick="mostraJSON(); " 			      
+					     style="float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 						
+							Informació via pública                     
+				   </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Comunicacions mòbils </div>
 				</div>
 				<div id="troba5" style="float: right;margin-top: -1.4em;height: 24px;font-size: 1.3em;width: 5%;margin-right: 12px;" onclick="navigator.app.exitApp();">
@@ -1040,10 +1022,10 @@
             
                 <div class="caixaControl" >          
 
-                    <div id="troba3" class="controlMapa controlMapa-separat" onclick="visor.locate.start();">
+                    <!--div id="troba3" class="controlMapa controlMapa-separat" onclick="visor.locate.start();"-->
                         <!--div id="troba3" class="controlMapa controlMapa-separat" onclick="geoposiciona2();"-->
-                        <i class="fa fa-location-arrow" aria-hidden="true" style="padding-top:0.05em" ></i>
-                    </div>
+                        <!--i class="fa fa-location-arrow" aria-hidden="true" style="padding-top:0.05em" ></i -->
+                    <!--/div -->
 					
                     <!--div id="troba3" class="controlMapa controlMapa-separat" onclick="missatgePeuMapa( 'fesFoto' );">
                         <i class="fa fa-map" aria-hidden="true"></i>
