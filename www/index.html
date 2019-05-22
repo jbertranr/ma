@@ -507,38 +507,47 @@
 			      // Activa la localització del plugin de leaflet 
 				   visor.locate = L.control.locate( {
                   position: 'bottomright',  // set the location of the control
+                  //layer: ; The layer that the user's location should be drawn on.
+                  setView:'always',// Set the map view (zoom and pan) to the user's location as it updates. Options are false, 'once', 'always', 'untilPan', or 'untilPanOrZoom'
+                  flyto:true, // 	Smooth pan and zoom to the location of the marker. Only works in Leaflet 1.0+.
+                  keepCurrentZoomLevel: true, // Only pan when setting the view.
+                  //clickBehavior: //What to do when the user clicks on the control. Has three options inView, inViewNotFollowing and outOfView. Possible values are stop and setView, or the name of a behaviour to inherit from.
+                  //returnToPrevBounds:, // If set, save the map bounds just before centering to the user's location. When control is disabled, set the view back to the bounds that were saved.
+                  //cacheLocation:, // Keep a cache of the location after the user deactivates the control. If set to false, the user has to wait until the locate API returns a new location before they see where they are again.
+                  showCompass: true, //Show the compass bearing on top of the location marker
                   drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
-                  follow: false,  // follow the user's location
-                  setView: false, // automatically sets the map view to the user's location, enabled if `follow` is true
-                  keepCurrentZoomLevel: true, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
-                  stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
-                  remainActive: false, // if true locate control remains active on click even if the user's location is in view.
-                  markerClass: L.marker, // L.circleMarker or L.marker
-                  circleStyle: {},  // change the style of the circle around the user's location
-                  markerStyle: {},
+                  drawMarker: true,   //If set, the marker at the users' location is drawn.
+                  //markerClass: 'LocationMarker',
+                  //compassClass: 'CompassMarker',
+                  //circleStyle:, //Accuracy circle style properties.
+                  //markerStyle: {},
+                  //compassStyle:{},
                   followCircleStyle: {},  // set difference for the style of the circle around the user's location while following
                   followMarkerStyle: {},
+                  followCompassStyle:{},
                   icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
                   iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon
+                  iconElementTag:'span',
                   circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
-                  metric: true,  // use metric or imperial units
-                  onLocationError: function(err) {alert('Error en el posicionament');},  // define an error callback function
+                  //createButtonCallback:,
+                  //getLocationBounds:,
+                  onLocationError: function(err) {alert('Error en el posicionament');},  // define an error callback function                  
                   onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries
                   //alert(context.options.strings.outsideMapBoundsMsg);
-					},
-					showPopup: true, // display a popup when the user click on the inner marker
-					strings: {
-						title: "Troba la meva posició",  // title of the locate control
-						metersUnit: "meters", // string for metric units
-						feetUnit: "feet", // string for imperial units
-						popup: "Posició Actual",  // text to appear if user clicks on circle
-						outsideMapBoundsMsg: "Et trobes fora dels límits del mapa" // default message for onLocationOutsideMapBounds
-					},
-					locateOptions: {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
-				});
-				
+					   },    
+                  showPopup: true, // display a popup when the user click on the inner marker
+                  strings: {
+                     title: "Troba la meva posició",  // title of the locate control
+                     metersUnit: "meters", // string for metric units
+                     feetUnit: "feet", // string for imperial units
+                     popup: "Posició Actual",  // text to appear if user clicks on circle
+                     outsideMapBoundsMsg: "Et trobes fora dels límits del mapa" // default message for onLocationOutsideMapBounds
+                  },
+                  locateOptions: {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
+               });                  
+   			
 				//-- Incorpora el control al mapa
-				visor.locate.addTo(visor.map);
+				    visor.locate.addTo(visor.map);
                 visor.locate.start();
                 
 				
