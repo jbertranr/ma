@@ -16,6 +16,15 @@
                         
             //.leaflet-control-locate {display:none}
             
+            
+            .ui-listview > .ui-li-static {
+                font-size: 0.8em;
+                padding: 0.4em 0.5em;
+            }
+            
+            .ui-content {padding:0.2em;}
+            #autocomplete {margin:0em}
+            
             #portada{
                 width:100%;
                 height:100%;
@@ -260,10 +269,10 @@
                                        for (var entry in response.equipaments) {                                      
                                          html +=   "<li>" 
                                                  + " <div style='' onclick=\"mostraPoligon('" +response.equipaments[entry].WKT + "' );\" > "
-                                                 +     response.equipaments[entry].NOM  
-                                                 + " </div>"
+                                                 +     response.equipaments[entry].NOM
                                                  + "   <span style='font-size:0.8em'>" + response.equipaments[entry].ADRECA + "</span>"
-                                                 + "</li>";
+                                                 + "</li>"
+                                                 + " </div>";
                                        }                                       
                                        //alert(output);                                        
                                        $ul.html( html );
@@ -289,7 +298,7 @@
                 //if($("#peuMapa").is(':visible')) { var alcPeuMapa =  $('#peuMapa').height() } else {var alcPeuMapa = 0}
                 resizeTimer = setTimeout(function () {
                     $('#map').width($(window).width());
-                    $('#map').height($(window).height() - $('#header').height() - $('#autocomp').height()- $('#peuMapa').height() - 75 ); //abans -3
+                    $('#map').height($(window).height() - $('#header').height() - $('#autocomp').height()- $('#peuMapa').height() - 25 ); //abans -3
                     $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
                     visor.map._onResize(); 
                 });
@@ -334,7 +343,32 @@
                visor.map.flyToBounds(marker.getBounds(),{ maxZoom: 5});
             }
             
-            
+            function distance(lat1, lon1, lat2, lon2, unit) {
+               if ((lat1 == lat2) && (lon1 == lon2)) {
+                  return 0;
+               }
+               else {
+                  var radlat1 = Math.PI * lat1/180;
+                  var radlat2 = Math.PI * lat2/180;
+                  var theta = lon1-lon2;
+                  var radtheta = Math.PI * theta/180;
+                  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                  if (dist > 1) {
+                     dist = 1;
+                  }
+                  dist = Math.acos(dist);
+                  dist = dist * 180/Math.PI;
+                  dist = dist * 60 * 1.1515;
+                  if (unit=="K") { dist = dist * 1.609344 }
+                  if (unit=="N") { dist = dist * 0.8684 }
+                  return dist;
+               }
+            }
+ 
+ 
+ 
+ 
+ 
  
             function cercaGenerica( fitxer ){
                fitxer = window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json' ;
@@ -1077,35 +1111,35 @@
 				</div>
           
          </div>
- 
- 
+
+
+
         <!------------------ Content --------------->
            <div data-role="content">
-              <div style="clear:both;width:100%;height:auto;margin-bottom:1em;">        
-                  <form class="ui-filterable">
-                     <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
-                  </form>             
-                  <div id="autocomp" style="clear:both;width:100%;height:auto;max-height:20em;overflow:auto">  
-                     <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-input="#autocomplete-input" style="position.relative;"></ul>
-                  </div>   
-               </div>   
-               
+              <div id="map-wrap" style="display:flex;flex-direction:column;flex-wrap:wrap;height:100%">
+                 <div style="min-width:30em;flex-grow:1;order:1">        
+                     <form class="ui-filterable">
+                        <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                     </form>             
+                     <div id="autocomp" style="clear:both;width:100%;height:auto;max-height:7.5em;overflow:auto;margin-bottom:0.5em">  
+                        <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-input="#autocomplete-input" style="position.relative;"></ul>
+                     </div>   
+                 </div>  
 
-               <div id="contMapa" style="clear:both;overflow:hidden;border-top:1px solid rgb(211,211,211);padding-top:14px;padding-left:0px;">
-                   <div class="caixaControl" >  
+                 <div style="min-width:30em;flex-grow:1;order:2;height:100%"> 
+                    <div id="contMapa" > <!--style="clear:both;overflow:hidden;border-top:1px solid rgb(211,211,211);padding-top:14px;padding-left:0px;"-->
+                        <div class="caixaControl" ></div>
+                        <div class="caixaControlPeu" > 
+                           <div id="troba4" onclick="uploadFromGallery()" class="controlMapa controlMapa-separat" style="border-radius: 1em;width: 2em;height: 2em;background-color: #c00;">
+                                 <i class="fa fa-camera" aria-hidden="true" style="padding-top:0.5em"></i>
+                            </div>
+                        </div>
+                        <div class="caixaControlInferior">
+                        </div>
+                        <div id="map" style="height:100%;margin-top:-30px;margin-left:0px"></div>           
                    </div>
-                   <div class="caixaControlPeu" > 
-                       <div id="troba4" onclick="uploadFromGallery()" class="controlMapa controlMapa-separat" style="border-radius: 1em;width: 2em;height: 2em;background-color: #c00;">
-                           <i class="fa fa-camera" aria-hidden="true" style="padding-top:0.5em"></i>
-                       </div>
-                   </div>				
-                   
-                   <div class="caixaControlInferior">
-                   </div>  
-                   
-                   <div id="map" style="height:100%;margin-top:-30px;margin-left:0px"></div>           
-                   
-               </div>
+                </div>     
+              </div>
             </div>
             
             <!------------------ Footer --------------->
