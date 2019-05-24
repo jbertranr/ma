@@ -261,12 +261,12 @@
             
             
             $( document ).on( "pagecreate", "#pageMap", function() {
-                $( "#autocomplete-input" ).on( "keydown", function ( e ) {
+                $( "#autocomplete-input" ).on( "input", function ( e ) {
                     //alert('KEYPRESSED');                    
                     var $ul = $("#autocomplete");
                     var html = "";
                     $ul.html( "" );
-                    var value =  $('#autocomplete-input').val() + e.key;
+                    var value =  $('#autocomplete-input').val(); //+ e.which;
                     var numResposta = 0; 
                     if ( value.length > 2 ) {
                      //   $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
