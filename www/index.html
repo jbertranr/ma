@@ -261,7 +261,7 @@
             
             
             $( document ).on( "pagecreate", "#pageMap", function() {
-                $( "#autocomplete-input" ).on( "keypress", function ( e ) {
+                $( "#autocomplete-input" ).on( "keydown", function ( e ) {
                     //alert('KEYPRESSED');                    
                     var $ul = $("#autocomplete");
                     var html = "";
