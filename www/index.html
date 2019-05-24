@@ -22,6 +22,7 @@
                 padding: 0.4em 0.5em;
             }
             
+            .ui-input-search{margin-top:0em;margin-bottom:0.2em;}
             .ui-content {padding:0.2em;}
             #autocomplete {margin:0em}
             
@@ -254,36 +255,59 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
 
+            var accesJSON;
+            $.getJSON( 'data/DS_ACCES01.json',
+                        function ( response ) { accesJSON = response  }  );                      
+            
+            
             $( document ).on( "pagecreate", "#pageMap", function() {
-                $( "#autocomplete" ).on( "filterablebeforefilter", function ( e, data ) {
-                    var $ul = $( this ),
-                        $input = $( data.input ),
-                        value = $input.val(),
-                        html = "";
+                $( "#autocomplete-input" ).on( "keypress", function ( e ) {
+                    //alert('KEYPRESSED');                    
+                    var $ul = $("#autocomplete");
+                    var html = "";
                     $ul.html( "" );
-                    if ( value && value.length > 2 ) {
-                        $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+                    var value =  $('#autocomplete-input').val() + e.key;
+                    var numResposta = 0; 
+                    if ( value.length > 2 ) {
+                     //   $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+                     //   $ul.listview( "refresh" );                        
+                        $.each(accesJSON.equipaments, function(i, v) { // sobre equipament
+                           var cerca = value.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
+                           var cert = 0;  // coincidències 
+                           $.each(cerca, function(i2,v2){  // sobre paraula de cerca
+                              //if (accesJSON.equipaments[i].ACCES_NOM.toUpperCase().includes(cerca[i]) ) {
+                              if ( v.ACCES_NOM.toUpperCase().includes(cerca[i2].trim()) ) {
+                                 cert += 1;                     
+                              }
+                             //       else {
+                             //         return false;
+                             //       }
+                           });    
+                           if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
+                               numResposta += 1;
+                               html += " <li>" 
+                                    +  "   <div style='' onclick=\"mostraPoligon('" +accesJSON.equipaments[i].WKT + "' );\" > "
+                                    +         accesJSON.equipaments[i].ACCES_NOM
+                                    +  "      <span style='font-size:0.8em'>" + accesJSON.equipaments[i].ACCES_NOM + "</span>"
+                                    +  "    </div>"
+                                    +  " </li>";
+                           } 
+                           
+                           if ( numResposta > 20 ){
+                              return false;
+                           }  
+                           
+                         });      
+                           //}
+     
+                        $ul.html( html );
                         $ul.listview( "refresh" );
-                        $.getJSON( 'data/DS_EQUIP01.json',
-                                   function ( response ) {                                      
-                                       for (var entry in response.equipaments) {                                      
-                                         html +=   "<li>" 
-                                                 + " <div style='' onclick=\"mostraPoligon('" +response.equipaments[entry].WKT + "' );\" > "
-                                                 +     response.equipaments[entry].NOM
-                                                 + "   <span style='font-size:0.8em'>" + response.equipaments[entry].ADRECA + "</span>"
-                                                 + "</li>"
-                                                 + " </div>";
-                                       }                                       
-                                       //alert(output);                                        
-                                       $ul.html( html );
-                                       $ul.listview( "refresh" );
-                                       $ul.trigger( "updatelayout");
-                                       ajustaFinestres();
-                        });
-                     }
-                });
-             });                    
-                
+                        $ul.trigger( "updatelayout");
+                        ajustaFinestres(); 
+                                             
+                   }
+                 });                    
+             });   
             //-- Inicia llistaElements          
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -317,6 +341,7 @@
 
             // -- 3 FUNCIONS DEL VISOR LEAFLET
             //
+            /*
             function mostraJSON(){ 
                fitxer = window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json' ;
                var path = window.location.href.replace('index.html','');
@@ -333,6 +358,7 @@
                  }).appendTo( "body" );
                });
             }
+            */
             
             function mostraPoligon(WKT){
                if (num_marker > 0 ){
@@ -1122,7 +1148,7 @@
                         <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
                      </form>             
                      <div id="autocomp" style="clear:both;width:100%;height:auto;max-height:7.5em;overflow:auto;margin-bottom:0.5em">  
-                        <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-input="#autocomplete-input" style="position.relative;"></ul>
+                        <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;"></ul>
                      </div>   
                  </div>  
 
