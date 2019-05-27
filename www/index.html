@@ -226,7 +226,10 @@
 				    'params': {  projecte: 'Mobilitat', 'codi' : null , 'usuari_codi':null, 'adreca': null, 'descripcio': null, 'imatge': null , 'den_x' : null , 'den_y':null, 'usu_x': null, 'usu_y': null, 'correu': null , 'risc': null},
                 'primeraUbicació' :  1,
 				    'codiAvisVigent' : null,
-				    'darrerAvislista' : null
+				    'darrerAvislista' : null,
+                'tema':'equipament',
+                'cercaActiva': ['carrer', 'equipament', 'terrassa','entitat'],
+                'cercaHTML':''
             };
  
  
@@ -254,60 +257,143 @@
             });
             
             $(window).bind('resize', function () {ajustaFinestres();});
-
-            var accesJSON;
-            $.getJSON( 'data/DS_ACCES01.json',
-                        function ( response ) { accesJSON = response  }  );                      
-            
             
             $( document ).on( "pagecreate", "#pageMap", function() {
                 $( "#autocomplete-input" ).on( "input", function ( e ) {
                     //alert('KEYPRESSED');                    
                     var $ul = $("#autocomplete");
-                    var html = "";
+                    
                     $ul.html( "" );
                     var value =  $('#autocomplete-input').val(); //+ e.which;
-                    var numResposta = 0; 
+                    //var numResposta = 0; 
                     if ( value.length > 2 ) {
-                     //   $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
-                     //   $ul.listview( "refresh" );                        
-                        $.each(accesJSON.equipaments, function(i, v) { // sobre equipament
-                           var cerca = value.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
-                           var cert = 0;  // coincidències 
-                           $.each(cerca, function(i2,v2){  // sobre paraula de cerca
-                              //if (accesJSON.equipaments[i].ACCES_NOM.toUpperCase().includes(cerca[i]) ) {
-                              if ( v.ACCES_NOM.toUpperCase().includes(cerca[i2].trim()) ) {
-                                 cert += 1;                     
-                              }
-                             //       else {
-                             //         return false;
-                             //       }
-                           });    
-                           if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
-                               numResposta += 1;
-                               html += " <li>" 
-                                    +  "   <div style='' onclick=\"mostraPoligon('" +accesJSON.equipaments[i].WKT + "' );\" > "
-                                    +         accesJSON.equipaments[i].ACCES_NOM
-                                    +  "      <span style='font-size:0.8em'>" + accesJSON.equipaments[i].ACCES_NOM + "</span>"
-                                    +  "    </div>"
-                                    +  " </li>";
-                           } 
-                           
-                           if ( numResposta > 20 ){
-                              return false;
-                           }  
-                           
-                         });      
-                           //}
-     
-                        $ul.html( html );
-                        $ul.listview( "refresh" );
-                        $ul.trigger( "updatelayout");
-                        ajustaFinestres(); 
+                       incorporaTemes(value);
+                       ajustaFinestres(); 
                                              
                    }
                  });                    
              });   
+            
+            
+            function incorporaTemes(value){
+               $("#autocomplete").html('');
+               var html = '';
+               var test = '';
+               visor.cercaHTML = '';
+               
+               $.each(visor.cercaActiva, function(i,temaCerca) {  //Temes sobre els que es fa la cerca 
+                  activaTema(temaCerca, value);
+               });
+               
+
+            }
+            
+            
+            
+            
+            function activaTema(nomTema,value){
+               
+                             
+               switch(nomTema){ 
+               
+                  case 'entitat': 
+                                  
+                                  cercaJSON(  'data/DS_ENTITAT01.json',
+                                              nomTema,
+                                              value, 
+                                              'RAO_SOCIAL', 
+                                              'RAO_SOCIAL', 
+                                              'ADRECA', 
+                                              'WKT' );
+                                            
+                                   break;           
+                                              
+                  case 'carrer': cercaJSON(  'data/DS_CARRER01.json', 
+                                              nomTema,
+                                              value, 
+                                              'NOM_CURT', 
+                                              'NOM_LLARG', 
+                                              'NOM_CURT', 
+                                              'WKT' );
+                                   break;
+                                   
+                  case 'equipament': cercaJSON( 'data/DS_EQUIP01.json', 
+                                                nomTema,
+                                                value, 
+                                                'NOM', 
+                                                'NOM', 
+                                                'ADRECA', 
+                                                'WKT' );
+                                   break;
+                                  
+                   case 'terrassa': cercaJSON(  'data/DS_TERRASSA01.json', 
+                                                nomTema,
+                                                value, 
+                                                'ACCES_NOM', 
+                                                'ACCES_NOM' , 
+                                                'ACCES_NOM', 
+                                                'WKT' );
+                                    break;           
+                   }
+                   
+                           
+            }
+            
+            
+            function cercaJSON( JSON, temaCerca, strCerca, colCerca, colEtiq1, colEtiq2, colWKT){
+                var accesJSON;
+                var listview = $("#autocomplete");
+                
+                $.getJSON( JSON, 
+                           function ( response ) { 
+                              accesJSON = response;   
+                              var numResposta = 0;
+                              var html = '';
+                           //   $.each(visor.cercaActiva,function(i0, temaCerca) {  //Temes sobre els que es fa la cerca
+                                 $.each(accesJSON.equipaments, function(i, equip) { // sobre equipament
+                                    var cerca = strCerca.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
+                                    var cert = 0;  // coincidències 
+                                    $.each(cerca, function(i2,equip2){  // sobre paraula de cerca
+                                       if ( equip[colCerca].toUpperCase().includes(cerca[i2].trim()) ) {
+                                          cert += 1;                     
+                                       }
+                                    });    
+                                    if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
+                                        numResposta += 1;
+                                        html += " <li>" 
+                                             +  "   <div id='test' style='margin-top:0.2em;height:1.2em;width:auto;padding:0em 0.5em;float:left;font-size:0.8em;background-color:#ddd;text-align:center;color:#44;margin-right:1em;'>"
+                                             +         temaCerca
+                                             +  "   </div>"
+                                             +  "   <div style='' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                             +         equip[colEtiq1]
+                                             +  "      <span style='flofont-size:0.8em'>" + equip[colEtiq2] + "</span>"
+                                             +  "    </div>"                                  
+                                             +  " </li>";
+                                    } 
+                                    
+                                    if ( numResposta > 20 ){
+                                       return false;
+                                    }                   
+                                  });
+                             //  });   
+                                // listview.html('');;  
+                              visor.cercaHTML += html;
+                              listview.html( visor.cercaHTML );
+                              listview.listview( "refresh" );
+                              listview.trigger( "updatelayout" );    
+
+
+                              
+                 
+                 }); 
+                              
+            }
+            
+            
+            
+            
+            
+            
             //-- Inicia llistaElements          
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -1119,7 +1205,7 @@
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" > 
             <!------------------ Header ----------recuperaElements()----->    
-			<div id="header" style="position:relative;width:100%;border-width: 0px; height:3em;background-color: #359; color: rgb(250, 250, 250); font-family: inherit; font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
+			<div id="header" style="position:relative;width:100%;border-width: 0px; height:2.3em;background-color: #359; color: rgb(250, 250, 250); font-family: inherit; font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
 				<!--div id="troba4" style="float: left; height:24px ; font-size: 1.5em; width: 16px;" onclick="recuperaDarrerAvis();">			
 				</div-->
 				<div style="float: left; height: auto; text-align: left; padding-top: 0px; font-family: Verdana; color: rgb(220, 70, 0); width: 100%; margin-left:-5%;float: left; ">
@@ -1143,7 +1229,7 @@
         <!------------------ Content --------------->
            <div data-role="content">
               <div id="map-wrap" style="display:flex;flex-direction:column;flex-wrap:wrap;height:100%">
-                 <div style="min-width:30em;flex-grow:1;order:1">        
+                 <div style="min-width:20em;flex-grow:1;order:1">        
                      <form class="ui-filterable">
                         <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
                      </form>             
@@ -1152,7 +1238,7 @@
                      </div>   
                  </div>  
 
-                 <div style="min-width:30em;flex-grow:1;order:2;height:100%"> 
+                 <div style="min-width:20em;flex-grow:1;order:2;height:100%"> 
                     <div id="contMapa" > <!--style="clear:both;overflow:hidden;border-top:1px solid rgb(211,211,211);padding-top:14px;padding-left:0px;"-->
                         <div class="caixaControl" ></div>
                         <div class="caixaControlPeu" > 
