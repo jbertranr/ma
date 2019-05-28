@@ -16,13 +16,15 @@
                         
             //.leaflet-control-locate {display:none}
             
-            
             .ui-listview > .ui-li-static {
                 font-size: 0.8em;
                 padding: 0.4em 0.5em;
             }
             
-            .ui-panel-dismiss-open.ui-panel-dismiss-position-left{
+            .ui-li {
+              height: auto;
+            }
+            .bloquejat--ui-panel-dismiss-open.ui-panel-dismiss-position-left{
                left:25em
              }
             
@@ -234,7 +236,7 @@
 				    'codiAvisVigent' : null,
 				    'darrerAvislista' : null,
                 'tema':'equipament',
-                'cercaActiva': ['carrer', 'equipament', 'terrassa','entitat'],
+                'cercaActiva': ['acces', 'carrer', 'equipament', 'terrassa','entitat'],
                 'cercaHTML':''
             };
  
@@ -265,12 +267,12 @@
             $(window).bind('resize', function () {ajustaFinestres();});
             
             $( document ).on( "pagecreate", "#pageMap", function() {
-                $( "#autocomplete-input" ).on( "input", function ( e ) {
+                $( "#autocomplete-input" ).on( "input", function (  ) {
                     //alert('KEYPRESSED');                    
                     var $ul = $("#autocomplete");
                     
                     $ul.html( "" );
-                    var value =  $('#autocomplete-input').val(); //+ e.which;
+                    var value =  $('#autocomplete-input').val(); 
                     //var numResposta = 0; 
                     if ( value.length > 2 ) {
                        incorporaTemes(value);
@@ -288,7 +290,7 @@
                visor.cercaHTML = '';
                
                $.each(visor.cercaActiva, function(i,temaCerca) {  //Temes sobre els que es fa la cerca 
-                  activaTema(temaCerca, value);
+                  activaTema(visor.cercaActiva[i], value);
                });
             }
  
@@ -297,7 +299,22 @@
                              
                switch(nomTema){ 
                
-                  case 'entitat': 
+                  case 'acces': 
+                                  
+                                  cercaJSON(  'data/DS_ACCES01.json',
+                                              nomTema,
+                                              value, 
+                                              'ACCES_NOM', 
+                                              'ACCES_NOM', 
+                                              'NOM_CURT', 
+                                              'WKT' );
+                                            
+                                   break;           
+   
+
+
+
+                 case 'entitat': 
                                   
                                   cercaJSON(  'data/DS_ENTITAT01.json',
                                               nomTema,
@@ -369,9 +386,10 @@
                                           // var dist = distance( punt.y, punt.x, visor.posicioActual.lat, visor.posicioActual.lng);                                           
                                           // visor.posicioActual.lat
                                           // alert(punt);
+                                          /* 
                                            html += " <li>" 
                                                 +  "   <div style='display:flex;flex-direction:row'> "
-                                                +  "      <div style='max-width:4em;flex:1;font-size:1em;margin-left:0em;width:4em;text-align:center'>" 
+                                                +  "      <div style='max-width:4em;order:1;font-size:1em;margin-left:0em;width:4em;text-align:center'>" 
                                                 +             Math.round(dist) + "m"
                                                 +  "      </div>"
                                                 +  "      <div style='flex:2;margin-top:0.2em;height:100%;max-width:6em;;font-size:0.8em;background-color:#ddd;color:#44;margin-right:1em;text-align:center;'>"
@@ -383,9 +401,28 @@
                                                 +  "       </div>" 
                                                 +  "    </div>"                                                  
                                                 +  " </li>";                                           
-                                        
-                                        
-                                        
+                                            */
+                                           
+                                           html += " <li>" 
+                                                +  "   <div style='width:100%;height:auto;overflow:hidden'> "
+                                                +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden'> "
+                                                +  "         <div style='height:auto;color:#abc'>" 
+                                                +  "             <i class='fa fa-search'></i>"
+                                                +  "         </div>"
+                                                +  "         <div style='font-size: 0.8em;margin-top: 0.5em;color:#abc'>"
+                                                +                Math.round(dist) + "m" 
+                                                +  "         </div>"                                              
+                                                +  "      </div>"
+                                                +  "      <div style='float:left;width:13em;height:auto;overflow:hidden;margin-left:0.5em' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                                +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
+                                                +               equip[colEtiq1]
+                                                +  "         </div>" 
+                                                +  "         <div style='font-size:0.85em;height:auto;margin-top:0.45em;width:auto;'> "
+                                                +  "             <i>" + equip[colEtiq2] + "</i>";
+                                                +  "         </div>"                                                
+                                                +  "       </div>" 
+                                                +  "    </div>"                                                  
+                                                +  " </li>";   
                                         }
                                         
                                         else {                                        
@@ -1272,7 +1309,7 @@
                     <div id="contMapa" > <!--style="clear:both;overflow:hidden;border-top:1px solid rgb(211,211,211);padding-top:14px;padding-left:0px;"-->
                         <div class="caixaControl" ></div>
                         <div class="caixaControlPeu" > 
-                           <div id="troba4" onclick="uploadFromGallery()" class="controlMapa controlMapa-separat" style="border-radius: 1em;width: 2em;height: 2em;background-color: #c00;">
+                           <div id="troba4" onclick="uploadFromGallery()" class="controlMapa controlMapa-separat" style="display:none;border-radius: 1em;width: 2em;height: 2em;background-color: #c00;">
                                  <i class="fa fa-camera" aria-hidden="true" style="padding-top:0.5em"></i>
                             </div>
                         </div>
@@ -1290,15 +1327,15 @@
                 <div id="peuMapa" style="height:auto; display:block;position: fixed; text-align: center; font-size: 1.1em; background-color: rgb(255, 255, 255); border-radius: 0px; bottom: 0px; left: 0px; width: 100%; opacity: 1; color: rgb(122, 122, 122);">
                 </div>
             </div-->
-            <div data-role="panel" style="width:25em" class="ui-panel ui-panel-position-left ui-panel-display-reveal ui-panel-closed ui-body-a ui-panel-animate" data-position="left" data-display="push" data-theme="a" id="panellMenu">
+            <div data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-reveal ui-panel-closed ui-body-a ui-panel-animate" data-position="left" data-display="push" data-theme="a" id="panellMenu">
                <div class="ui-nodisc-icon ui-alt-icon" style="display:flex;flex-direction:row;justify-content:space-between;height:auto;color:#444;font-size: 1em; font-weight: 100; ">            
                   <div style="order:1;flex-grow:2;height:auto;text-align: center; font-family: Verdana;margin-bottom:1em"> 						
                         Cercador                     
                   </div>                  
-                  <div class="boto" style="order:2;" onclick="navigator.app.exitApp();">
-                       <a href="#pageMap" data-rel="close">
+                  <div class="boto" style="order:2;" onclick="$('#panellMenu').panel('close');"> 
+                       
                           <i class="fa fa-arrow-left"></i>
-                       </a>   
+                       
                   </div>
                 </div>
                
