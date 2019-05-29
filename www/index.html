@@ -11,7 +11,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.Default.css">  
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">        
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">   
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+        
         <style> 
                         
             //.leaflet-control-locate {display:none}
@@ -191,6 +193,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>  
         <script src="https://mapes.mataro.cat/OpenData/CSS/pluginmapa.js"></script>          
         <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+        <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
         
         <script type="text/javascript"> 
 
@@ -267,49 +270,113 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
-            $( document ).on( "pagecreate", "#pageMap", function() {
-                $( "#autocomplete-input" ).on( "input", function (  ) {
+            $( document ).on( "pagecreate", "#pageMap", function() {  
+                 $( "#autocomplete-input" ).on( "input", function (  ) {
                     //alert('KEYPRESSED');                    
                     var $ul = $("#autocomplete");
-                    
                     $ul.html( "" );
                     var value =  $('#autocomplete-input').val(); 
                     //var numResposta = 0; 
                     if ( value.length > 2 ) {
-                       incorporaTemes(value);
+                       incorporaTemes(value, $ul);
                        ajustaFinestres(); 
-                                             
                    }
-                 });                    
+                 }); 
+
+                 $( "#taulaBase-input" ).on( "input", function (  ) {
+                    //alert('KEYPRESSED');                    
+                    var $ul2 = $("#taulaBase");
+                    $ul2.html( "" );
+                    var value =  $('#taulaBase-input').val(); 
+                    //var numResposta = 0; 
+                    visor.cercaHTML = '';
+                    if ( value.length > 2 ) {
+                       
+                       cercaJSON(  'data/DS_TERRASSA01.json',
+                                                $("#taulaBase"),
+                                                'terrassa',
+                                                'fa fa-coffee',
+                                                value, 
+                                                'ACCES_NOM', 
+                                                'ACCES_NOM' , 
+                                                'ACCES_NOM', 
+                                                'WKT',
+                                                 500);
+                       ajustaFinestres(); 
+                   }
+                 });                 
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
              });   
+
+            function afegeixBotons(){
+               L.easyButton('fa-search', function(btn, map){
+                   //activaTaula( 'data/DS_TERRASSA01.json', listview );
+                   $('#panellTaula').panel('open');
+                   visor.cercaHTML= '' ;
+                   cercaJSON(  'data/DS_TERRASSA01.json',
+                              $("#taulaBase"),
+                              'terrassa',
+                              'fa fa-coffee',
+                              '', 
+                              'ACCES_NOM', 
+                              'ACCES_NOM' , 
+                              'ACCES_NOM', 
+                              'WKT',
+                               500);
+               }).addTo(visor.map);            
+            }
             
-            
-            function incorporaTemes(value){
+        /*    function activaTaula( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT){
+                cercaJSON(  JSON,
+                            listview,
+                            temaCerca,
+                            faIcon,
+                            '', 
+                            'RAO_SOCIAL', 
+                            'RAO_SOCIAL', 
+                            'ADRECA', 
+                            'WKT' );
+             }      
+      */
+ 
+            function incorporaTemes(value,listview){
                $("#autocomplete").html('');
                var html = '';
                var test = '';
                visor.cercaHTML = '';
                
                $.each(visor.cercaActiva, function(i,temaCerca) {  //Temes sobre els que es fa la cerca 
-                  activaTema(visor.cercaActiva[i], value);
+                  activaTema(listview, visor.cercaActiva[i], value);
                });
+               
             }
  
  
-            function activaTema(nomTema,value){               
+            function activaTema(listview, nomTema, value){               
                              
                switch(nomTema){ 
                
                   case 'acces': 
                                   
                                   cercaJSON(  'data/DS_ACCES01.json',
+                                              listview,                               
                                               nomTema,
                                               'fas fa-envelope',
                                               value, 
                                               'ACCES_NOM', 
                                               'ACCES_NOM', 
                                               'NOM_CURT', 
-                                              'WKT' );
+                                              'WKT',
+                                               20);
                                             
                                    break;           
    
@@ -319,53 +386,61 @@
                  case 'entitat': 
                                   
                                   cercaJSON(  'data/DS_ENTITAT01.json',
+                                              listview,
                                               nomTema,
                                               'fas fa-user-friends',
                                               value, 
                                               'RAO_SOCIAL', 
                                               'RAO_SOCIAL', 
                                               'ADRECA', 
-                                              'WKT' );
+                                              'WKT',
+                                               20);
                                             
                                    break;           
                                               
-                  case 'carrer': cercaJSON(  'data/DS_CARRER01.json', 
+                  case 'carrer': cercaJSON(  'data/DS_CARRER01.json',
+                                              listview,
                                               nomTema,
                                               'fas fa-road',
                                               value, 
                                               'NOM_CURT', 
                                               'NOM_LLARG', 
                                               'NOM_CURT', 
-                                              'WKT' );
+                                              'WKT',
+                                               20);
                                    break;
                                    
-                  case 'equipament': cercaJSON( 'data/DS_EQUIP01.json', 
+                  case 'equipament': cercaJSON( 'data/DS_EQUIP01.json',
+                                                listview,
                                                 nomTema,
                                                 'fa fa-home',
                                                 value, 
                                                 'NOM', 
                                                 'NOM', 
                                                 'ADRECA', 
-                                                'WKT' );
+                                                'WKT',
+                                                20);
                                    break;
                                   
-                   case 'terrassa': cercaJSON(  'data/DS_TERRASSA01.json', 
+                   case 'terrassa': cercaJSON(  'data/DS_TERRASSA01.json',
+                                                listview,
                                                 nomTema,
                                                 'fa fa-coffee',
                                                 value, 
                                                 'ACCES_NOM', 
                                                 'ACCES_NOM' , 
                                                 'ACCES_NOM', 
-                                                'WKT' );
+                                                'WKT',
+                                                20);
                                     break;           
                    }                  
                            
             }
             
             
-            function cercaJSON( JSON, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT){
+            function cercaJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
                 var accesJSON;
-                var listview = $("#autocomplete");
+                //var listview = $("#autocomplete");
                 visor.locate.start(); 
                 
                 $.getJSON( JSON, 
@@ -461,7 +536,7 @@
                                        }        
                                     } 
                                     
-                                    if ( numResposta > 20 ){
+                                    if ( numResposta > nombre ){
                                               html += " <li>" 
                                                    +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#cdf'>"
                                                    +  "  Resultats parcials"                                     
@@ -483,7 +558,12 @@
                               
             }
           
-            
+  
+
+
+
+
+  
             //-- Inicia llistaElements          
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -499,7 +579,8 @@
                 resizeTimer = setTimeout(function () {
                     $('#map').width($(window).width());
                     $('#map').height($(window).height() ); //abans -3
-                    $('#autocomp').height($(window).height()  - 120 );                
+                    $('#autocomp').height($(window).height()  - 120 ); 
+                    $('#taulaBaseWrap').height($(window).height()  - 120 );                     
                     $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
                     visor.map._onResize(); 
                 });
@@ -696,7 +777,7 @@
                                     //placeCamera(e);
                                     recuperaAdreca(e.latlng);    
                                  });
-                            
+                  afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
                   activaLocator();                               
                } 
@@ -1360,9 +1441,7 @@
                         Cercador                     
                   </div>                  
                   <div class="boto" style="order:2;" onclick="$('#panellMenu').panel('close');"> 
-                       
-                          <i class="fa fa-arrow-left"></i>
-                       
+                       <i class="fa fa-arrow-left"></i>
                   </div>
                 </div>
                
@@ -1373,49 +1452,37 @@
                 <div id="autocomp" style="clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
                    <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;"></ul>
                 </div>   
-                 </div>  
-             
-             <!--ul data-role="listview">
-                        <li data-icon="delete">
-                            <li><a href="#panel-fixed-page2">Accordion</a></li>
-                            <li><a href="#panel-fixed-page2">Ajax Navigation</a></li>
-                            <li><a href="#panel-fixed-page2">Autocomplete</a></li>
-                            <li><a href="#panel-fixed-page2">Buttons</a></li>
-                            <li><a href="#panel-fixed-page2">Checkboxes</a></li>
-                            <li><a href="#panel-fixed-page2">Collapsibles</a></li>
-                            <li><a href="#panel-fixed-page2">Controlgroup</a></li>
-                            <li><a href="#panel-fixed-page2">Dialogs</a></li>
-                            <li><a href="#panel-fixed-page2">Fixed toolbars</a></li>
-                            <li><a href="#panel-fixed-page2">Flip switch toggle</a></li>
-                            <li><a href="#panel-fixed-page2">Footer toolbar</a></li>
-                            <li><a href="#panel-fixed-page2">Form elements</a></li>
-                            <li><a href="#panel-fixed-page2">Grids</a></li>
-                            <li><a href="#panel-fixed-page2">Header toolbar</a></li>
-                            <li><a href="#panel-fixed-page2">Icons</a></li>
-                            <li><a href="#panel-fixed-page2">Links</a></li>
-                            <li><a href="#panel-fixed-page2">Listviews</a></li>
-                            <li><a href="#panel-fixed-page2">Loader overlay</a></li>
-                            <li><a href="#panel-fixed-page2">Navbar</a></li>
-                            <li><a href="#panel-fixed-page2">Navbar, persistent</a></li>
-                            <li><a href="#panel-fixed-page2">Pages</a></li>
-                            <li><a href="#panel-fixed-page2">New</a></li>
-                            <li><a href="#panel-fixed-page2">Popup</a></li>
-                            <li><a href="#panel-fixed-page2">Radio buttons</a></li>
-                            <li><a href="#panel-fixed-page2">Select</a></li>
-                            <li><a href="#panel-fixed-page2">Slider, single</a></li>
-                            <li><a href="#panel-fixed-page2">New</a></li>
-                            <li><a href="#panel-fixed-page2">New</a></li>
-                            <li><a href="#panel-fixed-page2">New</a></li>
-                            <li><a href="#panel-fixed-page2">Text inputs & textarea</a></li>
-                            <li><a href="#panel-fixed-page2">Transitions</a></li>
-                    </ul-->
+              </div>
+
+            <div data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-reveal ui-panel-closed ui-body-a ui-panel-animate" data-position="left" data-display="push" data-theme="a" id="panellTaula">
+               <div class="ui-nodisc-icon ui-alt-icon" style="display:flex;flex-direction:row;justify-content:space-between;height:auto;color:#444;font-size: 1em; font-weight: 100; ">            
+                  <div style="order:1;flex-grow:2;height:auto;text-align: center; font-family: Verdana;margin-bottom:1em"> 						
+                        Taula de dades                     
+                  </div>                  
+                  <div class="boto" style="order:2;" onclick="$('#panellMenu').panel('close');"> 
+                     <i class="fa fa-arrow-left"></i>
+                  </div>
+               </div>
+               
+                <form class="ui-filterable">
+                   <input id="taulaBase-input" data-type="search" placeholder="Adreca ... ">
+                </form>               
+               
+               
+               <div id="taulaBaseWrap" style="clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
+                  <ul id="taulaBase" data-role="listview" data-inset="true" data-filter="false" style="position.relative;"></ul>
+               </div>   
+            </div>  
+
+
+              
 
          </div>
             
             
             
             
-        </div>
+        
 
 
         <!--------------------------------  Càrrega dades ---------------------------------> 
