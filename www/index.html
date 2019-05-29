@@ -270,7 +270,10 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
+            
             $( document ).on( "pagecreate", "#pageMap", function() {  
+                 $('#autocomplete-input').on ('focusin', function(){ setTimeout(function(){ajustaFinestres();},3000)});
+                   
                  $( "#autocomplete-input" ).on( "input", function (  ) {
                     //alert('KEYPRESSED');                    
                     var $ul = $("#autocomplete");
