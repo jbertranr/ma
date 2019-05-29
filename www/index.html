@@ -243,7 +243,8 @@
  
             // -- 2 INICIALITZACIÓ DE LES PANTALLES - Eevents    
             //-- Totes les pantalles            
-            $( window ).on( 'orientationchange', function( event ) {ajustaPortada();});                        
+            $( window ).on( 'orientationchange', function( event ) {ajustaPortada();});  
+            document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);            
             
             $( document ).on('beforepageshow' ,'#portada', function(){ 
                 $(window).bind('resize', function (){   ajustaFinestres();
