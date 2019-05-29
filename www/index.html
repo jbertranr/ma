@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.Default.css">  
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">    
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">        
         <style> 
                         
             //.leaflet-control-locate {display:none}
@@ -303,6 +303,7 @@
                                   
                                   cercaJSON(  'data/DS_ACCES01.json',
                                               nomTema,
+                                              'fas fa-envelope',
                                               value, 
                                               'ACCES_NOM', 
                                               'ACCES_NOM', 
@@ -318,6 +319,7 @@
                                   
                                   cercaJSON(  'data/DS_ENTITAT01.json',
                                               nomTema,
+                                              'fas fa-user-friends',
                                               value, 
                                               'RAO_SOCIAL', 
                                               'RAO_SOCIAL', 
@@ -328,6 +330,7 @@
                                               
                   case 'carrer': cercaJSON(  'data/DS_CARRER01.json', 
                                               nomTema,
+                                              'fas fa-road',
                                               value, 
                                               'NOM_CURT', 
                                               'NOM_LLARG', 
@@ -337,6 +340,7 @@
                                    
                   case 'equipament': cercaJSON( 'data/DS_EQUIP01.json', 
                                                 nomTema,
+                                                'fa fa-home',
                                                 value, 
                                                 'NOM', 
                                                 'NOM', 
@@ -346,6 +350,7 @@
                                   
                    case 'terrassa': cercaJSON(  'data/DS_TERRASSA01.json', 
                                                 nomTema,
+                                                'fa fa-coffee',
                                                 value, 
                                                 'ACCES_NOM', 
                                                 'ACCES_NOM' , 
@@ -357,7 +362,7 @@
             }
             
             
-            function cercaJSON( JSON, temaCerca, strCerca, colCerca, colEtiq1, colEtiq2, colWKT){
+            function cercaJSON( JSON, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT){
                 var accesJSON;
                 var listview = $("#autocomplete");
                 visor.locate.start(); 
@@ -377,9 +382,15 @@
                                        }
                                     });    
                                     if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
+                                        if (numResposta == 0){
+                                            html += " <li>" 
+                                                   +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#eee'>"
+                                                   +     temaCerca                                            
+                                                   +  "    </div>"                                                  
+                                                   +  " </li>";   
+                                        } 
                                         numResposta += 1;
-                                        
-                                        if ( equip.WKT !== null && visor.posicioActual.lat > 1 ) // Hi ha un WKT i disposem de la posició
+                                        if ( equip.hasOwnProperty('WKT') && visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
                                         {
                                            
                                            var dist = omnivore.wkt.parse(equip.WKT).getBounds().getCenter().distanceTo(  L.latLng(visor.posicioActual.lat, visor.posicioActual.lng));                                           
@@ -405,19 +416,19 @@
                                            
                                            html += " <li>" 
                                                 +  "   <div style='width:100%;height:auto;overflow:hidden'> "
-                                                +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden'> "
-                                                +  "         <div style='height:auto;color:#abc'>" 
-                                                +  "             <i class='fa fa-search'></i>"
+                                                +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
+                                                +  "         <div style='height:auto;font-size:1.5em;'>" 
+                                                +  "             <i class='" + faIcon + "'></i>"
                                                 +  "         </div>"
-                                                +  "         <div style='font-size: 0.8em;margin-top: 0.5em;color:#abc'>"
+                                                +  "         <div style='font-size: 0.8em;margin-top: -0.3em;'>"
                                                 +                Math.round(dist) + "m" 
                                                 +  "         </div>"                                              
                                                 +  "      </div>"
-                                                +  "      <div style='float:left;width:13em;height:auto;overflow:hidden;margin-left:0.5em' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                                +  "      <div style='float:left;width:13em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
                                                 +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
                                                 +               equip[colEtiq1]
                                                 +  "         </div>" 
-                                                +  "         <div style='font-size:0.85em;height:auto;margin-top:0.45em;width:auto;'> "
+                                                +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;width:auto;opacity:0.6;'> "
                                                 +  "             <i>" + equip[colEtiq2] + "</i>";
                                                 +  "         </div>"                                                
                                                 +  "       </div>" 
@@ -427,22 +438,36 @@
                                         
                                         else {                                        
                                            html += " <li>" 
-                                                +  "   <div style='display: flex;flex-direction:row'> "
-                                                +  "   <div style='flex:1;margin-top:0.2em;height:100%;max-width:8em;min-width:8em;padding:0em 0.5em;float:left;font-size:0.8em;background-color:#ddd;color:#44;margin-right:1em;'>"
-                                                +  "      <div id='test' style='width:6em;text-align:center; padding:0em 0.5em;float:left;'>"
-                                                +            temaCerca 
+                                                +  "   <div style='width:100%;height:auto;overflow:hidden;opacity:0.7;'> "
+                                                +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
+                                                +  "         <div style='height:auto;font-size:1.5em;'>" 
+                                                +  "             <i class='" + faIcon + "'></i>"
+                                                +  "         </div>"
+                                                +  "         <div style='font-size: 0.8em;margin-top: -0.3em;'>"
+                                                +  "              -----" 
+                                                +  "         </div>"                                              
                                                 +  "      </div>"
-                                                +  "   </div>"                                              
-                                                +  "   <div style='flex:2;float:left;margin-left:0.5em;min-width:10em' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
-                                                +         equip[colEtiq1]
-                                                +  "      <span style='font-size:0.8em'>" + equip[colEtiq2] + "</span>"
-                                                +  "    </div>" 
+                                                +  "      <div style='float:left;width:13em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                                +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
+                                                +               equip[colEtiq1]
+                                                +  "         </div>" 
+                                                +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;width:auto;opacity:0.6;'> "
+                                                +  "             <i>" + equip[colEtiq2] + "</i>";
+                                                +  "         </div>"                                                
+                                                +  "       </div>" 
                                                 +  "    </div>"                                                  
                                                 +  " </li>";                                           
                                        }        
                                     } 
                                     
                                     if ( numResposta > 20 ){
+                                              html += " <li>" 
+                                                   +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#cdf'>"
+                                                   +  "  Resultats parcials"                                     
+                                                   +  "    </div>"                                                  
+                                                   +  " </li>";   
+                                    
+                                    
                                        return false;
                                     }                   
                                   });
@@ -519,6 +544,7 @@
                marker.addTo(visor.map);
                visor.map.flyToBounds(marker.getBounds(),{ maxZoom: 5});
             }
+            
             
             function distance(lat1, lon1, lat2, lon2, unit) {
                if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -1341,7 +1367,8 @@
                
                 <form class="ui-filterable">
                    <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
-                </form>             
+                </form>
+                
                 <div id="autocomp" style="clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
                    <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;"></ul>
                 </div>   
