@@ -240,7 +240,8 @@
 				    'darrerAvislista' : null,
                 'tema':'equipament',
                 'cercaActiva': ['acces', 'carrer', 'equipament', 'terrassa','entitat'],
-                'cercaHTML':''
+                'cercaHTML':'',
+                'ordena':null
             };
  
  
@@ -278,6 +279,8 @@
                     //alert('KEYPRESSED');                    
                     var $ul = $("#autocomplete");
                     $ul.html( "" );
+                    visor.cercaHTML = '';
+                    $ul.listview( "refresh" );
                     var value =  $('#autocomplete-input').val(); 
                     //var numResposta = 0; 
                     if ( value.length > 2 ) {
@@ -287,13 +290,14 @@
                  }); 
 
                  $( "#taulaBase-input" ).on( "input", function (  ) {
-                    //alert('KEYPRESSED');                    
-                    var $ul2 = $("#taulaBase");
-                    $ul2.html( "" );
+                    //alert('KEYPRESSED');  
+                    $("#taulaBase").empty();
+                    //$("#taulaBase").listview( "refresh" );
+                    //$("#taulaBase").trigger( "updatelayout" ); 
+                    visor.cercaHTML = '';
                     var value =  $('#taulaBase-input').val(); 
                     //var numResposta = 0; 
-                    visor.cercaHTML = '';
-                    if ( value.length > 2 ) {
+                    //if ( value.length > 2 ) {
                        
                        cercaJSON(  'data/DS_TERRASSA01.json',
                                                 $("#taulaBase"),
@@ -306,23 +310,15 @@
                                                 'WKT',
                                                  500);
                        ajustaFinestres(); 
-                   }
+                  // }
                  });                 
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
+          
              });   
 
             function afegeixBotons(){
                L.easyButton('fa-search', function(btn, map){
                    //activaTaula( 'data/DS_TERRASSA01.json', listview );
+                   $('#panellMenu').panel('close');
                    $('#panellTaula').panel('open');
                    visor.cercaHTML= '' ;
                    cercaJSON(  'data/DS_TERRASSA01.json',
@@ -365,7 +361,7 @@
  
  
             function activaTema(listview, nomTema, value){               
-                             
+                visor.cercaHTML = '';          
                switch(nomTema){ 
                
                   case 'acces': 
@@ -439,12 +435,12 @@
                    }                  
                            
             }
-            
-            
+ 
+ 
             function cercaJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
                 var accesJSON;
                 //var listview = $("#autocomplete");
-                visor.locate.start(); 
+                //visor.locate.start(); 
                 
                 $.getJSON( JSON, 
                            function ( response ) { 
@@ -462,7 +458,7 @@
                                     });    
                                     if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
                                         if (numResposta == 0){
-                                            html += " <li>" 
+                                            html += " <li data-tema='" + temaCerca + "' data-dist='0'>" 
                                                    +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#eee'>"
                                                    +     temaCerca                                            
                                                    +  "    </div>"                                                  
@@ -493,8 +489,8 @@
                                                 +  " </li>";                                           
                                             */
                                            
-                                           html += " <li>" 
-                                                +  "   <div style='width:100%;height:auto;overflow:hidden'> "
+                                           html += " <li data-tema='" + temaCerca + "' data-dist='" + Math.round(dist) + "'>" 
+                                                +  "   <div style='width:100%;height:auto;overflow:hidden' '> "
                                                 +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
                                                 +  "         <div style='height:auto;font-size:1.5em;'>" 
                                                 +  "             <i class='" + faIcon + "'></i>"
@@ -516,14 +512,14 @@
                                         }
                                         
                                         else {                                        
-                                           html += " <li>" 
-                                                +  "   <div style='width:100%;height:auto;overflow:hidden;opacity:0.7;'> "
+                                          html += " <li data-tema='" + temaCerca + "' data-dist='2'>" 
+                                                +  "   <div style='width:100%;height:auto;overflow:hidden' '> "
                                                 +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
                                                 +  "         <div style='height:auto;font-size:1.5em;'>" 
                                                 +  "             <i class='" + faIcon + "'></i>"
                                                 +  "         </div>"
                                                 +  "         <div style='font-size: 0.8em;margin-top: -0.3em;'>"
-                                                +  "              -----" 
+                                                +  "            ---- "  
                                                 +  "         </div>"                                              
                                                 +  "      </div>"
                                                 +  "      <div style='float:left;width:13em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
@@ -535,38 +531,48 @@
                                                 +  "         </div>"                                                
                                                 +  "       </div>" 
                                                 +  "    </div>"                                                  
-                                                +  " </li>";                                           
+                                                +  " </li>";   
+                                              
                                        }        
                                     } 
                                     
                                     if ( numResposta > nombre ){
-                                              html += " <li>" 
+                                              html += " <li data-dist='1' data-tema='" + temaCerca + "'>" 
                                                    +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#cdf'>"
                                                    +  "  Resultats parcials"                                     
                                                    +  "    </div>"                                                  
                                                    +  " </li>";   
-                                    
-                                    
+                                                                        
                                        return false;
                                     }                   
                                   });
-                             //  });   
-                                // listview.html('');;  
-                              visor.cercaHTML += html;
+
+                              if ( visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
+                              {                                          
+                                 var ordena =  $('<div/>', {  id: 'ordena_id' }) .append(html);
+                                 $(ordena).find("[data-tema='"+ temaCerca  +"']").sort(sort_li).appendTo($(ordena));
+                                 visor.cercaHTML += $(ordena).html();
+                              }
+                              else {
+                                 visor.cercaHTML += html;                               
+                              } 
+                            
                               listview.html( visor.cercaHTML );
                               listview.listview( "refresh" );
-                              listview.trigger( "updatelayout" );  
+                              listview.trigger( "updatelayout" );   
+                              
                  
                  }); 
+                 
+                 // sort function callback
+                  function sort_li(a, b){
+                      return (     $(b).data('dist')) < ($(a).data('dist')) ? 1 : -1;    
+                   //   return (+$(a).data('dist') - +$(b).data('dist');
+                  }
                               
             }
           
-  
-
-
-
-
-  
+   
             //-- Inicia llistaElements          
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -653,11 +659,7 @@
                }
             }
  
- 
- 
- 
- 
- 
+  
             function cercaGenerica( fitxer ){
                fitxer = window.location.href.replace('index.html','') + 'data/DS_EQUIP01.json' ;
                $('#equipament').autocomplete({
@@ -1387,7 +1389,7 @@
             <!--button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars ui-btn-icon-notext">bars</button-->
 				<!--a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a-->
             <div class="boto" style="order:0;margin:0.5em 0.7em;">
-               <a href="#panellMenu"> 
+               <div onclick="$('#panellTaula').panel('close');$('#panellMenu').panel('open');" > 
                   <i class="fa fa-bars"></i>
                </a>   
             </div>   
@@ -1462,7 +1464,7 @@
                   <div style="order:1;flex-grow:2;height:auto;text-align: center; font-family: Verdana;margin-bottom:1em"> 						
                         Taula de dades                     
                   </div>                  
-                  <div class="boto" style="order:2;" onclick="$('#panellMenu').panel('close');"> 
+                  <div class="boto" style="order:2;" onclick="$('#panellTaula').panel('close');"> 
                      <i class="fa fa-arrow-left"></i>
                   </div>
                </div>
