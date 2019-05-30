@@ -194,7 +194,74 @@
         <script src="https://mapes.mataro.cat/OpenData/CSS/pluginmapa.js"></script>          
         <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
         <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-        
+        <!--script type="text/javascript"> 
+         
+         (function (window, document, undefined) {
+          L.Control.Custom = L.Control.extend({
+              version: '1.0.1',
+              options: {
+                  position: 'topright',
+                  id: '',
+                  title: '',
+                  classes: '',
+                  content: '',
+                  style: {},
+                  datas: {},
+                  events: {},
+              },
+              container: null,
+              onAdd: function (map) {
+                  this.container = L.DomUtil.create('div');
+                  this.container.id = this.options.id;
+                  this.container.title = this.options.title;
+                  this.container.className = this.options.classes;
+                  this.container.innerHTML = this.options.content;
+
+                  for (var option in this.options.style)
+                  {
+                      this.container.style[option] = this.options.style[option];
+                  }
+
+                  for (var data in this.options.datas)
+                  {
+                      this.container.dataset[data] = this.options.datas[data];
+                  }
+
+
+                  /* Prevent click events propagation to map */
+                  L.DomEvent.disableClickPropagation(this.container);
+
+                  /* Prevent right click event propagation to map */
+                  L.DomEvent.on(this.container, 'contextmenu', function (ev)
+                  {
+                      L.DomEvent.stopPropagation(ev);
+                  });
+
+                  /* Prevent scroll events propagation to map when cursor on the div */
+                  L.DomEvent.disableScrollPropagation(this.container);
+
+                  for (var event in this.options.events)
+                  {
+                      L.DomEvent.on(this.container, event, this.options.events[event], this.container);
+                  }
+
+                  return this.container;
+              },
+
+              onRemove: function (map) {
+                  for (var event in this.options.events)
+                  {
+                      L.DomEvent.off(this.container, event, this.options.events[event], this.container);
+                  }
+              },
+          });
+
+          L.control.custom = function (options) {
+              return new L.Control.Custom(options);
+          };
+
+      }(window, document));
+      </script-->
         <script type="text/javascript"> 
 
             // -- 1 INCIALITZACIÓ DE L'OBJECTE GENERAL DEL MAPA        
@@ -241,7 +308,8 @@
                 'tema':'equipament',
                 'cercaActiva': ['acces', 'carrer', 'equipament', 'terrassa','entitat'],
                 'cercaHTML':'',
-                'ordena':null
+                'ordena':null,
+                'temaActiu':''
             };
  
  
@@ -291,15 +359,15 @@
 
                  $( "#taulaBase-input" ).on( "input", function (  ) {
                     //alert('KEYPRESSED');  
-                    $("#taulaBase").empty();
+                    
                     //$("#taulaBase").listview( "refresh" );
                     //$("#taulaBase").trigger( "updatelayout" ); 
                     visor.cercaHTML = '';
                     var value =  $('#taulaBase-input').val(); 
                     //var numResposta = 0; 
                     //if ( value.length > 2 ) {
-                       
-                       cercaJSON(  'data/DS_TERRASSA01.json',
+                    activaTema($("#taulaBase"), visor.temaActiu, value, 500)   
+                    /*   cercaJSON(  'data/DS_TERRASSA01.json',
                                                 $("#taulaBase"),
                                                 'terrassa',
                                                 'fa fa-coffee',
@@ -308,7 +376,7 @@
                                                 'ACCES_NOM' , 
                                                 'ACCES_NOM', 
                                                 'WKT',
-                                                 500);
+                                                 500);*/
                        ajustaFinestres(); 
                   // }
                  });                 
@@ -316,22 +384,36 @@
              });   
 
             function afegeixBotons(){
-               L.easyButton('fa-search', function(btn, map){
-                   //activaTaula( 'data/DS_TERRASSA01.json', listview );
+               L.easyButton('fa-coffee', function(btn, map){
+                   $('#taulaBase-input').val('');
                    $('#panellMenu').panel('close');
                    $('#panellTaula').panel('open');
                    visor.cercaHTML= '' ;
-                   cercaJSON(  'data/DS_TERRASSA01.json',
-                              $("#taulaBase"),
-                              'terrassa',
-                              'fa fa-coffee',
-                              '', 
-                              'ACCES_NOM', 
-                              'ACCES_NOM' , 
-                              'ACCES_NOM', 
-                              'WKT',
-                               500);
-               }).addTo(visor.map);            
+                   visor.temaActiu = 'terrassa';
+                   activaTema($("#taulaBase"), 'terrassa', '', 500);
+                 }).addTo(visor.map);
+
+               L.easyButton('fa-home', function(btn, map){
+                   $('#taulaBase-input').val('');
+                   $('#panellMenu').panel('close');
+                   $('#panellTaula').panel('open');
+                   visor.cercaHTML= '' ;
+                   visor.temaActiu = 'equipament';
+                   activaTema($("#taulaBase"), 'equipament', '', 500);
+                 }).addTo(visor.map);
+                 
+                L.easyButton('fa-road', function(btn, map){
+                   $('#taulaBase-input').val('');
+                   $('#panellMenu').panel('close');
+                   $('#panellTaula').panel('open');
+                   visor.cercaHTML= '' ;
+                   visor.temaActiu = 'carrer';
+                   activaTema($("#taulaBase"), 'carrer', '', 500);
+                 }).addTo(visor.map);   
+
+
+
+                 
             }
             
         /*    function activaTaula( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT){
@@ -354,13 +436,13 @@
                visor.cercaHTML = '';
                
                $.each(visor.cercaActiva, function(i,temaCerca) {  //Temes sobre els que es fa la cerca 
-                  activaTema(listview, visor.cercaActiva[i], value);
+                  activaTema(listview, visor.cercaActiva[i], value, 20);
                });
                
             }
  
  
-            function activaTema(listview, nomTema, value){               
+            function activaTema(listview, nomTema, value, elements){               
                 visor.cercaHTML = '';          
                switch(nomTema){ 
                
@@ -375,7 +457,7 @@
                                               'ACCES_NOM', 
                                               'NOM_CURT', 
                                               'WKT',
-                                               20);
+                                               elements);
                                             
                                    break;           
    
@@ -393,7 +475,7 @@
                                               'RAO_SOCIAL', 
                                               'ADRECA', 
                                               'WKT',
-                                               20);
+                                               elements);
                                             
                                    break;           
                                               
@@ -406,7 +488,7 @@
                                               'NOM_LLARG', 
                                               'NOM_CURT', 
                                               'WKT',
-                                               20);
+                                               elements);
                                    break;
                                    
                   case 'equipament': cercaJSON( 'data/DS_EQUIP01.json',
@@ -418,7 +500,7 @@
                                                 'NOM', 
                                                 'ADRECA', 
                                                 'WKT',
-                                                20);
+                                                elements);
                                    break;
                                   
                    case 'terrassa': cercaJSON(  'data/DS_TERRASSA01.json',
@@ -430,7 +512,7 @@
                                                 'ACCES_NOM' , 
                                                 'ACCES_NOM', 
                                                 'WKT',
-                                                20);
+                                                elements);
                                     break;           
                    }                  
                            
@@ -784,7 +866,91 @@
                                  });
                   afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
-                  activaLocator();                               
+                  activaLocator();  
+/*
+                  L.control.custom({
+                      position: 'topright',
+                      content : '<button type="button" class="btn btn-default">'+
+                                '    <i class="fa fa-crosshairs"></i>'+
+                                '</button>'+
+                                '<button type="button" class="btn btn-info">'+
+                                '    <i class="fa fa-compass"></i>'+
+                                '</button>'+
+                                '<button type="button" class="btn btn-primary">'+
+                                '    <i class="fa fa-spinner fa-pulse fa-fw"></i>'+
+                                '</button>'+
+                                '<button type="button" class="btn btn-danger">'+
+                                '    <i class="fa fa-times"></i>'+
+                                '</button>'+
+                                '<button type="button" class="btn btn-success">'+
+                                '    <i class="fa fa-check"></i>'+
+                                '</button>'+
+                                '<button type="button" class="btn btn-warning">'+
+                                '    <i class="fa fa-exclamation-triangle"></i>'+
+                                '</button>',
+                      classes : 'btn-group-vertical btn-group-sm',
+                      style   :
+                      {
+                          margin: '10px',
+                          padding: '0px 0 0 0',
+                          cursor: 'pointer',
+                      },
+                      datas   :
+                      {
+                          'foo': 'bar',
+                      },
+                      events:
+                      {
+                          click: function(data)
+                          {
+                              console.log('wrapper div element clicked');
+                              console.log(data);
+                          },
+                          dblclick: function(data)
+                          {
+                              console.log('wrapper div element dblclicked');
+                              console.log(data);
+                          },
+                          contextmenu: function(data)
+                          {
+                              console.log('wrapper div element contextmenu');
+                              console.log(data);
+                          },
+                      }
+                  })
+                  .addTo(visor.map);
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  
                } 
 			}
 	
