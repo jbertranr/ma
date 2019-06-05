@@ -350,43 +350,41 @@
             
             $( document ).on( "pagecreate", "#pageMap", function() {  
                  $('#autocomplete-input').on ('focusin', function(){ setTimeout(function(){ajustaFinestres();},3000)});
-                   
-                 $( "#autocomplete-input" ).on( "input", function (  ) {
-                    //alert('KEYPRESSED');                    
-                    var $ul = $("#taulaBase");
+                 
+                 $('#panell-dades').hide();
+                 $('#panell-cerca').hide();
+                 
+                 $( "#frm-autocomp").submit(  function ( event ) {     
+                    //alert('asas');
+                    event.preventDefault();
+                 });
+                 
+                 $( "#autocomplete-input" ).on( "keyup", function ( e ) {                
+                    var $ul = $("#autocomplete");
                     $ul.html( "" );
                     visor.cercaHTML = '';
                     $ul.listview( "refresh" );
                     var value =  $('#autocomplete-input').val(); 
                     //var numResposta = 0; 
-                    if ( value.length > 2 ) {
+                    if ( e.keyCode == 13 ) {
                        incorporaTemes(value, $ul);
                        ajustaFinestres(); 
                    }
                  }); 
 
-                 $( "#taulaBase-input" ).on( "input", function (  ) {
-                    //alert('KEYPRESSED');  
-                    
-                    //$("#taulaBase").listview( "refresh" );
-                    //$("#taulaBase").trigger( "updatelayout" ); 
+                 $( "#frm-cerca").submit(  function ( event ) {     
+                    event.preventDefault();
+                 });
+                 
+                 $( "#cerca-input" ).on( "keyup", function ( e ) {    
                     visor.cercaHTML = '';
-                    var value =  $('#taulaBase-input').val(); 
+                    var value =  $('#cerca-input').val(); 
                     //var numResposta = 0; 
                     //if ( value.length > 2 ) {
-                    activaTema($("#taulaBase"), visor.temaActiu, value, 500)   
-                    /*   cercaJSON(  'data/DS_TERRASSA01.json',
-                                                $("#taulaBase"),
-                                                'terrassa',
-                                                'fa fa-coffee',
-                                                value, 
-                                                'ACCES_NOM', 
-                                                'ACCES_NOM' , 
-                                                'ACCES_NOM', 
-                                                'WKT',
-                                                 500);*/
+                    if ( e.keyCode == 13 ) {
+                       activaTema($("#taulaBase"), visor.temaActiu, value, 500); 
                        ajustaFinestres(); 
-                  // }
+                   }
                  });                 
           
              });   
@@ -451,7 +449,10 @@
  
  
             function activaTema(listview, nomTema, value, elements){               
+                visor.temaActiu = nomTema;
                 visor.cercaHTML = '';          
+                //$('#panell-dades').show(500,function(){visor.map._onResize();});
+                //$('#panell-cerca').hide(500,function(){visor.map._onResize();});
                switch(nomTema){ 
                
                   case 'acces': 
@@ -691,9 +692,10 @@
                 resizeTimer = setTimeout(function () {
                    // $('#map').width($(window).width()- $('#finestra').width() - 30);
                    $('#contMapa').height($(window).height()- $('#header').height( ) - 3); //abans -3
-                   // $('#finestra').height($(window).height() - 50 );
+                   $('#finestra').height($(window).height() - 47 );
                     //$('#autocomp').height($(window).height()  - 120 ); 
-                   $('#taulaBaseWrap').height($(window).height()  - $('#header').height( ) - 18);                     
+                   $('#taulaBaseWrap').height($(window).height()  - $('#header').height( ) - 34);                     
+                   $('#autocomp').height($(window).height()  - $('#header').height( ) - 34); 
                   //  $('#pageListContent').height($(window).height() - $('#pageListHeader').height() - $('#pageListFooter').height() - 89);
                     visor.map._onResize(); 
                 });
@@ -1569,26 +1571,12 @@
     </head>
     
     <body style="font-family:arial">
-    
        
-
-    
-
-    
-        
         <!--------------------------------  Pàgina Mapa ------------------------------------------->     
         <div data-role="page" id="pageMap" style="height:100%;margin:0;display:flex;flex-direction:column;" > 
-
-      
-        
-        
         
         
               <!-- Nav tabs -->
-
-
-
-
 
             <!------------------ Header ----------recuperaElements()----->    
 			<div id="header" class="ui-nodisc-icon ui-alt-icon" style="display:flex;flex-direction:row;justify-content:space-between;order:1;height:2.3em;background-color: #359; color: rgb(250, 250, 250);font-size: 1.1em; font-weight: lighter; text-shadow: 0px 0px; z-index: 1; " role="banner" data-role="header" class="ui-header ui-bar-inherit">
@@ -1597,7 +1585,7 @@
             <!--button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars ui-btn-icon-notext">bars</button-->
 				<!--a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a-->
             <div class="boto" style="order:0;margin:0.5em 0.7em;">
-               <div onclick="$('#finestra').toggle(500,function(){visor.map._onResize();});" > 
+               <div onclick="$('#panell-dades').toggle(500,function(){visor.map._onResize();});" > 
                   <i class="fa fa-bars"></i>
                </div>   
             </div>   
@@ -1621,20 +1609,20 @@
            
                  <div id="finestra" style="display:flex;flex-direction:row;order:0;width:auto;">            
                      <div id="barnav" style="display:flex;flex-direction:column;flex-grow:0;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);width:2em;border-radius:2px;">
-                        <div style="order:1;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;">
+                        <div style="order:1;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;" onclick="$('#panell-cerca').show(500);$('#panell-dades').hide(500,function(){visor.map._onResize();});">   
                             <i class="fas fa-search" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div>                   
-                        <!--div style="order:0;background-color:#eee;padding-top:-0.2em;height:1.9em;text-align:center;" onclick="$('#finestra').toggle(500,function(){ajustaFinestres()})";>
+                        <!--div style="order:0;background-color:#eee;padding-top:-0.2em;height:1.9em;text-align:center;" onclick="$('#panell-dades').toggle(500,function(){ajustaFinestres()})";>
                               <i class="fas fa-bars" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div-->                  
                         <div style="order:2;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;">
-                            <i class="fas fa-coffee" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="activaTema($('#taulaBase'), 'terrassa', '', 500);"></i>
+                            <i class="fas fa-coffee" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('#panell-dades').show(500,function(){visor.map._onResize();});$('#panell-cerca').hide(500,function(){visor.map._onResize();});activaTema($('#taulaBase'), 'terrassa', '', 500);"></i>
                         </div>
                         <div style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;">
-                            <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="activaTema($('#taulaBase'), 'equipament', '', 500);"></i>
+                            <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('#panell-dades').show(500,function(){visor.map._onResize();});$('#panell-cerca').hide(500,function(){visor.map._onResize();});activaTema($('#taulaBase'), 'equipament', '', 500);"></i>
                         </div>
                         <div style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;">
-                            <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="activaTema($('#taulaBase'), 'carrer', '', 500);" ></i>
+                            <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('#panell-dades').show(500,function(){visor.map._onResize();});$('#panell-cerca').hide(500,function(){visor.map._onResize();});activaTema($('#taulaBase'), 'carrer', '', 500);" ></i>
                         </div> 
 
                         <div style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;margin-top:auto;">
@@ -1642,11 +1630,86 @@
                         </div>
                     
                      </div>
-                     <div id="panell-dades" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
+                     <!--div id="panell-dades" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
+                        <form id="frm-cerca" class="ui-filterable">
+                           <input id="cerca-input" style="font-size:0.8em" data-type="text" placeholder="Filtrar dades ...">
+                        </form>
                         <div id="taulaBaseWrap" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
                            <ul id="taulaBase" data-role="listview" data-inset="true" data-filter="false" style="position.relative;margin-top:0em"></ul>
                         </div>  
-                     </div>
+                     </div-->
+
+                    <div id="panell-dades" style="display:flex;flex-direction:column;width:13em;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;">
+                       <div id="cerca-sutocomp" style="display:flex;flex-direction:row;width:100%;height:auto;">
+                          <div id="cerca-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:auto;margin-left:1em;">
+                             <form id="frm-cerca" class="ui-filterable">
+                               <!--input id="cerca-input2" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                               <textarea style="font-size:0.8em" id="cerca-input2" placeholder="Equipament, carrer, cadastre, ..." name="textarea-1" ></textarea-->
+                               <input id="cerca-input" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                               <!--input data-mini="true" name="text-4" id="cerca-input" value="" type="text"-->
+                             </form>
+                          </div>   
+                          <div style="order:2;flex-grow:1;width:3em;padding-top:-0.2em;height:2em;text-align:center;">
+                              <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
+                          </div>
+                       </div>   
+                       <div id="taulaBaseWrap" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
+                          <ul id="taulaBase" data-role="listview" data-inset="true" data-filter="false" style="position.relative;margin-top:0em"></ul>
+                       </div>  
+                    </div> 
+
+                     
+
+            <!--div data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-reveal ui-panel-closed ui-body-a ui-panel-animate" data-position="left" data-display="push" data-theme="a" id="panellMenu">
+               <div class="ui-nodisc-icon ui-alt-icon" style="display:flex;flex-direction:row;justify-content:space-between;height:auto;color:#444;font-size: 1em; font-weight: 100; ">            
+                  <div style="order:1;flex-grow:2;height:auto;text-align: center; font-family: Verdana;margin-bottom:1em"> 						
+                        Cercador                     
+                  </div>                  
+                  <div class="boto" style="order:2;" onclick="$('#panellMenu').panel('close');"> 
+                       <i class="fa fa-arrow-left"></i>
+                  </div>
+                </div>
+               
+                <form class="ui-filterable">
+                   <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                </form>
+                
+                <div id="autocomp" style="clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
+                   <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;"></ul>
+                </div>   
+              </div-->
+                    
+                    <div id="panell-cerca" style="display:flex;flex-direction:column;width:13em;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;">
+                       <div id="cerca-wrap" style="display:flex;flex-direction:row;width:100%;height:auto;">
+                          <div id="autocomp-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:auto;margin-left:1em;">
+                             <form id="frm-autocomp" class="ui-filterable">
+                               <input id="autocomplete-input" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                             </form>
+                          </div>   
+                          <div style="order:2;flex-grow:1;width:3em;padding-top:-0.2em;height:2em;text-align:center;">
+                              <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
+                          </div>
+                       </div>   
+                       <div id="autocomp" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
+                          <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;margin-top:0em"></ul>
+                       </div>  
+                    </div> 
+
+
+
+
+ 
+                    
+                    <!--div id="panell-cerca" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
+                       <form id="frm-autocomp" class="ui-filterable">
+                         <input id="autocomplete-input" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                       </form>
+                       <div id="autocomp" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
+                          <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;margin-top:0em"></ul>
+                       </div>  
+                    </div-->
+                     
+                     
                   </div>  
                   <div id="wrpMapa" style="flex:2;order:1;display:flex">
                      <div id="contMapa" style="flex:2"></div>
@@ -1668,7 +1731,11 @@
                        <i class="fa fa-arrow-left"></i>
                   </div>
                 </div>
-               
+
+
+
+
+                
                 <form class="ui-filterable">
                    <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
                 </form>
