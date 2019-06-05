@@ -434,9 +434,25 @@
                             'WKT' );
              }      
       */
- 
+
+           function mostraTaula(taula){
+              $('#taulaBase').html('');
+              $('#taulaBase').listview('refresh');
+	           $('#taulaBase').trigger( 'updatelayout');
+              $('#panell-cerca').hide(500);
+              $('#panell-dades').hide(500);
+              setTimeout(function(){
+                  activaTema($('#taulaBase'), taula, '', 500);   
+                  $('#panell-dades').show(800,function(){ 
+                    visor.map._onResize();
+                  }); 
+              },500); 
+            }
+       
             function incorporaTemes(value,listview){
-               $("#autocomplete").html('');
+               listview.html('');
+               listview.listview( "refresh" );
+	            listview.trigger( "updatelayout" );               
                var html = '';
                var test = '';
                visor.cercaHTML = '';
@@ -1585,7 +1601,7 @@
             <!--button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars ui-btn-icon-notext">bars</button-->
 				<!--a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a-->
             <div class="boto" style="order:0;margin:0.5em 0.7em;">
-               <div onclick="$('#panell-dades').toggle(500,function(){visor.map._onResize();});" > 
+               <div onclick="$('#barnav').toggle(500,function(){visor.map._onResize();});" > 
                   <i class="fa fa-bars"></i>
                </div>   
             </div>   
@@ -1608,24 +1624,24 @@
         <div data-role="content" style="order:2;flex:2;display:flex;flex-direction:row;overflow:hidden">
            
                  <div id="finestra" style="display:flex;flex-direction:row;order:0;width:auto;">            
-                     <div id="barnav" style="display:flex;flex-direction:column;flex-grow:0;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);width:2em;border-radius:2px;">
-                        <div style="order:1;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;" onclick="$('#panell-cerca').show(500);$('#panell-dades').hide(500,function(){visor.map._onResize();});">   
+                     <div id="barnav" style="display:flex;flex-direction:column;flex-grow:0;background-color:#fff;border-right: 1px solid #ddd;width:2em;border-radius:2px;">
+                        <div style="order:1;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;" onclick="$('#panell-cerca').show(500);$('#panell-dades').hide(500,function(){visor.map._onResize();});">   
                             <i class="fas fa-search" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div>                   
                         <!--div style="order:0;background-color:#eee;padding-top:-0.2em;height:1.9em;text-align:center;" onclick="$('#panell-dades').toggle(500,function(){ajustaFinestres()})";>
                               <i class="fas fa-bars" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div-->                  
-                        <div style="order:2;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;">
-                            <i class="fas fa-coffee" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('#panell-dades').show(500,function(){visor.map._onResize();});$('#panell-cerca').hide(500,function(){visor.map._onResize();});activaTema($('#taulaBase'), 'terrassa', '', 500);"></i>
+                        <div style="order:2;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-coffee" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('terrassa');"></i>
                         </div>
-                        <div style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;">
-                            <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('#panell-dades').show(500,function(){visor.map._onResize();});$('#panell-cerca').hide(500,function(){visor.map._onResize();});activaTema($('#taulaBase'), 'equipament', '', 500);"></i>
+                        <div style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('equipament');"></i>
                         </div>
-                        <div style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;">
-                            <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('#panell-dades').show(500,function(){visor.map._onResize();});$('#panell-cerca').hide(500,function(){visor.map._onResize();});activaTema($('#taulaBase'), 'carrer', '', 500);" ></i>
+                        <div style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('carrer');" ></i>
                         </div> 
 
-                        <div style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #aaa;border-top:0px solid #aaa;margin-top:auto;">
+                        <div style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
                             <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div>
                     
@@ -1639,58 +1655,38 @@
                         </div>  
                      </div-->
 
-                    <div id="panell-dades" style="display:flex;flex-direction:column;width:13em;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;">
-                       <div id="cerca-sutocomp" style="display:flex;flex-direction:row;width:100%;height:auto;">
+                    <div id="panell-dades" style="display:flex;flex-direction:column;width:13em;background-color:#fff;border-right: 1px solid rgba(0, 0, 0, 0.2);border-radius:0px;opacity:0.75;">
+                       <div id="cerca-autocomp" style="display:flex;flex-direction:row;width:100%;height:auto;background-color: #eee;">
                           <div id="cerca-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:auto;margin-left:1em;">
                              <form id="frm-cerca" class="ui-filterable">
                                <!--input id="cerca-input2" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
                                <textarea style="font-size:0.8em" id="cerca-input2" placeholder="Equipament, carrer, cadastre, ..." name="textarea-1" ></textarea-->
-                               <input id="cerca-input" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                               <input id="cerca-input" style="margin-top:0.3em;border:1px solid #ddd; font-size:0.8em;background-color:#fff" data-role="none" placeholder="Filtra dades ...">
                                <!--input data-mini="true" name="text-4" id="cerca-input" value="" type="text"-->
                              </form>
                           </div>   
-                          <div style="order:2;flex-grow:1;width:3em;padding-top:-0.2em;height:2em;text-align:center;">
-                              <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
+                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;" onclick="$('#panell-dades').hide()">
+                              <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.4em;color:#45B;"></i>
                           </div>
                        </div>   
-                       <div id="taulaBaseWrap" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
+                       <div id="taulaBaseWrap" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0.0em">  
                           <ul id="taulaBase" data-role="listview" data-inset="true" data-filter="false" style="position.relative;margin-top:0em"></ul>
                        </div>  
                     </div> 
 
-                     
-
-            <!--div data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-reveal ui-panel-closed ui-body-a ui-panel-animate" data-position="left" data-display="push" data-theme="a" id="panellMenu">
-               <div class="ui-nodisc-icon ui-alt-icon" style="display:flex;flex-direction:row;justify-content:space-between;height:auto;color:#444;font-size: 1em; font-weight: 100; ">            
-                  <div style="order:1;flex-grow:2;height:auto;text-align: center; font-family: Verdana;margin-bottom:1em"> 						
-                        Cercador                     
-                  </div>                  
-                  <div class="boto" style="order:2;" onclick="$('#panellMenu').panel('close');"> 
-                       <i class="fa fa-arrow-left"></i>
-                  </div>
-                </div>
-               
-                <form class="ui-filterable">
-                   <input id="autocomplete-input" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
-                </form>
-                
-                <div id="autocomp" style="clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
-                   <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;"></ul>
-                </div>   
-              </div-->
                     
-                    <div id="panell-cerca" style="display:flex;flex-direction:column;width:13em;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;">
-                       <div id="cerca-wrap" style="display:flex;flex-direction:row;width:100%;height:auto;">
-                          <div id="autocomp-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:auto;margin-left:1em;">
+                    <div id="panell-cerca" style="display:flex;flex-direction:column;width:13em;background-color: #fff;;border-right: 1px solid rgba(0, 0, 0, 0.2);opacity:0.75;">
+                       <div id="cerca-wrap" style="display:flex;flex-direction:row;width:100%;height:auto;background-color: #eee;;">
+                          <div id="autocomp-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:2em;;margin-left:1em;">
                              <form id="frm-autocomp" class="ui-filterable">
-                               <input id="autocomplete-input" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
+                               <input id="autocomplete-input" style="margin-top:0.3em;border:1px solid #ddd; font-size:0.8em;background-color:#fff" data-role="none" placeholder="Cerca, ...">
                              </form>
                           </div>   
-                          <div style="order:2;flex-grow:1;width:3em;padding-top:-0.2em;height:2em;text-align:center;">
-                              <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
+                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;" onclick="$('#panell-cerca').hide()">
+                              <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.4em;color:#45B;"></i>
                           </div>
                        </div>   
-                       <div id="autocomp" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0.5em">  
+                       <div id="autocomp" style="order:0;clear:both;width:100%;overflow:auto;margin-bottom:0em">  
                           <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="false" style="position.relative;margin-top:0em"></ul>
                        </div>  
                     </div> 
