@@ -347,6 +347,7 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
+            $( "finestra" ).on( "swipe", function(){$(this).hide(500) } );
             
             $( document ).on( "pagecreate", "#pageMap", function() {  
                  $('#autocomplete-input').on ('focusin', function(){ setTimeout(function(){ajustaFinestres();},3000)});
@@ -484,6 +485,8 @@
             
        
             function incorporaTemes(value,listview){
+               $("#cerca-input").blur(); 
+               $("#dades-input").blur();               
                listview.html('');
                listview.listview( "refresh" );
 	            listview.trigger( "updatelayout" );               
@@ -1657,7 +1660,7 @@
 
 
         <!------------------ Content --------------->
-        <div data-role="content" style="order:2;flex:2;display:flex;flex-direction:row;overflow:hidden">
+        <div data-role="content" style="order:2;flex:2;display:flex;flex-direction:row;overflow:hidden" >
            
                  <div id="finestra" style="display:flex;flex-direction:row;order:0;width:auto;">            
                      <div id="barnav" style="display:flex;flex-direction:column;flex-grow:0;background-color:#fff;border-right: 1px solid #ddd;width:2em;border-radius:2px;">
@@ -1701,7 +1704,7 @@
                                <!--input data-mini="true" name="text-4" id="cerca-input" value="" type="text"-->
                              </form>
                           </div>   
-                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;margin-top: 0.2em;" onclick="$('#panell-dades').hide()">
+                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;margin-top: 0.2em;" onclick="$('#panell-dades').hide();visor.map._onResize();">
                               <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.4em;color:#45B;"></i>
                           </div>
                        </div>   
@@ -1718,7 +1721,7 @@
                                <input id="autocomplete-input" style="margin-top:0.7em;border:1px solid #ddd; font-size:0.8em;background-color:#fff" data-role="none" placeholder="Cerca, ...">
                              </form>
                           </div>   
-                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;margin-top: 0.2em;" onclick="$('#panell-cerca').hide()">
+                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;margin-top: 0.2em;" onclick="$('#panell-cerca').hide();visor.map._onResize();">
                               <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.4em;color:#45B;"></i>
                           </div>
                        </div>   
