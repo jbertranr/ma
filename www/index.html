@@ -437,17 +437,51 @@
 
            function mostraTaula(taula){
               $('#taulaBase').html('');
-              $('#taulaBase').listview('refresh');
+              $('#taulaBase').listview( 'refresh' );
 	           $('#taulaBase').trigger( 'updatelayout');
+              $('#cerca-input').val('');
+              if ($("#panell-cerca").is(":visible")){
+                 $('#panell-cerca').hide(400,function(){
+                    $('#panell-dades').show(500,function(){ 
+                        visor.map._onResize();
+                        activaTema($('#taulaBase'), taula, '', 500);  
+                    });                   
+                 } );
+              }
+              else{
+                 $('#panell-dades').hide(400,function(){
+                    $('#panell-dades').show(500,function(){
+                        visor.map._onResize();
+                        activaTema($('#taulaBase'), taula, '', 500);  
+                    }); 
+                 });                   
+              }
+            }  
+ 
+           function mostraCerca(){
+           
               $('#panell-cerca').hide(500);
-              $('#panell-dades').hide(500);
-              setTimeout(function(){
-                  activaTema($('#taulaBase'), taula, '', 500);   
-                  $('#panell-dades').show(800,function(){ 
-                    visor.map._onResize();
-                  }); 
-              },500); 
+              $('#panell-dades').hide(500,function(){
+                  visor.map._onResize();
+                  $('#panell-cerca').show(500);
+              });           
+              $('#autocomplete').html('');
+              $('#autocomplete').listview( 'refresh' );
+	           $('#autocomplete').trigger( 'updatelayout');
+              $('#autocomplete-input').val('');
+
             }
+ 
+            
+              //$('#panell-dades').hide(500, function(){
+                  
+ 
+              //});
+              //setTimeout(function(){
+                   
+                 
+              //},500); 
+            
        
             function incorporaTemes(value,listview){
                listview.html('');
@@ -465,6 +499,8 @@
  
  
             function activaTema(listview, nomTema, value, elements){               
+                $("#cerca-input").blur(); 
+                $("#dades-input").blur(); 
                 visor.temaActiu = nomTema;
                 visor.cercaHTML = '';          
                 //$('#panell-dades').show(500,function(){visor.map._onResize();});
@@ -1600,7 +1636,7 @@
 				</div-->
             <!--button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars ui-btn-icon-notext">bars</button-->
 				<!--a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a-->
-            <div class="boto" style="order:0;margin:0.5em 0.7em;">
+            <div class="boto" style="order:0;margin:0.5em 0.4em;">
                <div onclick="$('#barnav').toggle(500,function(){visor.map._onResize();});" > 
                   <i class="fa fa-bars"></i>
                </div>   
@@ -1625,8 +1661,8 @@
            
                  <div id="finestra" style="display:flex;flex-direction:row;order:0;width:auto;">            
                      <div id="barnav" style="display:flex;flex-direction:column;flex-grow:0;background-color:#fff;border-right: 1px solid #ddd;width:2em;border-radius:2px;">
-                        <div style="order:1;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;" onclick="$('#panell-cerca').show(500);$('#panell-dades').hide(500,function(){visor.map._onResize();});">   
-                            <i class="fas fa-search" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
+                        <div style="order:1;padding-top:-0.2em;height:2.3em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;background-color:#eee;" onclick="mostraCerca();">   
+                            <i class="fas fa-search" aria-hidden="true" style="padding-top:0.8em;color:#45B;"></i>
                         </div>                   
                         <!--div style="order:0;background-color:#eee;padding-top:-0.2em;height:1.9em;text-align:center;" onclick="$('#panell-dades').toggle(500,function(){ajustaFinestres()})";>
                               <i class="fas fa-bars" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
@@ -1657,15 +1693,15 @@
 
                     <div id="panell-dades" style="display:flex;flex-direction:column;width:13em;background-color:#fff;border-right: 1px solid rgba(0, 0, 0, 0.2);border-radius:0px;opacity:0.75;">
                        <div id="cerca-autocomp" style="display:flex;flex-direction:row;width:100%;height:auto;background-color: #eee;">
-                          <div id="cerca-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:auto;margin-left:1em;">
+                          <div id="cerca-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:auto;margin-left:0.5em;height:2.3em;">
                              <form id="frm-cerca" class="ui-filterable">
                                <!--input id="cerca-input2" style="font-size:0.8em" data-type="search" placeholder="Equipament, carrer, cadastre, ...">
                                <textarea style="font-size:0.8em" id="cerca-input2" placeholder="Equipament, carrer, cadastre, ..." name="textarea-1" ></textarea-->
-                               <input id="cerca-input" style="margin-top:0.3em;border:1px solid #ddd; font-size:0.8em;background-color:#fff" data-role="none" placeholder="Filtra dades ...">
+                               <input id="cerca-input" style="margin-top:0.7em;border:1px solid #ddd; font-size:0.8em;background-color:#fff" data-role="none" placeholder="Filtra dades ...">
                                <!--input data-mini="true" name="text-4" id="cerca-input" value="" type="text"-->
                              </form>
                           </div>   
-                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;" onclick="$('#panell-dades').hide()">
+                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;margin-top: 0.2em;" onclick="$('#panell-dades').hide()">
                               <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.4em;color:#45B;"></i>
                           </div>
                        </div>   
@@ -1677,12 +1713,12 @@
                     
                     <div id="panell-cerca" style="display:flex;flex-direction:column;width:13em;background-color: #fff;;border-right: 1px solid rgba(0, 0, 0, 0.2);opacity:0.75;">
                        <div id="cerca-wrap" style="display:flex;flex-direction:row;width:100%;height:auto;background-color: #eee;;">
-                          <div id="autocomp-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:2em;;margin-left:1em;">
+                          <div id="autocomp-inp-wrap" style="order:1;flex-grow:2;flex-direction:row;width:100%;height:2.3em;;margin-left:0.5em;">
                              <form id="frm-autocomp" class="ui-filterable">
-                               <input id="autocomplete-input" style="margin-top:0.3em;border:1px solid #ddd; font-size:0.8em;background-color:#fff" data-role="none" placeholder="Cerca, ...">
+                               <input id="autocomplete-input" style="margin-top:0.7em;border:1px solid #ddd; font-size:0.8em;background-color:#fff" data-role="none" placeholder="Cerca, ...">
                              </form>
                           </div>   
-                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;" onclick="$('#panell-cerca').hide()">
+                          <div style="order:2;flex-grow:1;width:3em;height:2em;text-align:center;margin-top: 0.2em;" onclick="$('#panell-cerca').hide()">
                               <i class="fas fa-arrow-left" aria-hidden="true" style="padding-top:0.4em;color:#45B;"></i>
                           </div>
                        </div>   
@@ -1692,9 +1728,6 @@
                     </div> 
 
 
-
-
- 
                     
                     <!--div id="panell-cerca" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
                        <form id="frm-autocomp" class="ui-filterable">
