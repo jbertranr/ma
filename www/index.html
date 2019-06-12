@@ -312,7 +312,7 @@
 				    'codiAvisVigent' : null,
 				    'darrerAvislista' : null,
                 'tema':'equipament',
-                'cercaActiva': ['acces', 'carrer', 'equipament', 'terrassa','entitat'],
+                'cercaActiva': ['acces', 'carrer', 'equipament', 'terrassa','entitat','gual'],
                 'cercaHTML':'',
                 'ordena':null,
                 'temaActiu':'',
@@ -589,7 +589,19 @@
                                                 'ACCES_NOM', 
                                                 'WKT',
                                                 elements);
-                                    break;           
+                                    break; 
+
+                  case 'gual': cercaJSON( 'data/DS_GUAL01.json',
+                                                listview,
+                                                nomTema,
+                                                'fa fa-car',
+                                                value, 
+                                                'REFERENCIA', 
+                                                'REFERENCIA', 
+                                                'ADRECA', 
+                                                'WKT',
+                                                10000);
+                                   break;                                    
                    }                  
                            
             }
@@ -1693,10 +1705,14 @@
                         <div style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
                             <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('carrer');" ></i>
                         </div> 
+                        <div style="order:5;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
+                            <i class="fas fa-car" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('gual');" ></i>
+                        </div>                          
 
                         <div style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
                             <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div>
+                       
                     
                      </div>
                      <!--div id="panell-dades" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
