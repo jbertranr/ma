@@ -316,7 +316,8 @@
                 'cercaHTML':'',
                 'ordena':null,
                 'temaActiu':'',
-                'markersTaula':null
+                'markersTaula':null,
+                'bbox':[]
             };
  
  
@@ -395,7 +396,7 @@
                     //var numResposta = 0; 
                     //if ( value.length > 2 ) {
                     if ( e.keyCode == 13 ) {
-                       activaTema($("#taulaBase"), visor.temaActiu, value, 500); 
+                       activaTema($("#taulaBase"), visor.temaActiu, value, 5000); 
                        ajustaFinestres(); 
                    }
                  });                 
@@ -455,19 +456,19 @@
               $('#cerca-input').val('');
               if ($("#panell-cerca").is(":visible")){
                  $('#panell-cerca').hide(400,function(){
-                    $('#panell-dades').show(500,function(){ 
-                        visor.map._onResize();
-                        activaTema($('#taulaBase'), taula, '', 500);  
-                    });                   
+                 // jsendra   $('#panell-dades').show(500,function(){ 
+                 // jsendra       visor.map._onResize();
+                        activaTema($('#taulaBase'), taula, '', 5000);  
+                 // jsendra   });                   
                  } );
               }
               else{
-                 $('#panell-dades').hide(400,function(){
-                    $('#panell-dades').show(500,function(){
-                        visor.map._onResize();
-                        activaTema($('#taulaBase'), taula, '', 500);  
-                    }); 
-                 });                   
+               // jsendra               $('#panell-dades').hide(400,function(){
+               // jsendra    $('#panell-dades').show(500,function(){
+               // jsendra        visor.map._onResize();
+                      activaTema($('#taulaBase'), taula, '', 5000);  
+               // jsendra     }); 
+               // jsendra  });                   
               }
             }  
  
@@ -625,6 +626,12 @@
                               accesJSON = response;   
                               var numResposta = 0;
                               var html = '';
+                              if ( visor.bbox.hasOwnProperty('options') ){
+                                          visor.bbox.remove();
+                               }   
+                              visor.bbox = L.rectangle(visor.map.getBounds(), {color: "#ff7800", opacity:0.5, stroke:true, fill: false, });
+                              visor.bbox.addTo(visor.map);       
+                               
                            //   $.each(visor.cercaActiva,function(i0, temaCerca) {  //Temes sobre els que es fa la cerca
                                  $.each(accesJSON.equipaments, function(i, equip) { // sobre equipament
                                     var cerca = strCerca.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
@@ -645,8 +652,16 @@
                                         numResposta += 1;
                                         if ( equip.hasOwnProperty('WKT') && visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
                                         {
-                                           
-                                           var dist = omnivore.wkt.parse(equip.WKT).getBounds().getCenter().distanceTo(  L.latLng(visor.posicioActual.lat, visor.posicioActual.lng));                                           
+                                          
+                                          var layerNou = omnivore.wkt.parse(equip.WKT);
+                                          var layerLatlng = layerNou.getBounds().getCenter();
+                                          
+
+  
+                                          if (visor.map.getBounds().contains(layerLatlng)) { 
+                                             
+                                             var dist = layerLatlng.distanceTo( L.latLng(visor.posicioActual.lat, visor.posicioActual.lng) );
+                                          
                                           // var dist = distance( punt.y, punt.x, visor.posicioActual.lat, visor.posicioActual.lng);                                           
                                           // visor.posicioActual.lat
                                           // alert(punt);
@@ -691,8 +706,9 @@
                                                 +  "    </div>"                                                  
                                                 +  " </li>"; 
                                            
-                                          visor.markersTaula.addLayer(omnivore.wkt.parse(equip.WKT));
+                                          visor.markersTaula.addLayer(layerNou);
                                           //omnivore.wkt.parse(equip.WKT).addTo(visor.map);
+                                          } 
                                         }
                                         
                                         else {                                        
@@ -1666,7 +1682,7 @@
             <!--button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars ui-btn-icon-notext">bars</button-->
 				<!--a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a-->
             <div class="boto" style="order:0;margin:0.5em 0.4em;">
-               <div onclick="$('#barnav').toggle(500,function(){visor.map._onResize();});" > 
+               <div onclick="$('#panell-dades').toggle(500,function(){visor.map._onResize();});" > 
                   <i class="fa fa-bars"></i>
                </div>   
             </div>   
