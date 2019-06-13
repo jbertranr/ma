@@ -1,48 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 	<widget xmlns="http://www.w3.org/ns/widgets" 
 	        xmlns:android="http://schemas.android.com/apk/res/android" 
-			xmlns:cdv="http://cordova.apache.org/ns/1.0"
-			id = "com.phonegap.riscanimal"
-			version = "1.0.0">
-
+ 			  xmlns:cdv="http://cordova.apache.org/ns/1.0"
+			  id = "com.phonegap.ajmataro"
+			  version = "1.0.0">
   
-	<name>Depana</name>
+	<name>Ajuntament de Mataró</name>
 	<splash src="splash.png" />
 	<preference name="SplashMaintainAspectRatio" value="true" />
 	<preference name="SplashScreenDelay" value="4000" />
-    <description> 
-        Depana - Avisos per mòbil
-    </description>
+      <description> 
+          Ajuntament de Mataró - Avisos per mòbil
+      </description>
 	<access origin="*" />
    <allow-intent href="*" />
    <allow-navigation href="*" />
 	<preference name="android-build-tool" value="gradle" />
 	<preference name="phonegap-version" value="cli-7.1.0" />
-    <!--preference name="cordova.plugins.diagnostic.modules" value="LOCATION BLUETOOTH WIFI CAMERA NOTIFICATIONS MICROPHONE CONTACTS CALENDAR REMINDERS MOTION NFC EXTERNAL_STORAGE" /-->	
-    <preference name="cordova.plugins.diagnostic.modules" value="LOCATION CAMERA NOTIFICATIONS EXTERNAL_STORAGE" />	
-	    <platform name="android">
-        <config-file parent="/*" target="AndroidManifest.xml">
+     <!--preference name="cordova.plugins.diagnostic.modules" value="LOCATION BLUETOOTH WIFI CAMERA NOTIFICATIONS MICROPHONE CONTACTS CALENDAR REMINDERS MOTION NFC EXTERNAL_STORAGE" /-->	
+   <preference name="cordova.plugins.diagnostic.modules" value="LOCATION CAMERA NOTIFICATIONS EXTERNAL_STORAGE" />	
+	   <platform name="android">
+         <config-file parent="/*" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.CAMERA" />
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
             <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
             
-        </config-file>
-    </platform>
+         </config-file>
+      </platform>
 
-    <!--author href="http://phonegap.com" email="support@phonegap.com">
+     <!--author href="http://phonegap.com" email="support@phonegap.com">
         PhoneGap Team
-    </author-->
-    <!--
-	If you do not want any permissions to be added to your app, add the
-	following tag to your config.xml; you will still have the INTERNET
-	permission on your app, which PhoneGap requires.	
-	-->
-    <!--preference name="permissions" value="none"/-->
-    <!-- Customize your app and platform with the preference element. -->
-    <!-- <preference name="phonegap-version" value="cli-6.1.0" /> Nova versió no funciona  -->
+     </author-->
+     <!--
+	  If you do not want any permissions to be added to your app, add the
+	  following tag to your config.xml; you will still have the INTERNET
+	  permission on your app, which PhoneGap requires.	
+	  -->
+     <!--preference name="permissions" value="none"/-->
+     <!-- Customize your app and platform with the preference element. -->
+     <!-- <preference name="phonegap-version" value="cli-6.1.0" /> Nova versió no funciona  -->
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="orientation" value="default" /> <!-- all: default means both landscape and portrait are enabled -->
