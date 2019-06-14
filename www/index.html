@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">   
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
        
         <style> 
                         
@@ -22,6 +23,12 @@
             html, body {
                 height: 100%;
                 margin: 0;
+            }
+            
+            
+            .iconaMapa{
+                 text-align: center; 
+                 line-height: 20px; 
             }
             
             .ui-listview > .ui-li-static {
@@ -199,6 +206,7 @@
         <script src="https://mapes.mataro.cat/OpenData/CSS/pluginmapa.js"></script>          
         <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
         <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
         <!--script src='https://npmcdn.com/@turf/turf/turf.min.js'></script-->
         <!--script type="text/javascript"> 
          
@@ -626,13 +634,23 @@
                               accesJSON = response;   
                               var numResposta = 0;
                               var html = '';
+                              var html1 = '';
                               if ( visor.bbox.hasOwnProperty('options') ){
                                           visor.bbox.remove();
                                }   
-                              visor.bbox = L.rectangle(visor.map.getBounds(), {color: "#ff7800", opacity:0.5, stroke:true, fill: false, });
+                              var mapBounds = visor.map.getBounds();
+                              var ratio = 20;
+                              var incLat = ( mapBounds.getNorth() - mapBounds.getSouth() ) / ratio;
+                              var incLng = ( mapBounds.getEast() - mapBounds.getWest() )/ ratio;
+                              var newBounds = ([ 
+                                                 [ mapBounds.getNorth() - incLat , mapBounds.getEast() - incLng],
+                                                 [ mapBounds.getSouth() + incLat , mapBounds.getWest() + incLng ]
+                                              ]);
+                               
+                              visor.bbox = L.rectangle( newBounds, {color: "#ff7800", opacity:0.5, stroke:true, weight:4, dashArray: "4 1" , fill:true, fillOpacity:0.1, fillColor:""});
                               visor.bbox.addTo(visor.map);       
                                
-                           //   $.each(visor.cercaActiva,function(i0, temaCerca) {  //Temes sobre els que es fa la cerca
+                         //   $.each(visor.cercaActiva,function(i0, temaCerca) {  //Temes sobre els que es fa la cerca
                                  $.each(accesJSON.equipaments, function(i, equip) { // sobre equipament
                                     var cerca = strCerca.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
                                     var cert = 0;  // coincidències 
@@ -642,7 +660,7 @@
                                        }
                                     });    
                                     if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
-                                        if (numResposta == 0){
+                                        if (numResposta == 0) {
                                             html += " <li data-tema='" + temaCerca + "' data-dist='0'>" 
                                                    +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#eee'>"
                                                    +         temaCerca                                            
@@ -654,11 +672,15 @@
                                         {
                                           
                                           var layerNou = omnivore.wkt.parse(equip.WKT);
+                                          
                                           var layerLatlng = layerNou.getBounds().getCenter();
                                           
 
   
-                                          if (visor.map.getBounds().contains(layerLatlng)) { 
+                                          if ( visor.bbox.getBounds().contains(layerLatlng)) { 
+                                          
+                                    
+                                             
                                              
                                              var dist = layerLatlng.distanceTo( L.latLng(visor.posicioActual.lat, visor.posicioActual.lng) );
                                           
@@ -685,7 +707,7 @@
                                                                                                         //   +  "         <div style='height:auto;font-size:1.5em;' onclick='window.open(\"google.navigation:q=" + equip.LAT + "," +  equip.LNG + "&mode=d\" , \"_system\")'> "
                                                                                                        //     +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\");setTimeout(function(){$(\"#revisaImatge\").css(\"zIndex\", \"9999\");},500)'> "
 
-                                           html += " <li data-tema='" + temaCerca + "' data-dist='" + Math.round(dist) + "'>" 
+                                           html1 = " <li data-tema='" + temaCerca + "' data-dist='" + Math.round(dist) + "'>" 
                                                 +  "   <div style='width:15em ;height:auto;overflow:hidden'> "
                                                 +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
                                                 +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\"); '> "
@@ -705,8 +727,35 @@
                                                 +  "       </div>" 
                                                 +  "    </div>"                                                  
                                                 +  " </li>"; 
-                                           
-                                          visor.markersTaula.addLayer(layerNou);
+                                                
+                                            html += html1;
+                                        
+                                        if ( layerNou.getLayers()[0] instanceof L.Marker ) {
+                                            var redMarker = L.divIcon({
+                                                html: ' <span style="font-size:2.5em;color:#89d;opacity:0.7">'
+                                                                     
+                                             //       + '    <i class="fas fa-map-marker fa-stack-2x" style="color:Tomato" ></i>'
+                                                    + '    <i class="fas fa-map-marker fa-stack-1x "></i>'
+                                                    + ' </span>',
+                                                iconSize: [20, 20],
+                                                className: 'iconaMapa',
+                                                popupAnchor:  [2,-14]
+                                                
+                                                
+                                                
+                                            });  
+                                            layerNou.getLayers()[0].setIcon(redMarker).bindPopup(html1);  
+                                        }
+                                        
+                                        
+ 
+ 
+ 
+ 
+                                        visor.markersTaula.addLayer(layerNou);
+                                        if ( visor.markersTaula.getLayers().length > nombre) {
+                                            alert('No es mostren tots elements');
+                                         }
                                           //omnivore.wkt.parse(equip.WKT).addTo(visor.map);
                                           } 
                                         }
@@ -1712,24 +1761,22 @@
                         <!--div style="order:0;background-color:#eee;padding-top:-0.2em;height:1.9em;text-align:center;" onclick="$('#panell-dades').toggle(500,function(){ajustaFinestres()})";>
                               <i class="fas fa-bars" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div-->                  
-                        <div style="order:2;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
-                            <i class="fas fa-coffee" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('terrassa');"></i>
+                        <div class= "botoLateral" style="order:2;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-coffee" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed');mostraTaula('terrassa');"></i>
                         </div>
-                        <div style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
-                            <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('equipament');"></i>
+                        <div class= "botoLateral" style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed'); mostraTaula('equipament');"></i>
                         </div>
-                        <div style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
-                            <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('carrer');" ></i>
+                        <div class= "botoLateral" style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed');mostraTaula('carrer');" ></i>
                         </div> 
-                        <div style="order:5;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
-                            <i class="fas fa-car" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="mostraTaula('gual');" ></i>
+                        <div class= "botoLateral"  style="order:5;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
+                            <i class="fas fa-car" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed');mostraTaula('gual');" ></i>
                         </div>                          
 
-                        <div style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
+                        <div class= "botoLateral" style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
                             <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div>
-                       
-                    
                      </div>
                      <!--div id="panell-dades" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
                         <form id="frm-cerca" class="ui-filterable">
