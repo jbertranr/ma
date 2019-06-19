@@ -1170,10 +1170,15 @@
                      popup: "Posició Actual",  // text to appear if user clicks on circle
                      outsideMapBoundsMsg: "Et trobes fora dels límits del mapa" // default message for onLocationOutsideMapBounds
                   },
-                  locateOptions: {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
+                 locateOptions: {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
                 });                  
-   			
-				    //-- Incorpora el control al mapa
+   
+               
+               visor.locate = L.control.locate({
+               locateOptions: {
+               enableHighAccuracy: true }});
+
+               //-- Incorpora el control al mapa
 				    visor.locate.addTo(visor.map);
                 visor.locate.start();                
 				
@@ -1183,6 +1188,9 @@
          
             // -- Recupera la posició actual i la introdueix a les variables corresponents 
             // -- La posició actual es recupera del plugin LOCATE i es defineix la funcionalitat en les opcions del plugin
+            
+            
+            
             function posicioTrobada(e) {
                 //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
                 var latitude = e.latlng.lat;
