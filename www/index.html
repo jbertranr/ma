@@ -1367,6 +1367,7 @@
            console.log(`Latitude : ${crd.latitude}`);
            console.log(`Longitude: ${crd.longitude}`);
            console.log(`More or less ${crd.accuracy} meters.`);
+           var abc = L.marker([crd.latitude, crd.longitude]).addTo(visor.map);
          }
 
          function error(err) {
