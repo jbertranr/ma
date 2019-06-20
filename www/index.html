@@ -368,7 +368,7 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
-            $( "finestra" ).on( "swipe", function(){$(this).hide(500) } );
+            $("#finestra").on( "swipe", function(){$(this).hide(500) } );
             
             $( document ).on( "pagecreate", "#pageMap", function() {  
                  $('#autocomplete-input').on ('focusin', function(){ setTimeout(function(){ajustaFinestres();},3000)});
@@ -761,7 +761,7 @@
                                         }
                                         
                                         else {                                        
-                                          html += " <li data-tema='" + temaCerca + "' data-dist='2'>" 
+                                          html += " <li data-tema='" + temaCerca + "' data-dist='999999'>" 
                                                 +  "   <div style='width:100%;height:auto;overflow:hidden' '> "
                                                 +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
                                                 +  "         <div style='height:auto;font-size:1.5em;'>" 
@@ -1038,8 +1038,6 @@
                   afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
                   activaLocator();  
-                 
-
                   
 /*
                   L.control.custom({
@@ -1094,37 +1092,7 @@
                   })
                   .addTo(visor.map);
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  
+            
                } 
 			}
 	
@@ -1170,7 +1138,7 @@
                      popup: "Posició Actual",  // text to appear if user clicks on circle
                      outsideMapBoundsMsg: "Et trobes fora dels límits del mapa" // default message for onLocationOutsideMapBounds
                   },
-                 locateOptions: {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
+                 locateOptions: {maximumAge: 10000, timeout: 15000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
                 });                  
    
                
@@ -1268,9 +1236,9 @@
             }
            
             //-- Retorna els errors de posicionament -- No està vinculada amb LOCATE
-            function onLocationError(e) {
-                alert(e.message);
-            }
+           // function onLocationError(e) {
+           //     alert(e.message);
+           // }
             
         //-- ENVIAMENT DE LA FOTOGRAFIA I ACTUALITZACIÓ DE LA BASE DE DADES
         /*  
@@ -1350,7 +1318,7 @@
         
         // -- Funcions de geolocalització fent ús del PLUGIN de phonegap. En un pricii no s'utilitzen
 		  
-
+       /* 
          function geoposiciona2(){
             var options = {
            enableHighAccuracy: true,
@@ -1360,7 +1328,7 @@
          } 
 
          
-       /* 
+      
          
          function success(pos) {
            var crd = pos.coords;
@@ -1378,17 +1346,17 @@
    
          
          navigator.geolocation.watchPosition(success, error, options); 
-       */  
+        
          
      var onSuccess = function(position) {
-       /* alert('Latitude: '          + position.coords.latitude          + '\n' +
+        alert('Latitude: '          + position.coords.latitude          + '\n' +
               'Longitude: '         + position.coords.longitude         + '\n' +
               'Altitude: '          + position.coords.altitude          + '\n' +
               'Accuracy: '          + position.coords.accuracy          + '\n' +
               'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
               'Heading: '           + position.coords.heading           + '\n' +
               'Speed: '             + position.coords.speed             + '\n' +
-              'Timestamp: '         + position.timestamp                + '\n');*/
+              'Timestamp: '         + position.timestamp                + '\n');
    
    var abc = L.marker([position.coords.latitude  , position.coords.longitude ]).addTo(visor.map);       
     };
@@ -1396,8 +1364,8 @@
     // onError Callback receives a PositionError object
     //
     function onError(error) {
-     /*   alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n'); */ 
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');  
     }
     
          var options = {
@@ -1408,7 +1376,7 @@
 
     
     navigator.geolocation.watchPosition(onSuccess, onError, options );
-         
+   */       
          
          
          
@@ -1823,6 +1791,10 @@
                         </div>                          
 
                         <div onclick="window.open('https://esri.github.io/html5-geolocation-tool-js/index.html')" class= "botoLateral" style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
+                            <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
+                        </div>
+                        
+                        <div onclick="window.open('https://esri.github.io/html5-geolocation-tool-js/index.html')" class= "botoLateral" style="order:7;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
                             <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div>
                      </div>
