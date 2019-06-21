@@ -326,7 +326,8 @@
                 'temaActiu':'',
                 'markersTaula':null,
                 'bbox':[],
-                'geomCerca':null
+                'geomCerca':null,
+                'zoomInicial':null
             };
  
  
@@ -1206,7 +1207,14 @@
                                             L.control.layers(baseMaps).addTo(visor.map);
                     
                     visor.map.doubleClickZoom.disable();
-                    visor.map.bounceAtZoomLimits = false;
+                    //visor.map.bounceAtZoomLimits = false;
+                    visor.map.on('zoomstart', function(){visor.zoomInicial = visor.map.getZoom();});
+                    visor.map.on('zoomend', function(){ // alert( visor.map.getZoom() - visor.zoomInicial + ' ' + visor.zoomInicial + ' ' +  visor.map.getZoom());
+                                                        if  (  visor.map.getZoom() - visor.zoomInicial > 3 ) 
+                                                           {
+                                                              visor.map.setZoom(0);
+                                                           } 
+                                                           });
                    
  	
 
