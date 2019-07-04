@@ -1058,15 +1058,7 @@
                    //   return (+$(a).data('dist') - +$(b).data('dist');
                   }
                }
-                              
-                        
-            
-            
-            
-            
-            
-          
-   
+     
             //-- Inicia llistaElements          
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -1174,8 +1166,6 @@
                });
             
             }
- 
- 
             
             // -- 4 INICIALITZACIÓ DEL MAPA LEAFLET 
             
@@ -1402,14 +1392,12 @@
                 visor.locate.start();                
 				
 			       //-- Funció quan troba la posició
-				    visor.map.on('locationfound', posicioTrobada); // Quan troba la posició centra en el mapa
+				    //visor.map.on('locationfound', posicioTrobada); // Quan troba la posició centra en el mapa
 			}  			
          
             // -- Recupera la posició actual i la introdueix a les variables corresponents 
             // -- La posició actual es recupera del plugin LOCATE i es defineix la funcionalitat en les opcions del plugin
-            
-            
-            
+             
             function posicioTrobada(e) {
                 //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
                 var latitude = e.latlng.lat;
