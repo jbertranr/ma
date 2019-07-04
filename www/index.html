@@ -1058,7 +1058,15 @@
                    //   return (+$(a).data('dist') - +$(b).data('dist');
                   }
                }
-     
+                              
+                        
+            
+            
+            
+            
+            
+          
+   
             //-- Inicia llistaElements          
             //$( document ).on('pagebeforeshow','#llistaElements', function(){
                 //ajustaFinestres();
@@ -1166,6 +1174,8 @@
                });
             
             }
+ 
+ 
             
             // -- 4 INICIALITZACIÓ DEL MAPA LEAFLET 
             
@@ -1274,7 +1284,7 @@
                   // -- Event en fer click    
                   visor.map.on('click', function(e) {        
                                     //placeCamera(e);
-                                    recuperaAdreca(e.latlng);    
+                                    //recuperaAdreca(e.latlng);    
                                  });
                   afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
@@ -1382,22 +1392,21 @@
                  locateOptions: {maximumAge: 10000, timeout: 15000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
                 });                  
    
-               
-//               visor.locate = L.control.locate({
-//               locateOptions: {
-//               enableHighAccuracy: true }});
+
 
                //-- Incorpora el control al mapa
 				    visor.locate.addTo(visor.map);
                 visor.locate.start();                
 				
 			       //-- Funció quan troba la posició
-				    //visor.map.on('locationfound', posicioTrobada); // Quan troba la posició centra en el mapa
+				   visor.map.on('locationfound', posicioTrobada); // Quan troba la posició centra en el mapa
 			}  			
          
             // -- Recupera la posició actual i la introdueix a les variables corresponents 
             // -- La posició actual es recupera del plugin LOCATE i es defineix la funcionalitat en les opcions del plugin
-             
+            
+            
+            
             function posicioTrobada(e) {
                 //visor.alertaBuscantPosicio == 0 ? alert('BuscantPosició') : null;
                 var latitude = e.latlng.lat;
@@ -1413,13 +1422,7 @@
                                         'lng' : 2.1,
                                     };      
                 }
-            //    else {
-            //    } 
-            //    if ( visor.primeraUbicacio ==  1){
-            //        missatgePeuMapa('');
-            //        placeCamera(e);
-            //        visor.primeraUbicacio = 0;
-            //    }            
+      
             }
             
             //-- Mostra la icona en el punt actual TODO: unificar funció anterior
