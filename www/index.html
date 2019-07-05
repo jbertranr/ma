@@ -3,7 +3,7 @@
    <head>
         <title>Mobilitat - Avisos</title>
         <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />   
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />  
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css">
@@ -413,8 +413,8 @@
           
              });   
 
-            function afegeixBotons(){
-          /*     L.easyButton('fa-coffee', function(btn, map){
+          /*   function afegeixBotons(){
+              L.easyButton('fa-coffee', function(btn, map){
                    $('#taulaBase-input').val('');
                    $('#panellMenu').panel('close');
                    $('#panellTaula').panel('open');
@@ -440,11 +440,11 @@
                    visor.temaActiu = 'carrer';
                    activaTema($("#taulaBase"), 'carrer', '', 500);
                  }).addTo(visor.map);   
-            */
+            
 
 
                  
-            }
+            }*/
             
         /*    function activaTaula( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT){
                 cercaJSON(  JSON,
@@ -1241,11 +1241,11 @@
 
                   //visor.map.addLayer(capa);
                   // -- Event en fer click    
-                  visor.map.on('click', function(e) {        
+                  //visor.map.on('click', function(e) {        
                                     //placeCamera(e);
-                                    recuperaAdreca(e.latlng);    
-                                 });
-                  afegeixBotons();          
+                         //           recuperaAdreca(e.latlng);    
+                           //      });
+                  //afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
                   activaLocator();  
                   
@@ -1437,13 +1437,13 @@
             */
             
             // Recupera el text de l'adreça propera segons OpenStreetMap            
-            function recuperaAdreca(punt){ 
+            /*function recuperaAdreca(punt){ 
                 $.getJSON("http://nominatim.openstreetmap.org/reverse?json_callback=?", 
                     { format: "json", lat: punt.lat, lon: punt.lng, zoom: 18, addressdetails: 1 },
                     function(data) { 
                         visor.adrecaOSM =  data.display_name.replace(/'/g, "\\'");
                 });               
-            }
+            }*/
            
             //-- Retorna els errors de posicionament -- No està vinculada amb LOCATE
            // function onLocationError(e) {
