@@ -320,12 +320,14 @@
 				    'codiAvisVigent' : null,
 				    'darrerAvislista' : null,
                 'tema':'equipament',
-                'cercaActiva': ['acces', 'carrer', 'equipament', 'terrassa','entitat','gual'],
+                'cercaActiva': ['accesCerca', 'carrerCerca'],
                 'cercaHTML':'',
                 'ordena':null,
                 'temaActiu':'',
                 'markersTaula':null,
-                'bbox':[]
+                'bbox':[],
+                'geomCerca':null,
+                'zoomInicial':null
             };
  
  
@@ -368,7 +370,7 @@
             
             $(window).bind('resize', function () {ajustaFinestres();});
             
-            $( "finestra" ).on( "swipe", function(){$(this).hide(500) } );
+            $("#finestra").on( "swipe", function(){$(this).hide(500) } );
             
             $( document ).on( "pagecreate", "#pageMap", function() {  
                  $('#autocomplete-input').on ('focusin', function(){ setTimeout(function(){ajustaFinestres();},3000)});
@@ -491,7 +493,7 @@
               $('#autocomplete').listview( 'refresh' );
 	           $('#autocomplete').trigger( 'updatelayout');
               $('#autocomplete-input').val('');
-
+              
             }
  
             
@@ -516,7 +518,7 @@
                visor.cercaHTML = '';
                
                $.each(visor.cercaActiva, function(i,temaCerca) {  //Temes sobre els que es fa la cerca 
-                  activaTema(listview, visor.cercaActiva[i], value, 20);
+                  activaTema(listview, visor.cercaActiva[i], value, 1000);
                });
                
             }
@@ -527,9 +529,8 @@
                 $("#dades-input").blur(); 
                 visor.temaActiu = nomTema;
                 visor.cercaHTML = '';          
-                //$('#panell-dades').show(500,function(){visor.map._onResize();});
-                //$('#panell-cerca').hide(500,function(){visor.map._onResize();});
-               switch(nomTema){ 
+
+                switch(nomTema){ 
                
                   case 'acces': 
                                   
@@ -545,12 +546,25 @@
                                                elements);
                                             
                                    break;           
-   
-
-
-
-                 case 'entitat': 
+ 
+                 case 'accesCerca': 
                                   
+                                  cercaGenericJSON(  'data/DS_ACCES01.json',
+                                              listview,                               
+                                              nomTema,
+                                              'fas fa-envelope',
+                                              value, 
+                                              'ACCES_NOM', 
+                                              'ACCES_NOM', 
+                                              'NOM_CURT', 
+                                              'WKT',
+                                               elements);
+                                            
+                                   break;            
+
+
+
+                 case 'entitat':                                   
                                   cercaJSON(  'data/DS_ENTITAT01.json',
                                               listview,
                                               nomTema,
@@ -562,7 +576,9 @@
                                               'WKT',
                                                elements);
                                             
-                                   break;           
+                                   break;   
+
+                           
                                               
                   case 'carrer': cercaJSON(  'data/DS_CARRER01.json',
                                               listview,
@@ -576,6 +592,18 @@
                                                elements);
                                    break;
                                    
+                  case 'carrerCerca': cercaGenericJSON(  'data/DS_CARRER01.json',
+                                              listview,
+                                              nomTema,
+                                              'fas fa-road',
+                                              value, 
+                                              'NOM_CURT', 
+                                              'NOM_LLARG', 
+                                              'NOM_CURT', 
+                                              'WKT',
+                                               elements);
+                                   break;                                   
+                                   
                   case 'equipament': cercaJSON( 'data/DS_EQUIP01.json',
                                                 listview,
                                                 nomTema,
@@ -588,7 +616,19 @@
                                                 elements);
                                    break;
                                   
-                   case 'terrassa': cercaJSON(  'data/DS_TERRASSA01.json',
+                   case 'equipamentCerca': cercaGenericJSON( 'data/DS_EQUIP01.json',
+                                                listview,
+                                                nomTema,
+                                                'fa fa-home',
+                                                value, 
+                                                'NOM', 
+                                                'NOM', 
+                                                'ADRECA', 
+                                                'WKT',
+                                                elements);
+                                   break;
+
+                  case 'terrassa': cercaJSON(  'data/DS_TERRASSA01.json',
                                                 listview,
                                                 nomTema,
                                                 'fa fa-coffee',
@@ -635,9 +675,11 @@
                               var numResposta = 0;
                               var html = '';
                               var html1 = '';
+                              // Esborra BBOX si existeix i 
                               if ( visor.bbox.hasOwnProperty('options') ){
                                           visor.bbox.remove();
                                }   
+                              
                               var mapBounds = visor.map.getBounds();
                               var ratio = 20;
                               var incLat = ( mapBounds.getNorth() - mapBounds.getSouth() ) / ratio;
@@ -677,7 +719,7 @@
                                           
 
   
-                                          if ( visor.bbox.getBounds().contains(layerLatlng)) { 
+                                        if ( visor.bbox.getBounds().intersects(layerNou.getBounds())) { 
                                           
                                     
                                              
@@ -710,10 +752,11 @@
                                            html1 = " <li style='list-style-type:none' data-tema='" + temaCerca + "' data-dist='" + Math.round(dist) + "'>" 
                                                 +  "   <div style='width:15em ;height:auto;overflow:hidden'> "
                                                 +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
-                                                +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\"); '> "
+                                                +  "         <div style='height:auto;font-size:1.5em;' onclick='location.href=\"mailto:jbertran@ajmataro.cat?subject=Incidència Detectada " + equip[colEtiq1]  + "&body=Incidència detectada " + equip[colEtiq1] + " / " + equip[colEtiq2] + " \"'> "
+                                               // +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\"); '> "
                                                 +  "             <i class='" + faIcon + "'></i>"
                                                 +  "         </div> "
-                                                +  "         <div style='font-size: 0.8em;margin-top: -0.3em;' onclick='location.href=\"mailto:jbertran@ajmataro.cat?subject=Example Subject &body=Thanks for the help!\"'>"
+                                                +  "         <div style='font-size: 0.8em;margin-top: -0.3em;' >"
                                                 +                Math.round(dist) + "m" 
                                                 +  "         </div>" 
                                                 +  "      </div>"
@@ -746,6 +789,9 @@
                                             });  
                                             layerNou.getLayers()[0].setIcon(redMarker).bindPopup(html1);  
                                         }
+                                        else{
+                                           layerNou.getLayers()[0].bindPopup(html1);
+                                        }
                                         
                                         
  
@@ -753,15 +799,15 @@
  
  
                                         visor.markersTaula.addLayer(layerNou);
-                                        if ( visor.markersTaula.getLayers().length > nombre) {
-                                            alert('No es mostren tots elements');
-                                         }
+                                       // if ( visor.markersTaula.getLayers().length > nombre) {
+                                       //     alert('No es mostren tots elements');
+                                       //  }
                                           //omnivore.wkt.parse(equip.WKT).addTo(visor.map);
                                           } 
                                         }
                                         
                                         else {                                        
-                                          html += " <li data-tema='" + temaCerca + "' data-dist='2'>" 
+                                         /* html += " <li data-tema='" + temaCerca + "' data-dist='999999'>" 
                                                 +  "   <div style='width:100%;height:auto;overflow:hidden' '> "
                                                 +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
                                                 +  "         <div style='height:auto;font-size:1.5em;'>" 
@@ -780,7 +826,7 @@
                                                 +  "         </div>"                                                
                                                 +  "       </div>" 
                                                 +  "    </div>"                                                  
-                                                +  " </li>";  
+                                                +  " </li>";  */
                                        }        
                                     } 
                                     
@@ -822,6 +868,147 @@
                   }
                               
             }
+            
+           function cercaGenericJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
+                var accesJSON;
+                $.getJSON( JSON, 
+                           function ( response ) { 
+                              accesJSON = response;   
+                              var numResposta = 0;
+                              var html = '';
+                              var html1 = '';
+                              $.each(accesJSON.equipaments, function(i, equip) { // sobre equipament
+                                 var cerca = strCerca.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
+                                 var cert = 0;  // coincidències 
+                                 $.each(cerca, function(i2,equip2){  // sobre paraula de cerca
+                                    if ( equip[colCerca].toUpperCase().includes(cerca[i2].trim()) ) {
+                                       cert += 1;                     
+                                    }
+                                 });    
+                                 if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
+                                     if (numResposta == 0) {
+                                         html += " <li data-tema='" + temaCerca + "' data-dist='0'>" 
+                                                +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#eee'>"
+                                                +         temaCerca                                            
+                                                +  "    </div>"                                                  
+                                                +  " </li>";   
+                                     } 
+                         
+                                     numResposta += 1;
+                                     
+                                    if ( equip.hasOwnProperty('WKT') && visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
+                                     {                                          
+                                       var layerNou = omnivore.wkt.parse(equip.WKT);                                          
+                                       var layerLatlng = layerNou.getBounds().getCenter();   
+                                       var dist = layerLatlng.distanceTo( L.latLng(visor.posicioActual.lat, visor.posicioActual.lng) );
+                                       
+                                       html1 = " <li style='list-style-type:none' data-tema='" + temaCerca + "' data-dist='" + Math.round(dist) + "'>" 
+                                            +  "   <div style='width:15em ;height:auto;overflow:hidden'> "
+                                            +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
+                                            +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\"); '> "
+                                            +  "             <i class='" + faIcon + "'></i>"
+                                            +  "         </div> "
+                                            +  "         <div style='font-size: 0.8em;margin-top: -0.3em;' onclick='location.href=\"mailto:jbertran@ajmataro.cat?subject=Example Subject &body=Thanks for the help!\"'>"
+                                            +                Math.round(dist) + "m" 
+                                            +  "         </div>" 
+                                            +  "      </div>"
+                                            +  "      <div style='float:left;width:11em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                            +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
+                                            +               equip[colEtiq1]
+                                            +  "         </div>" 
+                                            +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;white-space:normal;width:auto;opacity:0.6;'> "
+                                            +  "             <i>" + equip[colEtiq2] + "</i>";
+                                            +  "         </div>"                                                
+                                            +  "       </div>" 
+                                            +  "    </div>"                                                  
+                                            +  " </li>"; 
+                                             
+                                       html += html1;
+                                     
+                                     /* Per ara bñoquejat
+                                     if ( layerNou.getLayers()[0] instanceof L.Marker ) {
+                                         var redMarker = L.divIcon({
+                                             html: ' <span style="font-size:2.5em;color:#89d;opacity:0.7">'
+                                                                  
+                                               //       + '    <i class="fas fa-map-marker fa-stack-2x" style="color:Tomato" ></i>'
+                                                 + '    <i class="fas fa-map-marker fa-stack-1x "></i>'
+                                                 + ' </span>',
+                                             iconSize: [20, 20],
+                                             className: 'iconaMapa',
+                                             popupAnchor:  [2,-14]
+                                         });  
+                                         layerNou.getLayers()[0].setIcon(redMarker).bindPopup(html1);  
+                                      }
+
+                                     visor.markersTaula.addLayer(layerNou);
+                                     */
+
+                                    } 
+                                  
+                                     
+                                     else {                                        
+                                       html += " <li data-tema='" + temaCerca + "' data-dist='999999'>" 
+                                             +  "   <div style='width:100%;height:auto;overflow:hidden' '> "
+                                             +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
+                                             +  "         <div style='height:auto;font-size:1.5em;'>" 
+                                             +  "             <i class='" + faIcon + "'></i>"
+                                             +  "         </div>"
+                                             +  "         <div style='font-size: 0.8em;margin-top: -0.3em;'>"
+                                             +  "            ---- "  
+                                             +  "         </div>"                                              
+                                             +  "      </div>"
+                                             +  "      <div style='float:left;width:9em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                             +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
+                                             +               equip[colEtiq1]
+                                             +  "         </div>" 
+                                             +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;width:auto;opacity:0.6;'> "
+                                             +  "             <i>" + equip[colEtiq2] + "</i>";
+                                             +  "         </div>"                                                
+                                             +  "       </div>" 
+                                             +  "    </div>"                                                  
+                                             +  " </li>";  
+                                    }        
+                                 } 
+                                 if ( numResposta > nombre ){
+                                           html += " <li data-dist='1' data-tema='" + temaCerca + "'>" 
+                                                +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#cdf'>"
+                                                +  "  Resultats parcials"                                     
+                                                +  "    </div>"                                                  
+                                                +  " </li>";   
+                                                                     
+                                    return false;
+                                 }                   
+                              });
+
+                              if ( visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
+                              {                                          
+                                 var ordena =  $('<div/>', {  id: 'ordena_id' }) .append(html);
+                                 $(ordena).find("[data-tema='"+ temaCerca  +"']").sort(sort_li).appendTo($(ordena));
+                                 visor.cercaHTML += $(ordena).html();
+                              }
+                              else {
+                                 visor.cercaHTML += html;                               
+                              } 
+                            
+                              listview.html( visor.cercaHTML );
+                              listview.listview( "refresh" );
+                              listview.trigger( "updatelayout" );
+                              visor.map.addLayer(visor.markersTaula);                  
+                 });
+                 
+                 // sort function callback
+                  function sort_li(a, b){
+                      return (     $(b).data('dist')) < ($(a).data('dist')) ? 1 : -1;    
+                   //   return (+$(a).data('dist') - +$(b).data('dist');
+                  }
+               }
+                              
+                        
+            
+            
+            
+            
+            
           
    
             //-- Inicia llistaElements          
@@ -881,12 +1068,12 @@
             */
             
             function mostraPoligon(WKT){
-               if (num_marker > 0 ){
-                    marker.remove();
+               if (visor.geomCerca !=  null ){
+                    visor.geomCerca.remove();
                }  
-               marker = omnivore.wkt.parse(WKT);
-               marker.addTo(visor.map);
-               visor.map.flyToBounds(marker.getBounds(),{ maxZoom: 5});
+               visor.geomCerca = omnivore.wkt.parse(WKT);
+               visor.geomCerca.addTo(visor.map);
+               visor.map.flyToBounds(visor.geomCerca.getBounds(),{ maxZoom: 5});
             }
             
             
@@ -1021,6 +1208,14 @@
                                             L.control.layers(baseMaps).addTo(visor.map);
                     
                     visor.map.doubleClickZoom.disable();
+                    //visor.map.bounceAtZoomLimits = false;
+                    visor.map.on('zoomstart', function(){visor.zoomInicial = visor.map.getZoom();});
+                    visor.map.on('zoomend', function(){ // alert( visor.map.getZoom() - visor.zoomInicial + ' ' + visor.zoomInicial + ' ' +  visor.map.getZoom());
+                                                        if  (  visor.map.getZoom() - visor.zoomInicial > 3 ) 
+                                                           {
+                                                              visor.map.setZoom(0);
+                                                           } 
+                                                           });
                    
  	
 
@@ -1037,9 +1232,7 @@
                                  });
                   afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
-                  //activaLocator();  
-                 
-
+                  activaLocator();  
                   
 /*
                   L.control.custom({
@@ -1094,37 +1287,7 @@
                   })
                   .addTo(visor.map);
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  
+            
                } 
 			}
 	
@@ -1170,13 +1333,13 @@
                      popup: "Posició Actual",  // text to appear if user clicks on circle
                      outsideMapBoundsMsg: "Et trobes fora dels límits del mapa" // default message for onLocationOutsideMapBounds
                   },
-                 locateOptions: {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
+                 locateOptions: {maximumAge: 10000, timeout: 15000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
                 });                  
    
                
-               visor.locate = L.control.locate({
-               locateOptions: {
-               enableHighAccuracy: true }});
+//               visor.locate = L.control.locate({
+//               locateOptions: {
+//               enableHighAccuracy: true }});
 
                //-- Incorpora el control al mapa
 				    visor.locate.addTo(visor.map);
@@ -1268,9 +1431,9 @@
             }
            
             //-- Retorna els errors de posicionament -- No està vinculada amb LOCATE
-            function onLocationError(e) {
-                alert(e.message);
-            }
+           // function onLocationError(e) {
+           //     alert(e.message);
+           // }
             
         //-- ENVIAMENT DE LA FOTOGRAFIA I ACTUALITZACIÓ DE LA BASE DE DADES
         /*  
@@ -1350,7 +1513,7 @@
         
         // -- Funcions de geolocalització fent ús del PLUGIN de phonegap. En un pricii no s'utilitzen
 		  
-
+       /* 
          function geoposiciona2(){
             var options = {
            enableHighAccuracy: true,
@@ -1360,7 +1523,7 @@
          } 
 
          
-       /* 
+      
          
          function success(pos) {
            var crd = pos.coords;
@@ -1375,43 +1538,40 @@
            console.warn(`ERROR(${err.code}): ${err.message}`);
          }
          
-         var options = {
-           enableHighAccuracy: true,
-           timeout: 5000,
-           maximumAge: 0
-         }     
+   
          
          navigator.geolocation.watchPosition(success, error, options); 
-       */  
+        
          
      var onSuccess = function(position) {
-       /* alert('Latitude: '          + position.coords.latitude          + '\n' +
+        alert('Latitude: '          + position.coords.latitude          + '\n' +
               'Longitude: '         + position.coords.longitude         + '\n' +
               'Altitude: '          + position.coords.altitude          + '\n' +
               'Accuracy: '          + position.coords.accuracy          + '\n' +
               'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
               'Heading: '           + position.coords.heading           + '\n' +
               'Speed: '             + position.coords.speed             + '\n' +
-              'Timestamp: '         + position.timestamp                + '\n');*/
-        var abc = L.marker([position.coords.latitude  , position.coords.longitude ]).addTo(visor.map);       
+              'Timestamp: '         + position.timestamp                + '\n');
+   
+   var abc = L.marker([position.coords.latitude  , position.coords.longitude ]).addTo(visor.map);       
     };
 
     // onError Callback receives a PositionError object
     //
     function onError(error) {
-     /*   alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n'); */
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');  
     }
     
          var options = {
            enableHighAccuracy: true,
-           timeout: 5000,
-           maximumAge: 0
+           timeout: 8000,
+           maximumAge: 5000
          }   
 
     
     navigator.geolocation.watchPosition(onSuccess, onError, options );
-         
+   */       
          
          
          
@@ -1818,16 +1978,20 @@
                         <div class= "botoLateral" style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
                             <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed'); mostraTaula('equipament');"></i>
                         </div>
-                        <div class= "botoLateral" style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                        <!--div class= "botoLateral" style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
                             <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed');mostraTaula('carrer');" ></i>
-                        </div> 
+                        </div--> 
                         <div class= "botoLateral"  style="order:5;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
                             <i class="fas fa-car" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed');mostraTaula('gual');" ></i>
                         </div>                          
 
-                        <div onclick="window.open('https://esri.github.io/html5-geolocation-tool-js/index.html')" class= "botoLateral" style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
+                        <!--div onclick="window.open('https://esri.github.io/html5-geolocation-tool-js/index.html')" class= "botoLateral" style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
                             <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div>
+                        
+                        <div onclick="window.open('https://esri.github.io/html5-geolocation-tool-js/index.html')" class= "botoLateral" style="order:7;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
+                            <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
+                        </div-->
                      </div>
                      <!--div id="panell-dades" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
                         <form id="frm-cerca" class="ui-filterable">
@@ -1931,5 +2095,6 @@
    
    
 </html>   
+
 
 
