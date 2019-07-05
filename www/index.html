@@ -1275,6 +1275,9 @@
                                     //placeCamera(e);
                                     //recuperaAdreca(e.latlng);    
                                  });
+                  visor.map.on('tap', function(e) {        
+                     location.href="mailto:jbertran@ajmataro.cat?subject=Incidència Detectada ";
+                   });               
                   afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
                   activaLocator();  
