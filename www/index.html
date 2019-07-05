@@ -327,7 +327,8 @@
                 'markersTaula':null,
                 'bbox':[],
                 'geomCerca':null,
-                'zoomInicial':null
+                'zoomInicial':null,
+                'fitxer':[]                
             };
  
  
@@ -545,7 +546,22 @@
                                               'WKT',
                                                elements);
                                             
-                                   break;           
+                                   break;  
+                  case 'ocupacio': 
+                                  
+                                  cercaJSON(  'https://aplicacions.mataro.org:444/apex/rest/dobertes/elements?dataset=DS_OCUPACIO01',
+                                              listview,                               
+                                              nomTema,
+                                              'fas fa-ban',
+                                              value, 
+                                              'ACTIVITAT', 
+                                              'ACTIVITAT', 
+                                              'ACCES_NOM', 
+                                              'WKT',
+                                               elements);
+                                            
+                                   break;                                       
+                                  
  
                  case 'accesCerca': 
                                   
@@ -1978,6 +1994,10 @@
                         <div class= "botoLateral" style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
                             <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed'); mostraTaula('equipament');"></i>
                         </div>
+                        <div class= "botoLateral" style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-ban" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed'); mostraTaula('ocupacio');"></i>
+                        </div>                        
+                         
                         <!--div class= "botoLateral" style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
                             <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed');mostraTaula('carrer');" ></i>
                         </div--> 
