@@ -6,14 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />   
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css">
+        <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css"-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">   
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+        <!--link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css"-->
+        <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" /-->
        
         <style> 
                         
@@ -197,16 +197,16 @@
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"></script> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js"></script> 
+        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js"></script--> 
         <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.3/proj4.js"></script>  
         <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.1/proj4leaflet.js"></script> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>  
+        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script-->  
         <script src="https://mapes.mataro.cat/OpenData/CSS/pluginmapa.js"></script>          
         <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
-        <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+        <!--script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script-->
         <!--script src='https://npmcdn.com/@turf/turf/turf.min.js'></script-->
         <!--script type="text/javascript"> 
          
@@ -327,7 +327,8 @@
                 'markersTaula':null,
                 'bbox':[],
                 'geomCerca':null,
-                'zoomInicial':null
+                'zoomInicial':null,
+                'fitxer':[]
             };
  
  
@@ -522,8 +523,7 @@
                });
                
             }
- 
- 
+  
             function activaTema(listview, nomTema, value, elements){               
                 $("#cerca-input").blur(); 
                 $("#dades-input").blur(); 
@@ -545,7 +545,22 @@
                                               'WKT',
                                                elements);
                                             
-                                   break;           
+                                   break;  
+
+                 case 'ocupacio': 
+                                  
+                                  cercaJSON(  'https://aplicacions.mataro.org:444/apex/rest/dobertes/elements?dataset=DS_OCUPACIO01',
+                                              listview,                               
+                                              nomTema,
+                                              'fas fa-ban',
+                                              value, 
+                                              'ACTIVITAT', 
+                                              'ACTIVITAT', 
+                                              'ACCES_NOM', 
+                                              'WKT',
+                                               elements);
+                                            
+                                   break;                                       
  
                  case 'accesCerca': 
                                   
@@ -654,9 +669,8 @@
                    }                  
                            
             }
- 
- 
-            function cercaJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
+  
+            function cercaJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre ){
                 var accesJSON;
                 //var listview = $("#autocomplete");
                 //visor.locate.start(); 
@@ -667,200 +681,209 @@
                 {
                   visor.markersTaula.clearLayers();                              
                 }
-                        
-                
-                $.getJSON( JSON, 
-                           function ( response ) { 
-                              accesJSON = response;   
-                              var numResposta = 0;
-                              var html = '';
-                              var html1 = '';
-                              // Esborra BBOX si existeix i 
-                              if ( visor.bbox.hasOwnProperty('options') ){
-                                          visor.bbox.remove();
-                               }   
-                              
-                              var mapBounds = visor.map.getBounds();
-                              var ratio = 20;
-                              var incLat = ( mapBounds.getNorth() - mapBounds.getSouth() ) / ratio;
-                              var incLng = ( mapBounds.getEast() - mapBounds.getWest() )/ ratio;
-                              var newBounds = ([ 
-                                                 [ mapBounds.getNorth() - incLat , mapBounds.getEast() - incLng],
-                                                 [ mapBounds.getSouth() + incLat , mapBounds.getWest() + incLng ]
-                                              ]);
-                               
-                              visor.bbox = L.rectangle( newBounds, {color: "#ff7800", opacity:0.5, stroke:true, weight:4, dashArray: "4 1" , fill:true, fillOpacity:0.1, fillColor:""});
-                              visor.bbox.addTo(visor.map);       
-                               
-                         //   $.each(visor.cercaActiva,function(i0, temaCerca) {  //Temes sobre els que es fa la cerca
-                                 $.each(accesJSON.equipaments, function(i, equip) { // sobre equipament
-                                    var cerca = strCerca.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
-                                    var cert = 0;  // coincidències 
-                                    $.each(cerca, function(i2,equip2){  // sobre paraula de cerca
-                                       if ( equip[colCerca].toUpperCase().includes(cerca[i2].trim()) ) {
-                                          cert += 1;                     
-                                       }
-                                    });    
-                                    if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
-                                        if (numResposta == 0) {
-                                            html += " <li data-tema='" + temaCerca + "' data-dist='0'>" 
-                                                   +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#eee'>"
-                                                   +         temaCerca                                            
-                                                   +  "    </div>"                                                  
-                                                   +  " </li>";   
-                                        } 
-                                        numResposta += 1;
-                                        if ( equip.hasOwnProperty('WKT') && visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
-                                        {
-                                          
-                                          var layerNou = omnivore.wkt.parse(equip.WKT);
-                                          
-                                          var layerLatlng = layerNou.getBounds().getCenter();
-                                          
-
+                         
+             if ( visor.fitxer.hasOwnProperty(temaCerca) ){
+                  tractaJSON(visor.fitxer[temaCerca]);
+             } 
+             else{
+               $.getJSON( JSON, function(response){ 
+                  tractaJSON(response)});
+             }
   
-                                        if ( visor.bbox.getBounds().intersects(layerNou.getBounds())) { 
-                                          
-                                    
-                                             
-                                             
-                                             var dist = layerLatlng.distanceTo( L.latLng(visor.posicioActual.lat, visor.posicioActual.lng) );
-                                          
-                                          // var dist = distance( punt.y, punt.x, visor.posicioActual.lat, visor.posicioActual.lng);                                           
-                                          // visor.posicioActual.lat
-                                          // alert(punt);
-                                          /* 
-                                           html += " <li>" 
-                                                +  "   <div style='display:flex;flex-direction:row'> "
-                                                +  "      <div style='max-width:4em;order:1;font-size:1em;margin-left:0em;width:4em;text-align:center'>" 
-                                                +             Math.round(dist) + "m"
-                                                +  "      </div>"
-                                                +  "      <div style='s:2;margin-top:0.2em;height:100%;max-width:6em;;font-size:0.8em;background-color:#ddd;color:#44;margin-right:1em;text-align:center;'>"
-                                                +               temaCerca 
-                                                +  "      </div>"                                              
-                                                +  "      <div style='flex:3;float:left;margin-left:0.5em;min-width:10em' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
-                                                +            equip[colEtiq1]
-                                                +  "         <span style='font-size:0.8em'>" + equip[colEtiq2] + "</span>"
-                                                +  "       </div>" 
-                                                +  "    </div>"                                                  
-                                                +  " </li>";                                           
-                                            */ 
-                                           
-                                                                                                        //   +  "         <div style='height:auto;font-size:1.5em;' onclick='window.open(\"google.navigation:q=" + equip.LAT + "," +  equip.LNG + "&mode=d\" , \"_system\")'> "
-                                                                                                       //     +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\");setTimeout(function(){$(\"#revisaImatge\").css(\"zIndex\", \"9999\");},500)'> "
-
-                                           html1 = " <li style='list-style-type:none' data-tema='" + temaCerca + "' data-dist='" + Math.round(dist) + "'>" 
-                                                +  "   <div style='width:15em ;height:auto;overflow:hidden'> "
-                                                +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
-                                                +  "         <div style='height:auto;font-size:1.5em;' onclick='location.href=\"mailto:jbertran@ajmataro.cat?subject=Incidència Detectada " + equip[colEtiq1]  + "&body=Incidència detectada " + equip[colEtiq1] + " / " + equip[colEtiq2] + " \"'> "
-                                               // +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\"); '> "
-                                                +  "             <i class='" + faIcon + "'></i>"
-                                                +  "         </div> "
-                                                +  "         <div style='font-size: 0.8em;margin-top: -0.3em;' >"
-                                                +                Math.round(dist) + "m" 
-                                                +  "         </div>" 
-                                                +  "      </div>"
-                                                +  "      <div style='float:left;width:11em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
-                                                +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
-                                                +               equip[colEtiq1]
-                                                +  "         </div>" 
-                                                +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;white-space:normal;width:auto;opacity:0.6;'> "
-                                                +  "             <i>" + equip[colEtiq2] + "</i>";
-                                                +  "         </div>"                                                
-                                                +  "       </div>" 
-                                                +  "    </div>"                                                  
-                                                +  " </li>"; 
-                                                
-                                            html += html1;
-                                        
-                                        if ( layerNou.getLayers()[0] instanceof L.Marker ) {
-                                            var redMarker = L.divIcon({
-                                                html: ' <span style="font-size:2.5em;color:#89d;opacity:0.7">'
-                                                                     
-                                             //       + '    <i class="fas fa-map-marker fa-stack-2x" style="color:Tomato" ></i>'
-                                                    + '    <i class="fas fa-map-marker fa-stack-1x "></i>'
-                                                    + ' </span>',
-                                                iconSize: [20, 20],
-                                                className: 'iconaMapa',
-                                                popupAnchor:  [2,-14]
-                                                
-                                                
-                                                
-                                            });  
-                                            layerNou.getLayers()[0].setIcon(redMarker).bindPopup(html1);  
-                                        }
-                                        else{
-                                           layerNou.getLayers()[0].bindPopup(html1);
-                                        }
-                                        
-                                        
- 
- 
- 
- 
-                                        visor.markersTaula.addLayer(layerNou);
-                                       // if ( visor.markersTaula.getLayers().length > nombre) {
-                                       //     alert('No es mostren tots elements');
-                                       //  }
-                                          //omnivore.wkt.parse(equip.WKT).addTo(visor.map);
-                                          } 
-                                        }
-                                        
-                                        else {                                        
-                                         /* html += " <li data-tema='" + temaCerca + "' data-dist='999999'>" 
-                                                +  "   <div style='width:100%;height:auto;overflow:hidden' '> "
-                                                +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
-                                                +  "         <div style='height:auto;font-size:1.5em;'>" 
-                                                +  "             <i class='" + faIcon + "'></i>"
-                                                +  "         </div>"
-                                                +  "         <div style='font-size: 0.8em;margin-top: -0.3em;'>"
-                                                +  "            ---- "  
-                                                +  "         </div>"                                              
-                                                +  "      </div>"
-                                                +  "      <div style='float:left;width:9em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
-                                                +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
-                                                +               equip[colEtiq1]
-                                                +  "         </div>" 
-                                                +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;width:auto;opacity:0.6;'> "
-                                                +  "             <i>" + equip[colEtiq2] + "</i>";
-                                                +  "         </div>"                                                
-                                                +  "       </div>" 
-                                                +  "    </div>"                                                  
-                                                +  " </li>";  */
-                                       }        
-                                    } 
-                                    
-                                    if ( numResposta > nombre ){
-                                              html += " <li data-dist='1' data-tema='" + temaCerca + "'>" 
-                                                   +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#cdf'>"
-                                                   +  "  Resultats parcials"                                     
-                                                   +  "    </div>"                                                  
-                                                   +  " </li>";   
-                                                                        
-                                       return false;
-                                    }                   
-                                  });
-
-                              if ( visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
-                              {                                          
-                                 var ordena =  $('<div/>', {  id: 'ordena_id' }) .append(html);
-                                 $(ordena).find("[data-tema='"+ temaCerca  +"']").sort(sort_li).appendTo($(ordena));
-                                 visor.cercaHTML += $(ordena).html();
-                              }
-                              else {
-                                 visor.cercaHTML += html;                               
-                              } 
-                            
-                              listview.html( visor.cercaHTML );
-                              listview.listview( "refresh" );
-                              listview.trigger( "updatelayout" );
- //                             if (visor.markersTaula.length > 0){
-                                 visor.map.addLayer(visor.markersTaula);                              
- //                             }   
+  
+            
+            function  tractaJSON( response ) { 
+                  visor.fitxer[temaCerca] = response;
+                  accesJSON = response;   
+                  var numResposta = 0;
+                  var html = '';
+                  var html1 = '';
+                  // Esborra BBOX si existeix i 
+                  if ( visor.bbox.hasOwnProperty('options') ){
+                              visor.bbox.remove();
+                   }   
+                  
+                  var mapBounds = visor.map.getBounds();
+                  var ratio = 20;
+                  var incLat = ( mapBounds.getNorth() - mapBounds.getSouth() ) / ratio;
+                  var incLng = ( mapBounds.getEast() - mapBounds.getWest() )/ ratio;
+                  var newBounds = ([ 
+                                     [ mapBounds.getNorth() - incLat , mapBounds.getEast() - incLng],
+                                     [ mapBounds.getSouth() + incLat , mapBounds.getWest() + incLng ]
+                                  ]);
+                   
+                  visor.bbox = L.rectangle( newBounds, {color: "#ff7800", opacity:0.5, stroke:true, weight:4, dashArray: "4 1" , fill:true, fillOpacity:0.1, fillColor:""});
+                  visor.bbox.addTo(visor.map);       
+                   
+             //   $.each(visor.cercaActiva,function(i0, temaCerca) {  //Temes sobre els que es fa la cerca
+                     $.each(accesJSON.equipaments, function(i, equip) { // sobre equipament
+                        var cerca = strCerca.toUpperCase().split(' ').filter(Boolean);  // paraules de cerca treient els blanks
+                        var cert = 0;  // coincidències 
+                        $.each(cerca, function(i2,equip2){  // sobre paraula de cerca
+                           if ( equip[colCerca].toUpperCase().includes(cerca[i2].trim()) ) {
+                              cert += 1;                     
+                           }
+                        });    
+                        if ( cert == cerca.length ) { // si compleix amb totes les paraules de cerca
+                            if (numResposta == 0) {
+                                html += " <li data-tema='" + temaCerca + "' data-dist='0'>" 
+                                       +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#eee'>"
+                                       +         temaCerca                                            
+                                       +  "    </div>"                                                  
+                                       +  " </li>";   
+                            } 
+                            numResposta += 1;
+                            if ( equip.hasOwnProperty('WKT') && visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
+                            {
                               
-                 
-                 }); 
-                 
+                              var layerNou = omnivore.wkt.parse(equip.WKT);
+                              
+                              var layerLatlng = layerNou.getBounds().getCenter();
+                              
+
+
+                            if ( visor.bbox.getBounds().intersects(layerNou.getBounds())) { 
+                              
+                        
+                                 
+                                 
+                                 var dist = layerLatlng.distanceTo( L.latLng(visor.posicioActual.lat, visor.posicioActual.lng) );
+                              
+                              // var dist = distance( punt.y, punt.x, visor.posicioActual.lat, visor.posicioActual.lng);                                           
+                              // visor.posicioActual.lat
+                              // alert(punt);
+                              /* 
+                               html += " <li>" 
+                                    +  "   <div style='display:flex;flex-direction:row'> "
+                                    +  "      <div style='max-width:4em;order:1;font-size:1em;margin-left:0em;width:4em;text-align:center'>" 
+                                    +             Math.round(dist) + "m"
+                                    +  "      </div>"
+                                    +  "      <div style='s:2;margin-top:0.2em;height:100%;max-width:6em;;font-size:0.8em;background-color:#ddd;color:#44;margin-right:1em;text-align:center;'>"
+                                    +               temaCerca 
+                                    +  "      </div>"                                              
+                                    +  "      <div style='flex:3;float:left;margin-left:0.5em;min-width:10em' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                    +            equip[colEtiq1]
+                                    +  "         <span style='font-size:0.8em'>" + equip[colEtiq2] + "</span>"
+                                    +  "       </div>" 
+                                    +  "    </div>"                                                  
+                                    +  " </li>";                                           
+                                */ 
+                               
+                                                                                            //   +  "         <div style='height:auto;font-size:1.5em;' onclick='window.open(\"google.navigation:q=" + equip.LAT + "," +  equip.LNG + "&mode=d\" , \"_system\")'> "
+                                                                                           //     +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\");setTimeout(function(){$(\"#revisaImatge\").css(\"zIndex\", \"9999\");},500)'> "
+
+                               html1 = " <li style='list-style-type:none' data-tema='" + temaCerca + "' data-dist='" + Math.round(dist) + "'>" 
+                                    +  "   <div style='width:15em ;height:auto;overflow:hidden'> "
+                                    +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
+                                    +  "         <div style='height:auto;font-size:1.5em;' onclick='location.href=\"mailto:jbertran@ajmataro.cat?subject=Incidència Detectada " + equip[colEtiq1]  + "&body=Incidència detectada " + equip[colEtiq1] + " / " + equip[colEtiq2] + " \"'> "
+                                   // +  "         <div style='height:auto;font-size:1.5em;' onclick='$.mobile.changePage(\"#revisaImatge\"); '> "
+                                    +  "             <i class='" + faIcon + "'></i>"
+                                    +  "         </div> "
+                                    +  "         <div style='font-size: 0.8em;margin-top: -0.3em;' >"
+                                    +                Math.round(dist) + "m" 
+                                    +  "         </div>" 
+                                    +  "      </div>"
+                                    +  "      <div style='float:left;width:11em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                    +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
+                                    +               equip[colEtiq1]
+                                    +  "         </div>" 
+                                    +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;white-space:normal;width:auto;opacity:0.6;'> "
+                                    +  "             <i>" + equip[colEtiq2] + "</i>";
+                                    +  "         </div>"                                                
+                                    +  "       </div>" 
+                                    +  "    </div>"                                                  
+                                    +  " </li>"; 
+                                    
+                                html += html1;
+                            
+                            if ( layerNou.getLayers()[0] instanceof L.Marker ) {
+                                var redMarker = L.divIcon({
+                                    html: ' <span style="font-size:2.5em;color:#89d;opacity:0.7">'
+                                                         
+                                 //       + '    <i class="fas fa-map-marker fa-stack-2x" style="color:Tomato" ></i>'
+                                        + '    <i class="fas fa-map-marker fa-stack-1x "></i>'
+                                        + ' </span>',
+                                    iconSize: [20, 20],
+                                    className: 'iconaMapa',
+                                    popupAnchor:  [2,-14]
+                                    
+                                    
+                                    
+                                });  
+                                layerNou.getLayers()[0].setIcon(redMarker).bindPopup(html1);  
+                            }
+                            else{
+                               layerNou.getLayers()[0].bindPopup(html1);
+                            }
+                            
+                            
+
+
+
+
+                            visor.markersTaula.addLayer(layerNou);
+                           // if ( visor.markersTaula.getLayers().length > nombre) {
+                           //     alert('No es mostren tots elements');
+                           //  }
+                              //omnivore.wkt.parse(equip.WKT).addTo(visor.map);
+                              } 
+                            }
+                            
+                            else {                                        
+                             /* html += " <li data-tema='" + temaCerca + "' data-dist='999999'>" 
+                                    +  "   <div style='width:100%;height:auto;overflow:hidden' '> "
+                                    +  "      <div style='float:left;width:2.5em;height:auto;text-align:center;overflow:hidden;color:rgb(51, 85, 153)'> "
+                                    +  "         <div style='height:auto;font-size:1.5em;'>" 
+                                    +  "             <i class='" + faIcon + "'></i>"
+                                    +  "         </div>"
+                                    +  "         <div style='font-size: 0.8em;margin-top: -0.3em;'>"
+                                    +  "            ---- "  
+                                    +  "         </div>"                                              
+                                    +  "      </div>"
+                                    +  "      <div style='float:left;width:9em;height:auto;overflow:hidden;margin-left:0.5em;margin-top:0.2em;' onclick=\"mostraPoligon('" + equip[colWKT] + "' );\" > "
+                                    +  "         <div style='width:auto;height:auto;white-space:normal;font-size:0.9em;' > "
+                                    +               equip[colEtiq1]
+                                    +  "         </div>" 
+                                    +  "         <div style='font-size:0.85em;height:auto;margin-top:0.3em;width:auto;opacity:0.6;'> "
+                                    +  "             <i>" + equip[colEtiq2] + "</i>";
+                                    +  "         </div>"                                                
+                                    +  "       </div>" 
+                                    +  "    </div>"                                                  
+                                    +  " </li>";  */
+                           }        
+                        } 
+                        
+                        if ( numResposta > nombre ){
+                                  html += " <li data-dist='1' data-tema='" + temaCerca + "'>" 
+                                       +  "   <div style='width:100%;height:auto;overflow:hidden;text-align:center;background-color:#cdf'>"
+                                       +  "  Resultats parcials"                                     
+                                       +  "    </div>"                                                  
+                                       +  " </li>";   
+                                                            
+                           return false;
+                        }                   
+                      });
+
+                  if ( visor.posicioActual.lat > 1 ) // Existeix l'atribut WKT i disposem de la posició
+                  {                                          
+                     var ordena =  $('<div/>', {  id: 'ordena_id' }) .append(html);
+                     $(ordena).find("[data-tema='"+ temaCerca  +"']").sort(sort_li).appendTo($(ordena));
+                     visor.cercaHTML += $(ordena).html();
+                  }
+                  else {
+                     visor.cercaHTML += html;                               
+                  } 
+                
+                  listview.html( visor.cercaHTML );
+                  listview.listview( "refresh" );
+                  listview.trigger( "updatelayout" );
+//                             if (visor.markersTaula.length > 0){
+                     visor.map.addLayer(visor.markersTaula);                              
+//                             }   
+                  
+     
+               }
+     
                  // sort function callback
                   function sort_li(a, b){
                       return (     $(b).data('dist')) < ($(a).data('dist')) ? 1 : -1;    
@@ -868,8 +891,37 @@
                   }
                               
             }
-            
-           function cercaGenericJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
+  
+      /*      function baixaJSON(URL){
+                  // !! Assumes variable fileURL contains a valid URL to a path on the device,
+                  //    for example, cdvfile://localhost/persistent/path/to/downloads/
+
+                  var fileTransfer = new FileTransfer();
+                  var uri = encodeURI(URL);
+
+                  fileTransfer.download(
+                      uri,
+                      'cdvfile://localhost/persistent/fitxer',
+                      function(entry) {
+                          console.log("download complete: " + entry.toURL());
+                      },
+                      function(error) {
+                          console.log("download error source " + error.source);
+                          console.log("download error target " + error.target);
+                          console.log("download error code" + error.code);
+                      },
+                      false,
+                      {
+                          headers: {
+                              "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                          }
+                      }
+                  );
+
+
+            }   */
+  
+            function cercaGenericJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
                 var accesJSON;
                 $.getJSON( JSON, 
                            function ( response ) { 
@@ -925,7 +977,7 @@
                                              
                                        html += html1;
                                      
-                                     /* Per ara bñoquejat
+                                     /* Per ara bloquejat
                                      if ( layerNou.getLayers()[0] instanceof L.Marker ) {
                                          var redMarker = L.divIcon({
                                              html: ' <span style="font-size:2.5em;color:#89d;opacity:0.7">'
@@ -1002,13 +1054,6 @@
                    //   return (+$(a).data('dist') - +$(b).data('dist');
                   }
                }
-                              
-                        
-            
-            
-            
-            
-            
           
    
             //-- Inicia llistaElements          
@@ -1228,7 +1273,7 @@
                   // -- Event en fer click    
                   visor.map.on('click', function(e) {        
                                     //placeCamera(e);
-                                    recuperaAdreca(e.latlng);    
+                                    //recuperaAdreca(e.latlng);    
                                  });
                   afegeixBotons();          
                   //missatgePeuMapa( 'buscaPosicio' ); 
@@ -1336,17 +1381,14 @@
                  locateOptions: {maximumAge: 10000, timeout: 15000, enableHighAccuracy: true }  // define location options e.g enableHighAccuracy: true or maxZoom: 10
                 });                  
    
-               
-//               visor.locate = L.control.locate({
-//               locateOptions: {
-//               enableHighAccuracy: true }});
+
 
                //-- Incorpora el control al mapa
 				    visor.locate.addTo(visor.map);
                 visor.locate.start();                
 				
 			       //-- Funció quan troba la posició
-				    visor.map.on('locationfound', posicioTrobada); // Quan troba la posició centra en el mapa
+				   visor.map.on('locationfound', posicioTrobada); // Quan troba la posició centra en el mapa
 			}  			
          
             // -- Recupera la posició actual i la introdueix a les variables corresponents 
@@ -1369,13 +1411,7 @@
                                         'lng' : 2.1,
                                     };      
                 }
-            //    else {
-            //    } 
-            //    if ( visor.primeraUbicacio ==  1){
-            //        missatgePeuMapa('');
-            //        placeCamera(e);
-            //        visor.primeraUbicacio = 0;
-            //    }            
+      
             }
             
             //-- Mostra la icona en el punt actual TODO: unificar funció anterior
@@ -1948,8 +1984,7 @@
             </div>   
             
             <div style="order:1;font-family: Verdana; color: rgb(220, 70, 0);">
-              <div onclick="mostraJSON(); " 			      
-					     style="height:auto;float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 						
+              <div style="height:auto;float: left; font-weight:bolder; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); width: 100%; height: 1.1em; margin-top: 0.25em;"> 						
 							Informació via pública                     
 				   </div>
 					<div style="clear: both; text-align: center; font-family: Verdana; color: rgb(255, 255, 255); font-size: 0.6em; width: 100%; height: 15px; margin-top: -1px;"> Comunicacions mòbils </div>
@@ -1978,6 +2013,9 @@
                         <div class= "botoLateral" style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
                             <i class="fas fa-home" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed'); mostraTaula('equipament');"></i>
                         </div>
+                        <div class= "botoLateral" style="order:3;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
+                            <i class="fas fa-ban" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed'); mostraTaula('ocupacio');"></i>
+                        </div>                        
                         <!--div class= "botoLateral" style="order:4;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #ddd;">
                             <i class="fas fa-road" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="$('.botoLateral').css('background-color','#fff');$(this).parent().css('background-color','#eed');mostraTaula('carrer');" ></i>
                         </div--> 
@@ -1987,11 +2025,12 @@
 
                         <!--div onclick="window.open('https://esri.github.io/html5-geolocation-tool-js/index.html')" class= "botoLateral" style="order:6;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;margin-top:auto;">
                             <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
-                        </div>
-                        
-                        <div onclick="window.open('https://esri.github.io/html5-geolocation-tool-js/index.html')" class= "botoLateral" style="order:7;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
-                            <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;"></i>
                         </div-->
+                        
+                        <div class= "botoLateral" style="order:7;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
+                            <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;" ></i>
+                            <!-- i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="baixaJSON('https://aplicacions.mataro.org:444/apex/rest/dobertes/elements?dataset=DS_OCUPACIO01');"></i-->
+                        </div>
                      </div>
                      <!--div id="panell-dades" style="display:flex;flex-direction:column;width:auto;height:100%;background-color:#fff;border: 2px solid rgba(0, 0, 0, 0.2);border-radius:2px;opacity:0.75;height:100%">
                         <form id="frm-cerca" class="ui-filterable">
@@ -2095,6 +2134,5 @@
    
    
 </html>   
-
 
 
