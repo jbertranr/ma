@@ -523,8 +523,7 @@
                });
                
             }
- 
- 
+  
             function activaTema(listview, nomTema, value, elements){               
                 $("#cerca-input").blur(); 
                 $("#dades-input").blur(); 
@@ -670,8 +669,7 @@
                    }                  
                            
             }
- 
- 
+  
             function cercaJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre ){
                 var accesJSON;
                 //var listview = $("#autocomplete");
@@ -894,7 +892,7 @@
                               
             }
   
-            function baixaJSON(URL){
+      /*      function baixaJSON(URL){
                   // !! Assumes variable fileURL contains a valid URL to a path on the device,
                   //    for example, cdvfile://localhost/persistent/path/to/downloads/
 
@@ -921,11 +919,9 @@
                   );
 
 
-            }
-
-
+            }   */
   
-           function cercaGenericJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
+            function cercaGenericJSON( JSON, listview, temaCerca, faIcon, strCerca, colCerca, colEtiq1, colEtiq2, colWKT, nombre){
                 var accesJSON;
                 $.getJSON( JSON, 
                            function ( response ) { 
@@ -981,7 +977,7 @@
                                              
                                        html += html1;
                                      
-                                     /* Per ara bñoquejat
+                                     /* Per ara bloquejat
                                      if ( layerNou.getLayers()[0] instanceof L.Marker ) {
                                          var redMarker = L.divIcon({
                                              html: ' <span style="font-size:2.5em;color:#89d;opacity:0.7">'
@@ -1058,13 +1054,6 @@
                    //   return (+$(a).data('dist') - +$(b).data('dist');
                   }
                }
-                              
-                        
-            
-            
-            
-            
-            
           
    
             //-- Inicia llistaElements          
@@ -2040,7 +2029,7 @@
                         </div-->
                         
                         <div class= "botoLateral" style="order:7;padding-top:-0.2em;height:1.9em;text-align:center;border-bottom:1px solid #ddd;border-top:0px solid #dddd;">
-                            <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="baixaJSON('https://aplicacions.mataro.org:444/apex/rest/dobertes/elements?dataset=DS_OCUPACIO01');"></i>
+                            <i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;" ></i>
                             <!-- i class="fas fa-cog" aria-hidden="true" style="padding-top:0.5em;color:#45B;" onclick="baixaJSON('https://aplicacions.mataro.org:444/apex/rest/dobertes/elements?dataset=DS_OCUPACIO01');"></i-->
                         </div>
                      </div>
